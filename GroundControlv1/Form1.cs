@@ -54,6 +54,7 @@ namespace GroundControlv1
         float timeSinceLastTelem = 0f;
 
         public int click_lat, click_lon;
+        short flight_mode = -1;
 
         float p_gain_downloaded = 0f;
         float i_gain_downloaded = 0f;
@@ -71,6 +72,7 @@ namespace GroundControlv1
         bool askforpid = false;
         bool waitingforpidreply = false;
         bool updatepid = false;
+        bool updateFlightMode = false;
         bool calibrateGyro = false;
 
         Stopwatch waitingforpidTimer = new Stopwatch();
@@ -289,6 +291,11 @@ namespace GroundControlv1
                     UpdateGraph(2, 6, (double)yaw_output_downloaded);
 
                     //updatePIDOutputTextbox = true;
+                    break;
+
+                case 0x05: //Flight Mode
+                    flight_mode = (short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
+                    updateFlightMode = true;
                     break;
 
             }
@@ -798,6 +805,30 @@ namespace GroundControlv1
             if (waitingforpidreply && waitingforpidTimer.ElapsedMilliseconds > 500)
             {
                 //askforpid = true;
+            }
+
+            if(updateFlightMode)
+            {
+                updateFlightMode = false;
+
+                switch(flight_mode)
+                {
+                    case 0:
+                        flight_mode_label.Text = "Flight Mode: Starting...";
+                        break;
+                    case 1:
+                        flight_mode_label.Text = "Flight Mode: Ready - Unarmed";
+                        break;
+                    case 2:
+                        flight_mode_label.Text = "Flight Mode: Ready - Armed";
+                        break;
+                    case 3:
+                        flight_mode_label.Text = "Flight Mode: Calibrating Gyro..";
+                        break;
+                    case 4:
+                        flight_mode_label.Text = "Flight Mode: Starting...";
+                        break;
+                }
             }
 
             if(serialPort1.IsOpen && serialPort1.BytesToRead == 0)

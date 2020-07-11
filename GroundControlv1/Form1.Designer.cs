@@ -64,6 +64,7 @@
             this.clearstatus_btn = new System.Windows.Forms.Button();
             this.statusterminal_textbox = new System.Windows.Forms.TextBox();
             this.sendcmd_groupBox = new System.Windows.Forms.GroupBox();
+            this.gyro_callibrate_btn = new System.Windows.Forms.Button();
             this.poshold_btn = new System.Windows.Forms.Button();
             this.rth_btn = new System.Windows.Forms.Button();
             this.gpstelem_groupBox = new System.Windows.Forms.GroupBox();
@@ -113,7 +114,7 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.mainLoopTimer = new System.Windows.Forms.Timer(this.components);
-            this.gyro_callibrate_btn = new System.Windows.Forms.Button();
+            this.flight_mode_label = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
             this.statusterminal_groupBox.SuspendLayout();
@@ -249,6 +250,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.flight_mode_label);
             this.panel3.Controls.Add(this.lasttelem_label);
             this.panel3.Controls.Add(this.zedGraphControl3);
             this.panel3.Controls.Add(this.pidoutputGraphControl);
@@ -448,7 +450,7 @@
             // 
             this.statusterminal_groupBox.Controls.Add(this.clearstatus_btn);
             this.statusterminal_groupBox.Controls.Add(this.statusterminal_textbox);
-            this.statusterminal_groupBox.Location = new System.Drawing.Point(692, 78);
+            this.statusterminal_groupBox.Location = new System.Drawing.Point(686, 78);
             this.statusterminal_groupBox.Name = "statusterminal_groupBox";
             this.statusterminal_groupBox.Size = new System.Drawing.Size(186, 163);
             this.statusterminal_groupBox.TabIndex = 11;
@@ -479,12 +481,23 @@
             this.sendcmd_groupBox.Controls.Add(this.gyro_callibrate_btn);
             this.sendcmd_groupBox.Controls.Add(this.poshold_btn);
             this.sendcmd_groupBox.Controls.Add(this.rth_btn);
-            this.sendcmd_groupBox.Location = new System.Drawing.Point(533, 78);
+            this.sendcmd_groupBox.Location = new System.Drawing.Point(479, 78);
             this.sendcmd_groupBox.Name = "sendcmd_groupBox";
-            this.sendcmd_groupBox.Size = new System.Drawing.Size(153, 163);
+            this.sendcmd_groupBox.Size = new System.Drawing.Size(201, 163);
             this.sendcmd_groupBox.TabIndex = 10;
             this.sendcmd_groupBox.TabStop = false;
             this.sendcmd_groupBox.Text = "Send Commands";
+            // 
+            // gyro_callibrate_btn
+            // 
+            this.gyro_callibrate_btn.Enabled = false;
+            this.gyro_callibrate_btn.Location = new System.Drawing.Point(6, 134);
+            this.gyro_callibrate_btn.Name = "gyro_callibrate_btn";
+            this.gyro_callibrate_btn.Size = new System.Drawing.Size(141, 23);
+            this.gyro_callibrate_btn.TabIndex = 6;
+            this.gyro_callibrate_btn.Text = "Calibrate Gyro";
+            this.gyro_callibrate_btn.UseVisualStyleBackColor = true;
+            this.gyro_callibrate_btn.Click += new System.EventHandler(this.gyro_callibrate_btn_Click);
             // 
             // poshold_btn
             // 
@@ -514,7 +527,7 @@
             this.gpstelem_groupBox.Controls.Add(this.gps_lon_label);
             this.gpstelem_groupBox.Controls.Add(this.label11);
             this.gpstelem_groupBox.Controls.Add(this.label10);
-            this.gpstelem_groupBox.Location = new System.Drawing.Point(400, 78);
+            this.gpstelem_groupBox.Location = new System.Drawing.Point(346, 78);
             this.gpstelem_groupBox.Name = "gpstelem_groupBox";
             this.gpstelem_groupBox.Size = new System.Drawing.Size(127, 163);
             this.gpstelem_groupBox.TabIndex = 9;
@@ -895,7 +908,7 @@
             this.telemraw_groupBox.Controls.Add(this.label13);
             this.telemraw_groupBox.Location = new System.Drawing.Point(9, 69);
             this.telemraw_groupBox.Name = "telemraw_groupBox";
-            this.telemraw_groupBox.Size = new System.Drawing.Size(394, 163);
+            this.telemraw_groupBox.Size = new System.Drawing.Size(340, 163);
             this.telemraw_groupBox.TabIndex = 8;
             this.telemraw_groupBox.TabStop = false;
             this.telemraw_groupBox.Text = "Telemetry Raw";
@@ -978,16 +991,14 @@
             this.mainLoopTimer.Interval = 10;
             this.mainLoopTimer.Tick += new System.EventHandler(this.mainLoopTimer_Tick);
             // 
-            // gyro_callibrate_btn
+            // flight_mode_label
             // 
-            this.gyro_callibrate_btn.Enabled = false;
-            this.gyro_callibrate_btn.Location = new System.Drawing.Point(6, 134);
-            this.gyro_callibrate_btn.Name = "gyro_callibrate_btn";
-            this.gyro_callibrate_btn.Size = new System.Drawing.Size(141, 23);
-            this.gyro_callibrate_btn.TabIndex = 6;
-            this.gyro_callibrate_btn.Text = "Calibrate Gyro";
-            this.gyro_callibrate_btn.UseVisualStyleBackColor = true;
-            this.gyro_callibrate_btn.Click += new System.EventHandler(this.gyro_callibrate_btn_Click);
+            this.flight_mode_label.AutoSize = true;
+            this.flight_mode_label.Location = new System.Drawing.Point(352, 52);
+            this.flight_mode_label.Name = "flight_mode_label";
+            this.flight_mode_label.Size = new System.Drawing.Size(68, 13);
+            this.flight_mode_label.TabIndex = 15;
+            this.flight_mode_label.Text = "Flight Mode: ";
             // 
             // Form1
             // 
@@ -1124,6 +1135,7 @@
         private System.Windows.Forms.Label throttle_label;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Button gyro_callibrate_btn;
+        private System.Windows.Forms.Label flight_mode_label;
     }
 }
 
