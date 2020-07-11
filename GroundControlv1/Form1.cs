@@ -24,6 +24,10 @@ namespace GroundControlv1
         short gyroY = 0;
         short gyroZ = 0;
         int throttle = 0;
+        short flight_mode = -1;
+        float roll_angle = 0;
+        float pitch_angle = 0;
+        float yaw_angle = 0;
 
         System.Windows.Forms.Label[] allMarkers = new System.Windows.Forms.Label[3];
 
@@ -34,11 +38,11 @@ namespace GroundControlv1
         List<string> statusWriteBuffer = new List<string>();
         bool markedToClear = false;
 
-        ZedGraphControl[] graphControlArray = new ZedGraphControl[3];
-        GraphPane[] graphPaneArray = new GraphPane[3];
-        PointPairList[] pointPairListArray = new PointPairList[7];
+        ZedGraphControl[] graphControlArray = new ZedGraphControl[4];
+        GraphPane[] graphPaneArray = new GraphPane[4];
+        PointPairList[] pointPairListArray = new PointPairList[10];
         int graphXLength = 50;
-        bool[] markedToUpdateGraphs = new bool[7];
+        bool[] markedToUpdateGraphs = new bool[10];
 
         float angle = -500f;
 
@@ -54,7 +58,6 @@ namespace GroundControlv1
         float timeSinceLastTelem = 0f;
 
         public int click_lat, click_lon;
-        short flight_mode = -1;
 
         float p_gain_downloaded = 0f;
         float i_gain_downloaded = 0f;
@@ -95,14 +98,17 @@ namespace GroundControlv1
 
             graphPaneArray[0] = gyroGraphControl.GraphPane;
             graphPaneArray[1] = throttleGraphControl.GraphPane;
-            graphPaneArray[2] = pidoutputGraphControl.GraphPane;
+            graphPaneArray[3] = pidoutputGraphControl.GraphPane;
+            graphPaneArray[2] = orientationGraphControl.GraphPane;
             graphControlArray[0] = gyroGraphControl;
             graphControlArray[1] = throttleGraphControl;
-            graphControlArray[2] = pidoutputGraphControl;
+            graphControlArray[3] = pidoutputGraphControl;
+            graphControlArray[2] = orientationGraphControl;
 
             graphPaneArray[0].YAxis.Title.Text = "deg/s";
             graphPaneArray[1].YAxis.Title.Text = "Value (uS)";
             graphPaneArray[2].YAxis.Title.Text = "Value (uS)";
+            graphPaneArray[3].YAxis.Title.Text = "Angle (deg)";
 
             for (int i = 0; i < markedToUpdateGraphs.Length; i++)
             {
@@ -157,6 +163,11 @@ namespace GroundControlv1
             LineItem lineItemPitchOutput = graphPaneArray[2].AddCurve("Pitch", pointPairListArray[5], Color.FromArgb(0, 200, 0), SymbolType.None);
             LineItem lineItemYawOutput = graphPaneArray[2].AddCurve("Yaw", pointPairListArray[6], Color.Blue, SymbolType.None);
 
+            graphPaneArray[3].Title.Text = "Orientation";
+            LineItem lineItemRollAngle = graphPaneArray[3].AddCurve("Roll", pointPairListArray[7], Color.Red, SymbolType.None);
+            LineItem lineItemPitchAngle = graphPaneArray[3].AddCurve("Pitch", pointPairListArray[8], Color.FromArgb(0, 200, 0), SymbolType.None);
+            LineItem lineItemYawAngle = graphPaneArray[3].AddCurve("Yaw", pointPairListArray[9], Color.Blue, SymbolType.None);
+
             //marker1.Location = new Point(webBrowser1.Location.X + (webBrowser1.Width / 2) - 8, webBrowser1.Location.Y + (webBrowser1.Height / 2) - 8);
             //marker1.Visible = true;
 
@@ -177,127 +188,155 @@ namespace GroundControlv1
 
         private void serialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
-            byte cmd = (byte)serialPort1.ReadByte();
-            
-            switch(cmd)
+            if (serialPort1.IsOpen)
             {
-                case 0x01:  //Gyro
-                    short valX = (short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
-                    short valY = (short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
-                    short valZ = (short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
+                byte cmd = (byte)serialPort1.ReadByte();
 
-                    gyroX = valX;
-                    gyroY = valY;
-                    gyroZ = valZ;
+                switch (cmd)
+                {
+                    case 0x01:  //Gyro
+                        short valX = (short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
+                        short valY = (short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
+                        short valZ = (short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
 
-                    UpdateGraph(0, 0, ((double)valX) / 65.5f);
-                    UpdateGraph(0, 1, ((double)valY) / 65.5f);
-                    UpdateGraph(0, 2, ((double)valZ) / 65.5f);
+                        gyroX = valX;
+                        gyroY = valY;
+                        gyroZ = valZ;
 
-                    
+                        byte[] roll_angle_output = new byte[4];
+                        byte[] pitch_angle_output = new byte[4];
+                        byte[] yaw_angle_output = new byte[4];
 
-                    break;
+                        roll_angle_output[0] = (byte)serialPort1.ReadByte();
+                        roll_angle_output[1] = (byte)serialPort1.ReadByte();
+                        roll_angle_output[2] = (byte)serialPort1.ReadByte();
+                        roll_angle_output[3] = (byte)serialPort1.ReadByte();
 
-                case 0x02:  //Download PID
-                    byte[] p_gain = new byte[4];
-                    byte[] i_gain = new byte[4];
-                    byte[] d_gain = new byte[4];
+                        pitch_angle_output[0] = (byte)serialPort1.ReadByte();
+                        pitch_angle_output[1] = (byte)serialPort1.ReadByte();
+                        pitch_angle_output[2] = (byte)serialPort1.ReadByte();
+                        pitch_angle_output[3] = (byte)serialPort1.ReadByte();
 
-                    byte[] p_gain_yaw = new byte[4];
-                    byte[] i_gain_yaw = new byte[4];
-                    byte[] d_gain_yaw = new byte[4];
+                        yaw_angle_output[0] = (byte)serialPort1.ReadByte();
+                        yaw_angle_output[1] = (byte)serialPort1.ReadByte();
+                        yaw_angle_output[2] = (byte)serialPort1.ReadByte();
+                        yaw_angle_output[3] = (byte)serialPort1.ReadByte();
 
-                    p_gain[0] = (byte)serialPort1.ReadByte();
-                    p_gain[1] = (byte)serialPort1.ReadByte();
-                    p_gain[2] = (byte)serialPort1.ReadByte();
-                    p_gain[3] = (byte)serialPort1.ReadByte();
+                        roll_angle = System.BitConverter.ToSingle(roll_angle_output, 0);
+                        pitch_angle = System.BitConverter.ToSingle(pitch_angle_output, 0);
+                        yaw_angle = System.BitConverter.ToSingle(yaw_angle_output, 0);
 
-                    i_gain[0] = (byte)serialPort1.ReadByte();
-                    i_gain[1] = (byte)serialPort1.ReadByte();
-                    i_gain[2] = (byte)serialPort1.ReadByte();
-                    i_gain[3] = (byte)serialPort1.ReadByte();
+                        UpdateGraph(0, 0, ((double)valX) / 65.5f);
+                        UpdateGraph(0, 1, ((double)valY) / 65.5f);
+                        UpdateGraph(0, 2, ((double)valZ) / 65.5f);
 
-                    d_gain[0] = (byte)serialPort1.ReadByte();
-                    d_gain[1] = (byte)serialPort1.ReadByte();
-                    d_gain[2] = (byte)serialPort1.ReadByte();
-                    d_gain[3] = (byte)serialPort1.ReadByte();
+                        UpdateGraph(3, 7, (double)roll_angle);
+                        UpdateGraph(3, 8, (double)pitch_angle);
+                        UpdateGraph(3, 9, (double)yaw_angle);
 
-                    p_gain_yaw[0] = (byte)serialPort1.ReadByte();
-                    p_gain_yaw[1] = (byte)serialPort1.ReadByte();
-                    p_gain_yaw[2] = (byte)serialPort1.ReadByte();
-                    p_gain_yaw[3] = (byte)serialPort1.ReadByte();
+                        break;
 
-                    i_gain_yaw[0] = (byte)serialPort1.ReadByte();
-                    i_gain_yaw[1] = (byte)serialPort1.ReadByte();
-                    i_gain_yaw[2] = (byte)serialPort1.ReadByte();
-                    i_gain_yaw[3] = (byte)serialPort1.ReadByte();
+                    case 0x02:  //Download PID
+                        byte[] p_gain = new byte[4];
+                        byte[] i_gain = new byte[4];
+                        byte[] d_gain = new byte[4];
 
-                    d_gain_yaw[0] = (byte)serialPort1.ReadByte();
-                    d_gain_yaw[1] = (byte)serialPort1.ReadByte();
-                    d_gain_yaw[2] = (byte)serialPort1.ReadByte();
-                    d_gain_yaw[3] = (byte)serialPort1.ReadByte();
+                        byte[] p_gain_yaw = new byte[4];
+                        byte[] i_gain_yaw = new byte[4];
+                        byte[] d_gain_yaw = new byte[4];
 
-                    p_gain_downloaded = System.BitConverter.ToSingle(p_gain, 0);
-                    i_gain_downloaded = System.BitConverter.ToSingle(i_gain, 0);
-                    d_gain_downloaded = System.BitConverter.ToSingle(d_gain, 0);
+                        p_gain[0] = (byte)serialPort1.ReadByte();
+                        p_gain[1] = (byte)serialPort1.ReadByte();
+                        p_gain[2] = (byte)serialPort1.ReadByte();
+                        p_gain[3] = (byte)serialPort1.ReadByte();
 
-                    p_gain_yaw_downloaded = System.BitConverter.ToSingle(p_gain_yaw, 0);
-                    i_gain_yaw_downloaded = System.BitConverter.ToSingle(i_gain_yaw, 0);
-                    d_gain_yaw_downloaded = System.BitConverter.ToSingle(d_gain_yaw, 0);
+                        i_gain[0] = (byte)serialPort1.ReadByte();
+                        i_gain[1] = (byte)serialPort1.ReadByte();
+                        i_gain[2] = (byte)serialPort1.ReadByte();
+                        i_gain[3] = (byte)serialPort1.ReadByte();
 
-                    updatePIDTextbox = true;
+                        d_gain[0] = (byte)serialPort1.ReadByte();
+                        d_gain[1] = (byte)serialPort1.ReadByte();
+                        d_gain[2] = (byte)serialPort1.ReadByte();
+                        d_gain[3] = (byte)serialPort1.ReadByte();
 
-                    waitingforpidreply = false;
+                        p_gain_yaw[0] = (byte)serialPort1.ReadByte();
+                        p_gain_yaw[1] = (byte)serialPort1.ReadByte();
+                        p_gain_yaw[2] = (byte)serialPort1.ReadByte();
+                        p_gain_yaw[3] = (byte)serialPort1.ReadByte();
 
-                    break;
+                        i_gain_yaw[0] = (byte)serialPort1.ReadByte();
+                        i_gain_yaw[1] = (byte)serialPort1.ReadByte();
+                        i_gain_yaw[2] = (byte)serialPort1.ReadByte();
+                        i_gain_yaw[3] = (byte)serialPort1.ReadByte();
 
-                case 0x03:  //RC Input
-                    int throttleVal = (int)((((byte)serialPort1.ReadByte()) << 24) | (((byte)serialPort1.ReadByte()) << 16) | (((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
+                        d_gain_yaw[0] = (byte)serialPort1.ReadByte();
+                        d_gain_yaw[1] = (byte)serialPort1.ReadByte();
+                        d_gain_yaw[2] = (byte)serialPort1.ReadByte();
+                        d_gain_yaw[3] = (byte)serialPort1.ReadByte();
 
-                    if (throttleVal != 0)
-                    {
-                        throttle = throttleVal;
-                        UpdateGraph(1, 3, ((double)throttleVal));
-                    }
+                        p_gain_downloaded = System.BitConverter.ToSingle(p_gain, 0);
+                        i_gain_downloaded = System.BitConverter.ToSingle(i_gain, 0);
+                        d_gain_downloaded = System.BitConverter.ToSingle(d_gain, 0);
 
-                    break;
+                        p_gain_yaw_downloaded = System.BitConverter.ToSingle(p_gain_yaw, 0);
+                        i_gain_yaw_downloaded = System.BitConverter.ToSingle(i_gain_yaw, 0);
+                        d_gain_yaw_downloaded = System.BitConverter.ToSingle(d_gain_yaw, 0);
 
-                case 0x04:  //PID Outputs
-                    byte[] roll_output = new byte[4];
-                    byte[] pitch_output = new byte[4];
-                    byte[] yaw_output = new byte[4];
+                        updatePIDTextbox = true;
 
-                    roll_output[0] = (byte)serialPort1.ReadByte();
-                    roll_output[1] = (byte)serialPort1.ReadByte();
-                    roll_output[2] = (byte)serialPort1.ReadByte();
-                    roll_output[3] = (byte)serialPort1.ReadByte();
+                        waitingforpidreply = false;
 
-                    pitch_output[0] = (byte)serialPort1.ReadByte();
-                    pitch_output[1] = (byte)serialPort1.ReadByte();
-                    pitch_output[2] = (byte)serialPort1.ReadByte();
-                    pitch_output[3] = (byte)serialPort1.ReadByte();
+                        break;
 
-                    yaw_output[0] = (byte)serialPort1.ReadByte();
-                    yaw_output[1] = (byte)serialPort1.ReadByte();
-                    yaw_output[2] = (byte)serialPort1.ReadByte();
-                    yaw_output[3] = (byte)serialPort1.ReadByte();
+                    case 0x03:  //RC Input
+                        int throttleVal = (int)((((byte)serialPort1.ReadByte()) << 24) | (((byte)serialPort1.ReadByte()) << 16) | (((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
 
-                    roll_output_downloaded = System.BitConverter.ToSingle(roll_output, 0);
-                    pitch_output_downloaded = System.BitConverter.ToSingle(pitch_output, 0);
-                    yaw_output_downloaded = System.BitConverter.ToSingle(yaw_output, 0);
+                        if (throttleVal != 0)
+                        {
+                            throttle = throttleVal;
+                            UpdateGraph(1, 3, ((double)throttleVal));
+                        }
 
-                    UpdateGraph(2, 4, (double)roll_output_downloaded);
-                    UpdateGraph(2, 5, (double)pitch_output_downloaded);
-                    UpdateGraph(2, 6, (double)yaw_output_downloaded);
+                        break;
 
-                    //updatePIDOutputTextbox = true;
-                    break;
+                    case 0x04:  //PID Outputs
+                        byte[] roll_output = new byte[4];
+                        byte[] pitch_output = new byte[4];
+                        byte[] yaw_output = new byte[4];
 
-                case 0x05: //Flight Mode
-                    flight_mode = (short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
-                    updateFlightMode = true;
-                    break;
+                        roll_output[0] = (byte)serialPort1.ReadByte();
+                        roll_output[1] = (byte)serialPort1.ReadByte();
+                        roll_output[2] = (byte)serialPort1.ReadByte();
+                        roll_output[3] = (byte)serialPort1.ReadByte();
 
+                        pitch_output[0] = (byte)serialPort1.ReadByte();
+                        pitch_output[1] = (byte)serialPort1.ReadByte();
+                        pitch_output[2] = (byte)serialPort1.ReadByte();
+                        pitch_output[3] = (byte)serialPort1.ReadByte();
+
+                        yaw_output[0] = (byte)serialPort1.ReadByte();
+                        yaw_output[1] = (byte)serialPort1.ReadByte();
+                        yaw_output[2] = (byte)serialPort1.ReadByte();
+                        yaw_output[3] = (byte)serialPort1.ReadByte();
+
+                        roll_output_downloaded = System.BitConverter.ToSingle(roll_output, 0);
+                        pitch_output_downloaded = System.BitConverter.ToSingle(pitch_output, 0);
+                        yaw_output_downloaded = System.BitConverter.ToSingle(yaw_output, 0);
+
+                        UpdateGraph(2, 4, (double)roll_output_downloaded);
+                        UpdateGraph(2, 5, (double)pitch_output_downloaded);
+                        UpdateGraph(2, 6, (double)yaw_output_downloaded);
+
+                        //updatePIDOutputTextbox = true;
+                        break;
+
+                    case 0x05: //Flight Mode
+                        flight_mode = (short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
+                        updateFlightMode = true;
+                        break;
+
+                }
             }
 
             while(serialPort1.IsOpen && serialPort1.BytesToRead > 0)
@@ -366,48 +405,6 @@ namespace GroundControlv1
             gyro_callibrate_btn.Enabled = false;
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            double x = angle;
-
-            /*if (pointPairList.Count >= 500)
-            {
-                for(int i = 0; i < pointPairList.Count - 1; i++)
-                {
-                    pointPairList[i].Y = pointPairList[i + 1].Y;
-                }
-                x = 0;
-                pointPairList.RemoveAt(pointPairList.Count - 1);
-            }
-
-
-            
-            double y = Math.Sin(Math.PI / 180 * angle);
-
-            PointPair pointPair = new PointPair(x, y);
-
-            pointPairList.Add(pointPair);
-
-            if (angle == -500)
-            {
-                LineItem lineItem = graphPane.AddCurve("Sine Curve", pointPairList, Color.Red, SymbolType.None);
-                lineItem.Line.Width = 1.0f;
-            }
-
-            graphPane.YAxis.Scale.Max = 2;
-            graphPane.YAxis.Scale.Min = -2;
-
-            graphPane.XAxis.Scale.Max = 0;
-            graphPane.XAxis.Scale.Min = -500;
-
-            gyroGraphControl.AxisChange();
-            gyroGraphControl.Refresh();
-            */
-
-            //UpdateGyroGraph(Math.Sin(Math.PI / 180 * angle));
-            //angle += 1;
-        }
-
         private void UpdateGraph(int graphIndex, int curveIndex, double y)
         {
             for (int i = 0; i < pointPairListArray[curveIndex].Count - 1; i++)
@@ -438,6 +435,11 @@ namespace GroundControlv1
             {
                 graphPaneArray[graphIndex].YAxis.Scale.Max = 450;
                 graphPaneArray[graphIndex].YAxis.Scale.Min = -450;
+            }
+            else if (graphIndex == 3)
+            {
+                graphPaneArray[graphIndex].YAxis.Scale.Max = 180;
+                graphPaneArray[graphIndex].YAxis.Scale.Min = -180;
             }
 
             graphPaneArray[graphIndex].XAxis.Scale.Max = 0;
@@ -893,6 +895,15 @@ namespace GroundControlv1
             gyroyraw_label.Text = gyroY.ToString();
             gyrozraw_label.Text = gyroZ.ToString();
             throttle_label.Text = throttle.ToString();
+            flight_mode_raw_label.Text = flight_mode.ToString();
+
+            double x = Math.Truncate(roll_angle * 100) / 100;
+            double y = Math.Truncate(pitch_angle * 100) / 100;
+            double z = Math.Truncate(yaw_angle * 100) / 100;
+
+            roll_label.Text = string.Format("{0:N2}", x);
+            pitch_label.Text = string.Format("{0:N2}", y);
+            yaw_label.Text = string.Format("{0:N2}", z);
         }
 
         private void clearstatus_btn_Click(object sender, EventArgs e)

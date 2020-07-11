@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.connect_btn = new System.Windows.Forms.Button();
             this.disconnect_btn = new System.Windows.Forms.Button();
             this.port_list = new System.Windows.Forms.ComboBox();
@@ -42,8 +41,9 @@
             this.throttleGraphControl = new ZedGraph.ZedGraphControl();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.flight_mode_label = new System.Windows.Forms.Label();
             this.lasttelem_label = new System.Windows.Forms.Label();
-            this.zedGraphControl3 = new ZedGraph.ZedGraphControl();
+            this.orientationGraphControl = new ZedGraph.ZedGraphControl();
             this.pidoutputGraphControl = new ZedGraph.ZedGraphControl();
             this.tuning_groupBox = new System.Windows.Forms.GroupBox();
             this.label19 = new System.Windows.Forms.Label();
@@ -105,6 +105,14 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.positionhold_marker = new System.Windows.Forms.Label();
             this.telemraw_groupBox = new System.Windows.Forms.GroupBox();
+            this.yaw_label = new System.Windows.Forms.Label();
+            this.pitch_label = new System.Windows.Forms.Label();
+            this.roll_label = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.flight_mode_raw_label = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
             this.throttle_label = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.gyrozraw_label = new System.Windows.Forms.Label();
@@ -114,7 +122,6 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.mainLoopTimer = new System.Windows.Forms.Timer(this.components);
-            this.flight_mode_label = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
             this.statusterminal_groupBox.SuspendLayout();
@@ -135,12 +142,6 @@
             this.serialPort1.DtrEnable = true;
             this.serialPort1.PortName = "COM13";
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
-            // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Interval = 10;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // connect_btn
             // 
@@ -252,7 +253,7 @@
             // 
             this.panel3.Controls.Add(this.flight_mode_label);
             this.panel3.Controls.Add(this.lasttelem_label);
-            this.panel3.Controls.Add(this.zedGraphControl3);
+            this.panel3.Controls.Add(this.orientationGraphControl);
             this.panel3.Controls.Add(this.pidoutputGraphControl);
             this.panel3.Controls.Add(this.tuning_groupBox);
             this.panel3.Controls.Add(this.statusterminal_groupBox);
@@ -267,6 +268,15 @@
             this.panel3.Size = new System.Drawing.Size(898, 1064);
             this.panel3.TabIndex = 12;
             // 
+            // flight_mode_label
+            // 
+            this.flight_mode_label.AutoSize = true;
+            this.flight_mode_label.Location = new System.Drawing.Point(352, 52);
+            this.flight_mode_label.Name = "flight_mode_label";
+            this.flight_mode_label.Size = new System.Drawing.Size(68, 13);
+            this.flight_mode_label.TabIndex = 15;
+            this.flight_mode_label.Text = "Flight Mode: ";
+            // 
             // lasttelem_label
             // 
             this.lasttelem_label.AutoSize = true;
@@ -276,20 +286,20 @@
             this.lasttelem_label.TabIndex = 12;
             this.lasttelem_label.Text = "Last Packet: 0ms";
             // 
-            // zedGraphControl3
+            // orientationGraphControl
             // 
-            this.zedGraphControl3.Location = new System.Drawing.Point(0, 659);
-            this.zedGraphControl3.Name = "zedGraphControl3";
-            this.zedGraphControl3.ScrollGrace = 0D;
-            this.zedGraphControl3.ScrollMaxX = 0D;
-            this.zedGraphControl3.ScrollMaxY = 0D;
-            this.zedGraphControl3.ScrollMaxY2 = 0D;
-            this.zedGraphControl3.ScrollMinX = 0D;
-            this.zedGraphControl3.ScrollMinY = 0D;
-            this.zedGraphControl3.ScrollMinY2 = 0D;
-            this.zedGraphControl3.Size = new System.Drawing.Size(340, 200);
-            this.zedGraphControl3.TabIndex = 14;
-            this.zedGraphControl3.UseExtendedPrintDialog = true;
+            this.orientationGraphControl.Location = new System.Drawing.Point(0, 659);
+            this.orientationGraphControl.Name = "orientationGraphControl";
+            this.orientationGraphControl.ScrollGrace = 0D;
+            this.orientationGraphControl.ScrollMaxX = 0D;
+            this.orientationGraphControl.ScrollMaxY = 0D;
+            this.orientationGraphControl.ScrollMaxY2 = 0D;
+            this.orientationGraphControl.ScrollMinX = 0D;
+            this.orientationGraphControl.ScrollMinY = 0D;
+            this.orientationGraphControl.ScrollMinY2 = 0D;
+            this.orientationGraphControl.Size = new System.Drawing.Size(340, 200);
+            this.orientationGraphControl.TabIndex = 14;
+            this.orientationGraphControl.UseExtendedPrintDialog = true;
             // 
             // pidoutputGraphControl
             // 
@@ -898,6 +908,14 @@
             // 
             // telemraw_groupBox
             // 
+            this.telemraw_groupBox.Controls.Add(this.yaw_label);
+            this.telemraw_groupBox.Controls.Add(this.pitch_label);
+            this.telemraw_groupBox.Controls.Add(this.roll_label);
+            this.telemraw_groupBox.Controls.Add(this.label27);
+            this.telemraw_groupBox.Controls.Add(this.label28);
+            this.telemraw_groupBox.Controls.Add(this.label29);
+            this.telemraw_groupBox.Controls.Add(this.flight_mode_raw_label);
+            this.telemraw_groupBox.Controls.Add(this.label22);
             this.telemraw_groupBox.Controls.Add(this.throttle_label);
             this.telemraw_groupBox.Controls.Add(this.label23);
             this.telemraw_groupBox.Controls.Add(this.gyrozraw_label);
@@ -913,10 +931,82 @@
             this.telemraw_groupBox.TabStop = false;
             this.telemraw_groupBox.Text = "Telemetry Raw";
             // 
+            // yaw_label
+            // 
+            this.yaw_label.AutoSize = true;
+            this.yaw_label.Location = new System.Drawing.Point(158, 73);
+            this.yaw_label.Name = "yaw_label";
+            this.yaw_label.Size = new System.Drawing.Size(14, 13);
+            this.yaw_label.TabIndex = 23;
+            this.yaw_label.Text = "~";
+            // 
+            // pitch_label
+            // 
+            this.pitch_label.AutoSize = true;
+            this.pitch_label.Location = new System.Drawing.Point(158, 49);
+            this.pitch_label.Name = "pitch_label";
+            this.pitch_label.Size = new System.Drawing.Size(14, 13);
+            this.pitch_label.TabIndex = 22;
+            this.pitch_label.Text = "~";
+            // 
+            // roll_label
+            // 
+            this.roll_label.AutoSize = true;
+            this.roll_label.Location = new System.Drawing.Point(158, 22);
+            this.roll_label.Name = "roll_label";
+            this.roll_label.Size = new System.Drawing.Size(14, 13);
+            this.roll_label.TabIndex = 21;
+            this.roll_label.Text = "~";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(97, 73);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(63, 13);
+            this.label27.TabIndex = 20;
+            this.label27.Text = "Yaw Amgle:";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(97, 48);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(64, 13);
+            this.label28.TabIndex = 19;
+            this.label28.Text = "Pitch Angle:";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(97, 22);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(58, 13);
+            this.label29.TabIndex = 18;
+            this.label29.Text = "Roll Angle:";
+            // 
+            // flight_mode_raw_label
+            // 
+            this.flight_mode_raw_label.AutoSize = true;
+            this.flight_mode_raw_label.Location = new System.Drawing.Point(69, 122);
+            this.flight_mode_raw_label.Name = "flight_mode_raw_label";
+            this.flight_mode_raw_label.Size = new System.Drawing.Size(14, 13);
+            this.flight_mode_raw_label.TabIndex = 17;
+            this.flight_mode_raw_label.Text = "~";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(6, 122);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(68, 13);
+            this.label22.TabIndex = 16;
+            this.label22.Text = "Flight Mode: ";
+            // 
             // throttle_label
             // 
             this.throttle_label.AutoSize = true;
-            this.throttle_label.Location = new System.Drawing.Point(50, 99);
+            this.throttle_label.Location = new System.Drawing.Point(50, 98);
             this.throttle_label.Name = "throttle_label";
             this.throttle_label.Size = new System.Drawing.Size(14, 13);
             this.throttle_label.TabIndex = 13;
@@ -925,7 +1015,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(6, 99);
+            this.label23.Location = new System.Drawing.Point(6, 98);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(49, 13);
             this.label23.TabIndex = 12;
@@ -991,15 +1081,6 @@
             this.mainLoopTimer.Interval = 10;
             this.mainLoopTimer.Tick += new System.EventHandler(this.mainLoopTimer_Tick);
             // 
-            // flight_mode_label
-            // 
-            this.flight_mode_label.AutoSize = true;
-            this.flight_mode_label.Location = new System.Drawing.Point(352, 52);
-            this.flight_mode_label.Name = "flight_mode_label";
-            this.flight_mode_label.Size = new System.Drawing.Size(68, 13);
-            this.flight_mode_label.TabIndex = 15;
-            this.flight_mode_label.Text = "Flight Mode: ";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1050,7 +1131,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Timer timer1;
         public System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.Button connect_btn;
         private System.Windows.Forms.Button disconnect_btn;
@@ -1110,7 +1190,7 @@
         private System.Windows.Forms.GroupBox tuning_groupBox;
         private System.Windows.Forms.Button uploadtuning_btn;
         private System.Windows.Forms.Button uploadhomeandpos_btn;
-        private ZedGraph.ZedGraphControl zedGraphControl3;
+        private ZedGraph.ZedGraphControl orientationGraphControl;
         private ZedGraph.ZedGraphControl pidoutputGraphControl;
         private System.Windows.Forms.Label gyrozraw_label;
         private System.Windows.Forms.Label gyroyraw_label;
@@ -1136,6 +1216,14 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Button gyro_callibrate_btn;
         private System.Windows.Forms.Label flight_mode_label;
+        private System.Windows.Forms.Label flight_mode_raw_label;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label yaw_label;
+        private System.Windows.Forms.Label pitch_label;
+        private System.Windows.Forms.Label roll_label;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label29;
     }
 }
 
