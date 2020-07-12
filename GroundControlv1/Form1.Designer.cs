@@ -122,6 +122,7 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.mainLoopTimer = new System.Windows.Forms.Timer(this.components);
+            this.battery_voltage_label = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
             this.statusterminal_groupBox.SuspendLayout();
@@ -251,6 +252,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.battery_voltage_label);
             this.panel3.Controls.Add(this.flight_mode_label);
             this.panel3.Controls.Add(this.lasttelem_label);
             this.panel3.Controls.Add(this.orientationGraphControl);
@@ -1081,6 +1083,15 @@
             this.mainLoopTimer.Interval = 10;
             this.mainLoopTimer.Tick += new System.EventHandler(this.mainLoopTimer_Tick);
             // 
+            // battery_voltage_label
+            // 
+            this.battery_voltage_label.AutoSize = true;
+            this.battery_voltage_label.Location = new System.Drawing.Point(352, 32);
+            this.battery_voltage_label.Name = "battery_voltage_label";
+            this.battery_voltage_label.Size = new System.Drawing.Size(46, 13);
+            this.battery_voltage_label.TabIndex = 16;
+            this.battery_voltage_label.Text = "Battery: ";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1224,6 +1235,7 @@
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label battery_voltage_label;
     }
 }
 

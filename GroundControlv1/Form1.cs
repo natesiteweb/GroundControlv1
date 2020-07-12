@@ -67,15 +67,16 @@ namespace GroundControlv1
         float d_gain_yaw_downloaded = 0f;
         bool updatePIDTextbox = false;
 
-        float roll_output_downloaded = 0f;
-        float pitch_output_downloaded = 0f;
-        float yaw_output_downloaded = 0f;
+        float battery_voltage = 0f;
+
+        int roll_output_downloaded = 0;
+        int pitch_output_downloaded = 0;
+        int yaw_output_downloaded = 0;
         bool updatePIDOutputTextbox = false;
 
         bool askforpid = false;
         bool waitingforpidreply = false;
         bool updatepid = false;
-        bool updateFlightMode = false;
         bool calibrateGyro = false;
 
         Stopwatch waitingforpidTimer = new Stopwatch();
@@ -222,6 +223,12 @@ namespace GroundControlv1
                         yaw_angle_output[2] = (byte)serialPort1.ReadByte();
                         yaw_angle_output[3] = (byte)serialPort1.ReadByte();
 
+                        flight_mode = (short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
+
+                        //battery_voltage = (float)serialPort1.ReadByte();
+                        //battery_voltage += (float)Math.Truncate((double)serialPort1.ReadByte()) / 100f;
+                        battery_voltage = (float)Math.Truncate(((short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()))) * 5.6734f) / 100f;
+
                         roll_angle = System.BitConverter.ToSingle(roll_angle_output, 0);
                         pitch_angle = System.BitConverter.ToSingle(pitch_angle_output, 0);
                         yaw_angle = System.BitConverter.ToSingle(yaw_angle_output, 0);
@@ -320,9 +327,9 @@ namespace GroundControlv1
                         yaw_output[2] = (byte)serialPort1.ReadByte();
                         yaw_output[3] = (byte)serialPort1.ReadByte();
 
-                        roll_output_downloaded = System.BitConverter.ToSingle(roll_output, 0);
-                        pitch_output_downloaded = System.BitConverter.ToSingle(pitch_output, 0);
-                        yaw_output_downloaded = System.BitConverter.ToSingle(yaw_output, 0);
+                        roll_output_downloaded = System.BitConverter.ToInt32(roll_output, 0);
+                        pitch_output_downloaded = System.BitConverter.ToInt32(pitch_output, 0);
+                        yaw_output_downloaded = System.BitConverter.ToInt32(yaw_output, 0);
 
                         UpdateGraph(2, 4, (double)roll_output_downloaded);
                         UpdateGraph(2, 5, (double)pitch_output_downloaded);
@@ -330,12 +337,6 @@ namespace GroundControlv1
 
                         //updatePIDOutputTextbox = true;
                         break;
-
-                    case 0x05: //Flight Mode
-                        flight_mode = (short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
-                        updateFlightMode = true;
-                        break;
-
                 }
             }
 
@@ -809,30 +810,6 @@ namespace GroundControlv1
                 //askforpid = true;
             }
 
-            if(updateFlightMode)
-            {
-                updateFlightMode = false;
-
-                switch(flight_mode)
-                {
-                    case 0:
-                        flight_mode_label.Text = "Flight Mode: Ready - Unarmed";
-                        break;
-                    case 1:
-                        flight_mode_label.Text = "Flight Mode: Ready - Unarmed";
-                        break;
-                    case 2:
-                        flight_mode_label.Text = "Flight Mode: Ready - Armed";
-                        break;
-                    case 3:
-                        flight_mode_label.Text = "Flight Mode: Calibrating Gyro..";
-                        break;
-                    case 4:
-                        flight_mode_label.Text = "Flight Mode: Starting...";
-                        break;
-                }
-            }
-
             if(serialPort1.IsOpen && serialPort1.BytesToRead == 0)
             {
                 if(askforpid)
@@ -897,6 +874,8 @@ namespace GroundControlv1
             throttle_label.Text = throttle.ToString();
             flight_mode_raw_label.Text = flight_mode.ToString();
 
+            battery_voltage_label.Text = "Battery: " + battery_voltage.ToString() + "V";
+
             double x = Math.Truncate(roll_angle * 100) / 100;
             double y = Math.Truncate(pitch_angle * 100) / 100;
             double z = Math.Truncate(yaw_angle * 100) / 100;
@@ -904,6 +883,25 @@ namespace GroundControlv1
             roll_label.Text = string.Format("{0:N2}", x);
             pitch_label.Text = string.Format("{0:N2}", y);
             yaw_label.Text = string.Format("{0:N2}", z);
+
+            switch (flight_mode)
+            {
+                case 0:
+                    flight_mode_label.Text = "Flight Mode: Ready - Unarmed";
+                    break;
+                case 1:
+                    flight_mode_label.Text = "Flight Mode: Ready - Unarmed";
+                    break;
+                case 2:
+                    flight_mode_label.Text = "Flight Mode: Ready - Armed";
+                    break;
+                case 3:
+                    flight_mode_label.Text = "Flight Mode: Auto Level - Armed";
+                    break;
+                case 4:
+                    flight_mode_label.Text = "Flight Mode: Starting...";
+                    break;
+            }
         }
 
         private void clearstatus_btn_Click(object sender, EventArgs e)
