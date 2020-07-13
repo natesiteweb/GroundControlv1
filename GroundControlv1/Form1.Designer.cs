@@ -123,6 +123,9 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.mainLoopTimer = new System.Windows.Forms.Timer(this.components);
+            this.levelmode_btn = new System.Windows.Forms.Button();
+            this.ratemode_btn = new System.Windows.Forms.Button();
+            this.disarm_btn = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
             this.statusterminal_groupBox.SuspendLayout();
@@ -499,6 +502,9 @@
             // 
             // sendcmd_groupBox
             // 
+            this.sendcmd_groupBox.Controls.Add(this.disarm_btn);
+            this.sendcmd_groupBox.Controls.Add(this.ratemode_btn);
+            this.sendcmd_groupBox.Controls.Add(this.levelmode_btn);
             this.sendcmd_groupBox.Controls.Add(this.gyro_callibrate_btn);
             this.sendcmd_groupBox.Controls.Add(this.poshold_btn);
             this.sendcmd_groupBox.Controls.Add(this.rth_btn);
@@ -1092,6 +1098,39 @@
             this.mainLoopTimer.Interval = 10;
             this.mainLoopTimer.Tick += new System.EventHandler(this.mainLoopTimer_Tick);
             // 
+            // levelmode_btn
+            // 
+            this.levelmode_btn.Enabled = false;
+            this.levelmode_btn.Location = new System.Drawing.Point(101, 82);
+            this.levelmode_btn.Name = "levelmode_btn";
+            this.levelmode_btn.Size = new System.Drawing.Size(94, 23);
+            this.levelmode_btn.TabIndex = 7;
+            this.levelmode_btn.Text = "Level Mode";
+            this.levelmode_btn.UseVisualStyleBackColor = true;
+            this.levelmode_btn.Click += new System.EventHandler(this.levelmode_btn_Click);
+            // 
+            // ratemode_btn
+            // 
+            this.ratemode_btn.Enabled = false;
+            this.ratemode_btn.Location = new System.Drawing.Point(101, 53);
+            this.ratemode_btn.Name = "ratemode_btn";
+            this.ratemode_btn.Size = new System.Drawing.Size(94, 23);
+            this.ratemode_btn.TabIndex = 8;
+            this.ratemode_btn.Text = "Rate Mode";
+            this.ratemode_btn.UseVisualStyleBackColor = true;
+            this.ratemode_btn.Click += new System.EventHandler(this.ratemode_btn_Click);
+            // 
+            // disarm_btn
+            // 
+            this.disarm_btn.Enabled = false;
+            this.disarm_btn.Location = new System.Drawing.Point(101, 24);
+            this.disarm_btn.Name = "disarm_btn";
+            this.disarm_btn.Size = new System.Drawing.Size(94, 23);
+            this.disarm_btn.TabIndex = 9;
+            this.disarm_btn.Text = "Disarm";
+            this.disarm_btn.UseVisualStyleBackColor = true;
+            this.disarm_btn.Click += new System.EventHandler(this.disarm_btn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1236,6 +1275,9 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label battery_voltage_label;
+        private System.Windows.Forms.Button ratemode_btn;
+        private System.Windows.Forms.Button levelmode_btn;
+        private System.Windows.Forms.Button disarm_btn;
     }
 }
 

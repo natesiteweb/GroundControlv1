@@ -79,6 +79,8 @@ namespace GroundControlv1
         bool updatepid = false;
         bool calibrateGyro = false;
 
+        short flightModeToSend = 0;
+
         Stopwatch waitingforpidTimer = new Stopwatch();
 
         public Form1()
@@ -383,6 +385,9 @@ namespace GroundControlv1
                 downloadtuning_btn.Enabled = true;
                 uploadhomeandpos_btn.Enabled = true;
                 gyro_callibrate_btn.Enabled = true;
+                levelmode_btn.Enabled = true;
+                ratemode_btn.Enabled = true;
+                disarm_btn.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -404,6 +409,9 @@ namespace GroundControlv1
             downloadtuning_btn.Enabled = false;
             uploadhomeandpos_btn.Enabled = false;
             gyro_callibrate_btn.Enabled = false;
+            levelmode_btn.Enabled = false;
+            ratemode_btn.Enabled = false;
+            disarm_btn.Enabled = false;
         }
 
         private void UpdateGraph(int graphIndex, int curveIndex, double y)
@@ -849,6 +857,13 @@ namespace GroundControlv1
                     serialPort1.Write(new byte[1] { 0x03 }, 0, 1);
                     calibrateGyro = false;
                 }
+                else if(flightModeToSend > 0)
+                {
+                    statusWriteBuffer.Add("Changing Flight Mode...");
+                    serialPort1.Write(new byte[3] { 0x04, (byte)((flightModeToSend >> 8) & 0xFF), (byte)(flightModeToSend & 0xFF) }, 0, 3);
+
+                    flightModeToSend = 0;
+                }
             }
 
             if (markedToClear)
@@ -890,10 +905,10 @@ namespace GroundControlv1
                     flight_mode_label.Text = "Flight Mode: Ready - Unarmed";
                     break;
                 case 1:
-                    flight_mode_label.Text = "Flight Mode: Ready - Unarmed";
+                    flight_mode_label.Text = "Flight Mode: Disarmed";
                     break;
                 case 2:
-                    flight_mode_label.Text = "Flight Mode: Ready - Armed";
+                    flight_mode_label.Text = "Flight Mode: Rate Mode - Armed";
                     break;
                 case 3:
                     flight_mode_label.Text = "Flight Mode: Auto Level - Armed";
@@ -934,6 +949,21 @@ namespace GroundControlv1
         private void gyro_callibrate_btn_Click(object sender, EventArgs e)
         {
             calibrateGyro = true;
+        }
+
+        private void levelmode_btn_Click(object sender, EventArgs e)
+        {
+            flightModeToSend = 3;
+        }
+
+        private void ratemode_btn_Click(object sender, EventArgs e)
+        {
+            flightModeToSend = 2;
+        }
+
+        private void disarm_btn_Click(object sender, EventArgs e)
+        {
+            flightModeToSend = 1;
         }
 
         private void LoadMap()
