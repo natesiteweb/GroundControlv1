@@ -41,6 +41,7 @@
             this.throttleGraphControl = new ZedGraph.ZedGraphControl();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.battery_voltage_label = new System.Windows.Forms.Label();
             this.flight_mode_label = new System.Windows.Forms.Label();
             this.lasttelem_label = new System.Windows.Forms.Label();
             this.orientationGraphControl = new ZedGraph.ZedGraphControl();
@@ -122,7 +123,6 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.mainLoopTimer = new System.Windows.Forms.Timer(this.components);
-            this.battery_voltage_label = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
             this.statusterminal_groupBox.SuspendLayout();
@@ -269,6 +269,15 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(898, 1064);
             this.panel3.TabIndex = 12;
+            // 
+            // battery_voltage_label
+            // 
+            this.battery_voltage_label.AutoSize = true;
+            this.battery_voltage_label.Location = new System.Drawing.Point(352, 32);
+            this.battery_voltage_label.Name = "battery_voltage_label";
+            this.battery_voltage_label.Size = new System.Drawing.Size(46, 13);
+            this.battery_voltage_label.TabIndex = 16;
+            this.battery_voltage_label.Text = "Battery: ";
             // 
             // flight_mode_label
             // 
@@ -503,9 +512,9 @@
             // gyro_callibrate_btn
             // 
             this.gyro_callibrate_btn.Enabled = false;
-            this.gyro_callibrate_btn.Location = new System.Drawing.Point(6, 134);
+            this.gyro_callibrate_btn.Location = new System.Drawing.Point(6, 82);
             this.gyro_callibrate_btn.Name = "gyro_callibrate_btn";
-            this.gyro_callibrate_btn.Size = new System.Drawing.Size(141, 23);
+            this.gyro_callibrate_btn.Size = new System.Drawing.Size(94, 23);
             this.gyro_callibrate_btn.TabIndex = 6;
             this.gyro_callibrate_btn.Text = "Calibrate Gyro";
             this.gyro_callibrate_btn.UseVisualStyleBackColor = true;
@@ -516,7 +525,7 @@
             this.poshold_btn.Enabled = false;
             this.poshold_btn.Location = new System.Drawing.Point(6, 24);
             this.poshold_btn.Name = "poshold_btn";
-            this.poshold_btn.Size = new System.Drawing.Size(103, 23);
+            this.poshold_btn.Size = new System.Drawing.Size(94, 23);
             this.poshold_btn.TabIndex = 5;
             this.poshold_btn.Text = "Hold Position At P";
             this.poshold_btn.UseVisualStyleBackColor = true;
@@ -526,7 +535,7 @@
             this.rth_btn.Enabled = false;
             this.rth_btn.Location = new System.Drawing.Point(6, 53);
             this.rth_btn.Name = "rth_btn";
-            this.rth_btn.Size = new System.Drawing.Size(103, 23);
+            this.rth_btn.Size = new System.Drawing.Size(94, 23);
             this.rth_btn.TabIndex = 4;
             this.rth_btn.Text = "Return To Home";
             this.rth_btn.UseVisualStyleBackColor = true;
@@ -1082,15 +1091,6 @@
             this.mainLoopTimer.Enabled = true;
             this.mainLoopTimer.Interval = 10;
             this.mainLoopTimer.Tick += new System.EventHandler(this.mainLoopTimer_Tick);
-            // 
-            // battery_voltage_label
-            // 
-            this.battery_voltage_label.AutoSize = true;
-            this.battery_voltage_label.Location = new System.Drawing.Point(352, 32);
-            this.battery_voltage_label.Name = "battery_voltage_label";
-            this.battery_voltage_label.Size = new System.Drawing.Size(46, 13);
-            this.battery_voltage_label.TabIndex = 16;
-            this.battery_voltage_label.Text = "Battery: ";
             // 
             // Form1
             // 
