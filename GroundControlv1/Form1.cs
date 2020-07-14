@@ -69,6 +69,7 @@ namespace GroundControlv1
         bool updatePIDTextbox = false;
 
         float battery_voltage = 0f;
+        short raw_battery_voltage = 0;
 
         int roll_output_downloaded = 0;
         int pitch_output_downloaded = 0;
@@ -230,7 +231,8 @@ namespace GroundControlv1
 
                         //battery_voltage = (float)serialPort1.ReadByte();
                         //battery_voltage += (float)Math.Truncate((double)serialPort1.ReadByte()) / 100f;
-                        battery_voltage = (float)Math.Truncate(((short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()))) * 5.6734f) / 100f;
+                        raw_battery_voltage = ((short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte())));
+                        battery_voltage = (float)Math.Truncate(raw_battery_voltage * 5.6734f) / 100f;
 
                         roll_angle = System.BitConverter.ToSingle(roll_angle_output, 0);
                         pitch_angle = System.BitConverter.ToSingle(pitch_angle_output, 0);
@@ -904,6 +906,7 @@ namespace GroundControlv1
             flight_mode_raw_label.Text = flight_mode.ToString();
 
             battery_voltage_label.Text = "Battery: " + battery_voltage.ToString() + "V";
+            batteryraw_label.Text = raw_battery_voltage.ToString();
 
             double x = Math.Truncate(roll_angle * 100) / 100;
             double y = Math.Truncate(pitch_angle * 100) / 100;

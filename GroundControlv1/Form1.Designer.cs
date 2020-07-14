@@ -47,6 +47,8 @@
             this.orientationGraphControl = new ZedGraph.ZedGraphControl();
             this.pidoutputGraphControl = new ZedGraph.ZedGraphControl();
             this.tuning_groupBox = new System.Windows.Forms.GroupBox();
+            this.levelrate_textbox = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
@@ -65,6 +67,9 @@
             this.clearstatus_btn = new System.Windows.Forms.Button();
             this.statusterminal_textbox = new System.Windows.Forms.TextBox();
             this.sendcmd_groupBox = new System.Windows.Forms.GroupBox();
+            this.disarm_btn = new System.Windows.Forms.Button();
+            this.ratemode_btn = new System.Windows.Forms.Button();
+            this.levelmode_btn = new System.Windows.Forms.Button();
             this.gyro_callibrate_btn = new System.Windows.Forms.Button();
             this.poshold_btn = new System.Windows.Forms.Button();
             this.rth_btn = new System.Windows.Forms.Button();
@@ -123,11 +128,8 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.mainLoopTimer = new System.Windows.Forms.Timer(this.components);
-            this.levelmode_btn = new System.Windows.Forms.Button();
-            this.ratemode_btn = new System.Windows.Forms.Button();
-            this.disarm_btn = new System.Windows.Forms.Button();
-            this.levelrate_textbox = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.batteryraw_label = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
             this.statusterminal_groupBox.SuspendLayout();
@@ -357,6 +359,22 @@
             this.tuning_groupBox.TabStop = false;
             this.tuning_groupBox.Text = "Tuning";
             // 
+            // levelrate_textbox
+            // 
+            this.levelrate_textbox.Location = new System.Drawing.Point(9, 113);
+            this.levelrate_textbox.Name = "levelrate_textbox";
+            this.levelrate_textbox.Size = new System.Drawing.Size(79, 20);
+            this.levelrate_textbox.TabIndex = 27;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(6, 97);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(62, 13);
+            this.label24.TabIndex = 26;
+            this.label24.Text = "Level Rate:";
+            // 
             // label19
             // 
             this.label19.AutoSize = true;
@@ -518,6 +536,39 @@
             this.sendcmd_groupBox.TabIndex = 10;
             this.sendcmd_groupBox.TabStop = false;
             this.sendcmd_groupBox.Text = "Send Commands";
+            // 
+            // disarm_btn
+            // 
+            this.disarm_btn.Enabled = false;
+            this.disarm_btn.Location = new System.Drawing.Point(101, 24);
+            this.disarm_btn.Name = "disarm_btn";
+            this.disarm_btn.Size = new System.Drawing.Size(94, 23);
+            this.disarm_btn.TabIndex = 9;
+            this.disarm_btn.Text = "Disarm";
+            this.disarm_btn.UseVisualStyleBackColor = true;
+            this.disarm_btn.Click += new System.EventHandler(this.disarm_btn_Click);
+            // 
+            // ratemode_btn
+            // 
+            this.ratemode_btn.Enabled = false;
+            this.ratemode_btn.Location = new System.Drawing.Point(101, 53);
+            this.ratemode_btn.Name = "ratemode_btn";
+            this.ratemode_btn.Size = new System.Drawing.Size(94, 23);
+            this.ratemode_btn.TabIndex = 8;
+            this.ratemode_btn.Text = "Rate Mode";
+            this.ratemode_btn.UseVisualStyleBackColor = true;
+            this.ratemode_btn.Click += new System.EventHandler(this.ratemode_btn_Click);
+            // 
+            // levelmode_btn
+            // 
+            this.levelmode_btn.Enabled = false;
+            this.levelmode_btn.Location = new System.Drawing.Point(101, 82);
+            this.levelmode_btn.Name = "levelmode_btn";
+            this.levelmode_btn.Size = new System.Drawing.Size(94, 23);
+            this.levelmode_btn.TabIndex = 7;
+            this.levelmode_btn.Text = "Level Mode";
+            this.levelmode_btn.UseVisualStyleBackColor = true;
+            this.levelmode_btn.Click += new System.EventHandler(this.levelmode_btn_Click);
             // 
             // gyro_callibrate_btn
             // 
@@ -929,6 +980,8 @@
             // 
             // telemraw_groupBox
             // 
+            this.telemraw_groupBox.Controls.Add(this.label25);
+            this.telemraw_groupBox.Controls.Add(this.batteryraw_label);
             this.telemraw_groupBox.Controls.Add(this.yaw_label);
             this.telemraw_groupBox.Controls.Add(this.pitch_label);
             this.telemraw_groupBox.Controls.Add(this.roll_label);
@@ -1102,54 +1155,23 @@
             this.mainLoopTimer.Interval = 10;
             this.mainLoopTimer.Tick += new System.EventHandler(this.mainLoopTimer_Tick);
             // 
-            // levelmode_btn
+            // label25
             // 
-            this.levelmode_btn.Enabled = false;
-            this.levelmode_btn.Location = new System.Drawing.Point(101, 82);
-            this.levelmode_btn.Name = "levelmode_btn";
-            this.levelmode_btn.Size = new System.Drawing.Size(94, 23);
-            this.levelmode_btn.TabIndex = 7;
-            this.levelmode_btn.Text = "Level Mode";
-            this.levelmode_btn.UseVisualStyleBackColor = true;
-            this.levelmode_btn.Click += new System.EventHandler(this.levelmode_btn_Click);
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(159, 98);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(14, 13);
+            this.label25.TabIndex = 25;
+            this.label25.Text = "~";
             // 
-            // ratemode_btn
+            // batteryraw_label
             // 
-            this.ratemode_btn.Enabled = false;
-            this.ratemode_btn.Location = new System.Drawing.Point(101, 53);
-            this.ratemode_btn.Name = "ratemode_btn";
-            this.ratemode_btn.Size = new System.Drawing.Size(94, 23);
-            this.ratemode_btn.TabIndex = 8;
-            this.ratemode_btn.Text = "Rate Mode";
-            this.ratemode_btn.UseVisualStyleBackColor = true;
-            this.ratemode_btn.Click += new System.EventHandler(this.ratemode_btn_Click);
-            // 
-            // disarm_btn
-            // 
-            this.disarm_btn.Enabled = false;
-            this.disarm_btn.Location = new System.Drawing.Point(101, 24);
-            this.disarm_btn.Name = "disarm_btn";
-            this.disarm_btn.Size = new System.Drawing.Size(94, 23);
-            this.disarm_btn.TabIndex = 9;
-            this.disarm_btn.Text = "Disarm";
-            this.disarm_btn.UseVisualStyleBackColor = true;
-            this.disarm_btn.Click += new System.EventHandler(this.disarm_btn_Click);
-            // 
-            // levelrate_textbox
-            // 
-            this.levelrate_textbox.Location = new System.Drawing.Point(9, 113);
-            this.levelrate_textbox.Name = "levelrate_textbox";
-            this.levelrate_textbox.Size = new System.Drawing.Size(79, 20);
-            this.levelrate_textbox.TabIndex = 27;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(6, 97);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(62, 13);
-            this.label24.TabIndex = 26;
-            this.label24.Text = "Level Rate:";
+            this.batteryraw_label.AutoSize = true;
+            this.batteryraw_label.Location = new System.Drawing.Point(98, 98);
+            this.batteryraw_label.Name = "batteryraw_label";
+            this.batteryraw_label.Size = new System.Drawing.Size(43, 13);
+            this.batteryraw_label.TabIndex = 24;
+            this.batteryraw_label.Text = "Battery:";
             // 
             // Form1
             // 
@@ -1300,6 +1322,8 @@
         private System.Windows.Forms.Button disarm_btn;
         private System.Windows.Forms.TextBox levelrate_textbox;
         private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label batteryraw_label;
     }
 }
 
