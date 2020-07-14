@@ -398,7 +398,6 @@ namespace GroundControlv1
                 levelmode_btn.Enabled = true;
                 ratemode_btn.Enabled = true;
                 disarm_btn.Enabled = true;
-                levelrate_btn.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -423,7 +422,6 @@ namespace GroundControlv1
             levelmode_btn.Enabled = false;
             ratemode_btn.Enabled = false;
             disarm_btn.Enabled = false;
-            levelrate_btn.Enabled = false;
         }
 
         private void UpdateGraph(int graphIndex, int curveIndex, double y)
