@@ -126,6 +126,8 @@
             this.levelmode_btn = new System.Windows.Forms.Button();
             this.ratemode_btn = new System.Windows.Forms.Button();
             this.disarm_btn = new System.Windows.Forms.Button();
+            this.levelrate_textbox = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
             this.statusterminal_groupBox.SuspendLayout();
@@ -332,6 +334,8 @@
             // 
             // tuning_groupBox
             // 
+            this.tuning_groupBox.Controls.Add(this.levelrate_textbox);
+            this.tuning_groupBox.Controls.Add(this.label24);
             this.tuning_groupBox.Controls.Add(this.label19);
             this.tuning_groupBox.Controls.Add(this.label20);
             this.tuning_groupBox.Controls.Add(this.label21);
@@ -1131,6 +1135,22 @@
             this.disarm_btn.UseVisualStyleBackColor = true;
             this.disarm_btn.Click += new System.EventHandler(this.disarm_btn_Click);
             // 
+            // levelrate_textbox
+            // 
+            this.levelrate_textbox.Location = new System.Drawing.Point(9, 113);
+            this.levelrate_textbox.Name = "levelrate_textbox";
+            this.levelrate_textbox.Size = new System.Drawing.Size(79, 20);
+            this.levelrate_textbox.TabIndex = 27;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(6, 97);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(62, 13);
+            this.label24.TabIndex = 26;
+            this.label24.Text = "Level Rate:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1278,6 +1298,8 @@
         private System.Windows.Forms.Button ratemode_btn;
         private System.Windows.Forms.Button levelmode_btn;
         private System.Windows.Forms.Button disarm_btn;
+        private System.Windows.Forms.TextBox levelrate_textbox;
+        private System.Windows.Forms.Label label24;
     }
 }
 

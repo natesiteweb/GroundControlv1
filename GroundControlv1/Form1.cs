@@ -28,6 +28,7 @@ namespace GroundControlv1
         float roll_angle = 0;
         float pitch_angle = 0;
         float yaw_angle = 0;
+        float level_rate = 0;
 
         System.Windows.Forms.Label[] allMarkers = new System.Windows.Forms.Label[3];
 
@@ -254,6 +255,8 @@ namespace GroundControlv1
                         byte[] i_gain_yaw = new byte[4];
                         byte[] d_gain_yaw = new byte[4];
 
+                        byte[] levelrateBytes = new byte[4];
+
                         p_gain[0] = (byte)serialPort1.ReadByte();
                         p_gain[1] = (byte)serialPort1.ReadByte();
                         p_gain[2] = (byte)serialPort1.ReadByte();
@@ -284,6 +287,11 @@ namespace GroundControlv1
                         d_gain_yaw[2] = (byte)serialPort1.ReadByte();
                         d_gain_yaw[3] = (byte)serialPort1.ReadByte();
 
+                        levelrateBytes[0] = (byte)serialPort1.ReadByte();
+                        levelrateBytes[1] = (byte)serialPort1.ReadByte();
+                        levelrateBytes[2] = (byte)serialPort1.ReadByte();
+                        levelrateBytes[3] = (byte)serialPort1.ReadByte();
+
                         p_gain_downloaded = System.BitConverter.ToSingle(p_gain, 0);
                         i_gain_downloaded = System.BitConverter.ToSingle(i_gain, 0);
                         d_gain_downloaded = System.BitConverter.ToSingle(d_gain, 0);
@@ -291,6 +299,8 @@ namespace GroundControlv1
                         p_gain_yaw_downloaded = System.BitConverter.ToSingle(p_gain_yaw, 0);
                         i_gain_yaw_downloaded = System.BitConverter.ToSingle(i_gain_yaw, 0);
                         d_gain_yaw_downloaded = System.BitConverter.ToSingle(d_gain_yaw, 0);
+
+                        level_rate = System.BitConverter.ToSingle(levelrateBytes, 0);
 
                         updatePIDTextbox = true;
 
@@ -388,6 +398,7 @@ namespace GroundControlv1
                 levelmode_btn.Enabled = true;
                 ratemode_btn.Enabled = true;
                 disarm_btn.Enabled = true;
+                levelrate_btn.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -412,6 +423,7 @@ namespace GroundControlv1
             levelmode_btn.Enabled = false;
             ratemode_btn.Enabled = false;
             disarm_btn.Enabled = false;
+            levelrate_btn.Enabled = false;
         }
 
         private void UpdateGraph(int graphIndex, int curveIndex, double y)
@@ -798,6 +810,8 @@ namespace GroundControlv1
                 pgainyaw_textbox.Text = p_gain_yaw_downloaded.ToString();
                 igainyaw_textbox.Text = i_gain_yaw_downloaded.ToString();
                 dgainyaw_textbox.Text = d_gain_yaw_downloaded.ToString();
+
+                levelrate_textbox.Text = level_rate.ToString();
             }
 
             /*if (updatePIDOutputTextbox)
@@ -834,11 +848,11 @@ namespace GroundControlv1
                 else if(updatepid)
                 {
                     //serialPort1.Write(new byte[1] { 0x02 }, 0, 1);
-                    float[] gains = new float[6] { float.Parse(pgain_textbox.Text.ToString()), float.Parse(igain_textbox.Text.ToString()), float.Parse(dgain_textbox.Text.ToString()), float.Parse(pgainyaw_textbox.Text.ToString()), float.Parse(igainyaw_textbox.Text.ToString()), float.Parse(dgainyaw_textbox.Text.ToString()) } ;
-                    byte[] p = new byte[25];
+                    float[] gains = new float[7] { float.Parse(pgain_textbox.Text.ToString()), float.Parse(igain_textbox.Text.ToString()), float.Parse(dgain_textbox.Text.ToString()), float.Parse(pgainyaw_textbox.Text.ToString()), float.Parse(igainyaw_textbox.Text.ToString()), float.Parse(dgainyaw_textbox.Text.ToString()), float.Parse(levelrate_textbox.Text.ToString()) } ;
+                    byte[] p = new byte[29];
                     p[0] = 0x02;
-                    System.Buffer.BlockCopy(gains, 0, p, 1, 24);
-                    serialPort1.Write(p, 0, 25);
+                    System.Buffer.BlockCopy(gains, 0, p, 1, 28);
+                    serialPort1.Write(p, 0, 29);
 
                     updatepid = false;
                     statusWriteBuffer.Add("Uploaded PID values.");
@@ -850,6 +864,8 @@ namespace GroundControlv1
                     pgainyaw_textbox.Text = "~";
                     igainyaw_textbox.Text = "~";
                     dgainyaw_textbox.Text = "~";
+
+                    levelrate_textbox.Text = "~";
                 }
                 else if(calibrateGyro)
                 {
@@ -939,6 +955,8 @@ namespace GroundControlv1
             pgainyaw_textbox.Text = "~";
             igainyaw_textbox.Text = "~";
             dgainyaw_textbox.Text = "~";
+
+            levelrate_textbox.Text = "~";
         }
 
         private void uploadtuning_btn_Click(object sender, EventArgs e)
