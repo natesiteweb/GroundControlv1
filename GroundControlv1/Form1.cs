@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO.Ports;
 using ZedGraph;
 using System.Diagnostics;
+using System.IO;
 
 namespace GroundControlv1
 {
@@ -29,6 +30,12 @@ namespace GroundControlv1
         float pitch_angle = 0;
         float yaw_angle = 0;
         float level_rate = 0;
+        int loopTime;
+
+        string loggingPath = "";
+        bool isRecording = false;
+        bool dataFirstLine = true;
+        double dataTimeCounter = 0;
 
         System.Windows.Forms.Label[] allMarkers = new System.Windows.Forms.Label[3];
 
@@ -39,11 +46,16 @@ namespace GroundControlv1
         List<string> statusWriteBuffer = new List<string>();
         bool markedToClear = false;
 
-        ZedGraphControl[] graphControlArray = new ZedGraphControl[4];
-        GraphPane[] graphPaneArray = new GraphPane[4];
-        PointPairList[] pointPairListArray = new PointPairList[10];
-        int graphXLength = 50;
-        bool[] markedToUpdateGraphs = new bool[10];
+        const int graphCount = 6;
+        const int curveCount = 14;
+
+        ZedGraphControl[] graphControlArray = new ZedGraphControl[graphCount];
+        GraphPane[] graphPaneArray = new GraphPane[graphCount];
+        PointPairList[] pointPairListArray = new PointPairList[curveCount];
+        double[] graphScales = new double[graphCount * 2];
+        int[] graphCurveCounts = new int[graphCount] { 3, 1, 4, 3, 2, 1 };
+        int graphXLength = 150;
+        bool[] markedToUpdateGraphs = new bool[curveCount];
 
         float angle = -500f;
 
@@ -55,6 +67,7 @@ namespace GroundControlv1
         int loaded_scale = 19;
 
         Stopwatch updateTimerStopwatch = new Stopwatch();
+        Stopwatch dataLogStopwatch = new Stopwatch();
 
         float timeSinceLastTelem = 0f;
 
@@ -69,11 +82,14 @@ namespace GroundControlv1
         bool updatePIDTextbox = false;
 
         float battery_voltage = 0f;
+        float ultrasonicDistance = 0f;
+        float barometerDistance = 0f;
         short raw_battery_voltage = 0;
 
         int roll_output_downloaded = 0;
         int pitch_output_downloaded = 0;
         int yaw_output_downloaded = 0;
+        int throttle_output_downloaded = 0;
         bool updatePIDOutputTextbox = false;
 
         bool askforpid = false;
@@ -105,15 +121,21 @@ namespace GroundControlv1
             graphPaneArray[1] = throttleGraphControl.GraphPane;
             graphPaneArray[3] = pidoutputGraphControl.GraphPane;
             graphPaneArray[2] = orientationGraphControl.GraphPane;
+            graphPaneArray[4] = altitudegraphControl.GraphPane;
+            graphPaneArray[5] = loopfrequencyGraphControl.GraphPane;
             graphControlArray[0] = gyroGraphControl;
             graphControlArray[1] = throttleGraphControl;
             graphControlArray[3] = pidoutputGraphControl;
             graphControlArray[2] = orientationGraphControl;
+            graphControlArray[4] = altitudegraphControl;
+            graphControlArray[5] = loopfrequencyGraphControl;
 
             graphPaneArray[0].YAxis.Title.Text = "deg/s";
             graphPaneArray[1].YAxis.Title.Text = "Value (uS)";
             graphPaneArray[2].YAxis.Title.Text = "Value (uS)";
             graphPaneArray[3].YAxis.Title.Text = "Angle (deg)";
+            graphPaneArray[4].YAxis.Title.Text = "Altitude (m)";
+            graphPaneArray[5].YAxis.Title.Text = "uS";
 
             for (int i = 0; i < markedToUpdateGraphs.Length; i++)
             {
@@ -129,6 +151,9 @@ namespace GroundControlv1
                 graphPaneArray[i].YAxis.Scale.FontSpec.Size = 20;
                 graphPaneArray[i].Title.FontSpec.Size = titleSize;
                 graphPaneArray[i].Legend.FontSpec.Size = axisFontSize;
+
+                graphScales[i] = 0.001;
+                graphScales[i + 1] = -0.001;
             }
 
             //graphPane = gyroGraphControl.GraphPane;
@@ -155,23 +180,52 @@ namespace GroundControlv1
                 }
             }
 
+            int curveIndex = 0;
+
             graphPaneArray[0].Title.Text = "Gryo";
-            LineItem lineItemX = graphPaneArray[0].AddCurve("X", pointPairListArray[0], Color.Red, SymbolType.None);
-            LineItem lineItemY = graphPaneArray[0].AddCurve("Y", pointPairListArray[1], Color.FromArgb(0, 200, 0), SymbolType.None);
-            LineItem lineItemZ = graphPaneArray[0].AddCurve("Z", pointPairListArray[2], Color.Blue, SymbolType.None);
+            LineItem lineItemX = graphPaneArray[0].AddCurve("X", pointPairListArray[curveIndex], Color.Red, SymbolType.None);
+            curveIndex++;
+            LineItem lineItemY = graphPaneArray[0].AddCurve("Y", pointPairListArray[curveIndex], Color.FromArgb(0, 200, 0), SymbolType.None);
+            curveIndex++;
+            LineItem lineItemZ = graphPaneArray[0].AddCurve("Z", pointPairListArray[curveIndex], Color.Blue, SymbolType.None);
+            curveIndex++;
 
             graphPaneArray[1].Title.Text = "RC Input";
-            LineItem lineItemThrottle = graphPaneArray[1].AddCurve("Throttle", pointPairListArray[3], Color.Red, SymbolType.None);
+            LineItem lineItemThrottle = graphPaneArray[1].AddCurve("Throttle", pointPairListArray[curveIndex], Color.Red, SymbolType.None);
+            curveIndex++;
 
             graphPaneArray[2].Title.Text = "PID Outputs";
-            LineItem lineItemRollOutput = graphPaneArray[2].AddCurve("Roll", pointPairListArray[4], Color.Red, SymbolType.None);
-            LineItem lineItemPitchOutput = graphPaneArray[2].AddCurve("Pitch", pointPairListArray[5], Color.FromArgb(0, 200, 0), SymbolType.None);
-            LineItem lineItemYawOutput = graphPaneArray[2].AddCurve("Yaw", pointPairListArray[6], Color.Blue, SymbolType.None);
+            LineItem lineItemRollOutput = graphPaneArray[2].AddCurve("Roll", pointPairListArray[curveIndex], Color.Red, SymbolType.None);
+            curveIndex++;
+            LineItem lineItemPitchOutput = graphPaneArray[2].AddCurve("Pitch", pointPairListArray[curveIndex], Color.FromArgb(0, 200, 0), SymbolType.None);
+            curveIndex++;
+            LineItem lineItemYawOutput = graphPaneArray[2].AddCurve("Yaw", pointPairListArray[curveIndex], Color.Blue, SymbolType.None);
+            curveIndex++;
+            LineItem lineItemThrottleOutput = graphPaneArray[2].AddCurve("Throttle", pointPairListArray[curveIndex], Color.Orange, SymbolType.None);
+            curveIndex++;
 
             graphPaneArray[3].Title.Text = "Orientation";
-            LineItem lineItemRollAngle = graphPaneArray[3].AddCurve("Roll", pointPairListArray[7], Color.Red, SymbolType.None);
-            LineItem lineItemPitchAngle = graphPaneArray[3].AddCurve("Pitch", pointPairListArray[8], Color.FromArgb(0, 200, 0), SymbolType.None);
-            LineItem lineItemYawAngle = graphPaneArray[3].AddCurve("Yaw", pointPairListArray[9], Color.Blue, SymbolType.None);
+            LineItem lineItemRollAngle = graphPaneArray[3].AddCurve("Roll", pointPairListArray[curveIndex], Color.Red, SymbolType.None);
+            curveIndex++;
+            LineItem lineItemPitchAngle = graphPaneArray[3].AddCurve("Pitch", pointPairListArray[curveIndex], Color.FromArgb(0, 200, 0), SymbolType.None);
+            curveIndex++;
+            LineItem lineItemYawAngle = graphPaneArray[3].AddCurve("Yaw", pointPairListArray[curveIndex], Color.Blue, SymbolType.None);
+            curveIndex++;
+
+            graphPaneArray[4].Title.Text = "Altitude";
+            LineItem lineItemUltrasonic = graphPaneArray[4].AddCurve("Ultrasonic", pointPairListArray[curveIndex], Color.Red, SymbolType.None);
+            curveIndex++;
+            LineItem lineItemBarometer = graphPaneArray[4].AddCurve("Barometer", pointPairListArray[curveIndex], Color.Blue, SymbolType.None);
+            curveIndex++;
+
+            graphPaneArray[5].Title.Text = "Control Loop Time";
+            LineItem lineItemLoopTime = graphPaneArray[5].AddCurve("Control Loop", pointPairListArray[curveIndex], Color.Red, SymbolType.None);
+            curveIndex++;
+
+            saveFileDialogLogging.Title = "Choose Output File";
+            saveFileDialogLogging.DefaultExt = "txt";
+            saveFileDialogLogging.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            saveFileDialogLogging.FilterIndex = 0;
 
             //marker1.Location = new Point(webBrowser1.Location.X + (webBrowser1.Width / 2) - 8, webBrowser1.Location.Y + (webBrowser1.Height / 2) - 8);
             //marker1.Visible = true;
@@ -188,175 +242,229 @@ namespace GroundControlv1
             baud_list.Items.Add(115200);
             baud_list.SelectedIndex = 3;
 
+            SerialHelper.serialPort.DataReceived += new SerialDataReceivedEventHandler(serialPort_DataReceived);
+
             RefreshComPorts();
         }
 
-        private void serialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
+        private void serialPort_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
-            if (serialPort1.IsOpen)
+            if (SerialHelper.serialPort.IsOpen)
             {
-                byte cmd = (byte)serialPort1.ReadByte();
+                try
+                { 
+                    byte cmd = (byte)SerialHelper.serialPort.ReadByte();
 
-                switch (cmd)
+                    switch (cmd)
+                    {
+                        case (byte)SerialHelper.CommandFromSerial.GYRO_PACKET:  //Gyro
+
+                            gyroX = SerialHelper.ReadInt16();
+                            gyroY = SerialHelper.ReadInt16();
+                            gyroZ = SerialHelper.ReadInt16();
+
+                            raw_battery_voltage = SerialHelper.ReadInt16();
+                            battery_voltage = (float)Math.Truncate(raw_battery_voltage * 5.6734f) / 100f;
+
+                            loopTime = SerialHelper.ReadInt32();
+
+                            roll_angle = SerialHelper.ReadFloat();
+                            pitch_angle = SerialHelper.ReadFloat();
+                            yaw_angle = SerialHelper.ReadFloat();
+
+                            flight_mode = SerialHelper.ReadInt16();
+
+                            graphScales[0] = 0.001;
+                            graphScales[1] = -0.001;
+                            graphScales[4] = 0.001;
+                            graphScales[5] = -0.001;
+                            graphScales[10] = 0.001;
+                            graphScales[11] = -0.001;
+
+                            UpdateGraph(0, 0, ((double)gyroX) / 65.5f);
+                            UpdateGraph(0, 1, ((double)gyroY) / 65.5f);
+                            UpdateGraph(0, 2, ((double)gyroZ) / 65.5f);
+
+                            UpdateGraph(3, 0, (double)roll_angle);
+                            UpdateGraph(3, 1, (double)pitch_angle);
+                            UpdateGraph(3, 2, (double)yaw_angle);
+
+                            UpdateGraph(5, 0, (double)loopTime);
+
+                            /*byte[] valX = new byte[2];
+                            byte[] valY = new byte[2];
+                            byte[] valZ = new byte[2];
+
+                            valX[0] = (byte)serialPort1.ReadByte();
+                            valX[1] = (byte)serialPort1.ReadByte();
+
+                            valY[0] = (byte)serialPort1.ReadByte();
+                            valY[1] = (byte)serialPort1.ReadByte();
+
+                            valZ[0] = (byte)serialPort1.ReadByte();
+                            valZ[1] = (byte)serialPort1.ReadByte();
+
+                            gyroX = System.BitConverter.ToInt16(valX, 0);
+                            gyroY = System.BitConverter.ToInt16(valY, 0);
+                            gyroZ = System.BitConverter.ToInt16(valZ, 0);
+
+                            byte[] roll_angle_output = new byte[4];
+                            byte[] pitch_angle_output = new byte[4];
+                            byte[] yaw_angle_output = new byte[4];
+
+                            byte[] flight_mode_byte_array = new byte[2];
+
+                            byte[] loopTime_byte_array = new byte[4];
+
+                            roll_angle_output[0] = (byte)serialPort1.ReadByte();
+                            roll_angle_output[1] = (byte)serialPort1.ReadByte();
+                            roll_angle_output[2] = (byte)serialPort1.ReadByte();
+                            roll_angle_output[3] = (byte)serialPort1.ReadByte();
+
+                            pitch_angle_output[0] = (byte)serialPort1.ReadByte();
+                            pitch_angle_output[1] = (byte)serialPort1.ReadByte();
+                            pitch_angle_output[2] = (byte)serialPort1.ReadByte();
+                            pitch_angle_output[3] = (byte)serialPort1.ReadByte();
+
+                            yaw_angle_output[0] = (byte)serialPort1.ReadByte();
+                            yaw_angle_output[1] = (byte)serialPort1.ReadByte();
+                            yaw_angle_output[2] = (byte)serialPort1.ReadByte();
+                            yaw_angle_output[3] = (byte)serialPort1.ReadByte();
+
+                            flight_mode_byte_array[0] = (byte)serialPort1.ReadByte();
+                            flight_mode_byte_array[1] = (byte)serialPort1.ReadByte();
+
+                            flight_mode = BitConverter.ToInt16(flight_mode_byte_array, 0);
+
+                            //battery_voltage = (float)serialPort1.ReadByte();
+                            //battery_voltage += (float)Math.Truncate((double)serialPort1.ReadByte()) / 100f;
+                            raw_battery_voltage = ((short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte())));
+                            battery_voltage = (float)Math.Truncate(raw_battery_voltage * 5.6734f) / 100f;
+
+                            loopTime_byte_array[0] = (byte)serialPort1.ReadByte();
+                            loopTime_byte_array[1] = (byte)serialPort1.ReadByte();
+                            loopTime_byte_array[2] = (byte)serialPort1.ReadByte();
+                            loopTime_byte_array[3] = (byte)serialPort1.ReadByte();
+
+                            loopTime = BitConverter.ToInt32(loopTime_byte_array, 0);
+
+                            roll_angle = System.BitConverter.ToSingle(roll_angle_output, 0);
+                            pitch_angle = System.BitConverter.ToSingle(pitch_angle_output, 0);
+                            yaw_angle = System.BitConverter.ToSingle(yaw_angle_output, 0);
+
+                            graphScales[0] = 0.001;
+                            graphScales[1] = -0.001;
+                            graphScales[4] = 0.001;
+                            graphScales[5] = -0.001;
+                            graphScales[10] = 0.001;
+                            graphScales[11] = -0.001;
+
+                            UpdateGraph(0, 0, ((double)gyroX) / 65.5f);
+                            UpdateGraph(0, 1, ((double)gyroY) / 65.5f);
+                            UpdateGraph(0, 2, ((double)gyroZ) / 65.5f);
+
+                            UpdateGraph(3, 0, (double)roll_angle);
+                            UpdateGraph(3, 1, (double)pitch_angle);
+                            UpdateGraph(3, 2, (double)yaw_angle);
+
+                            UpdateGraph(5, 0, (double)loopTime);*/
+
+                            break;
+
+                        case (byte)SerialHelper.CommandFromSerial.PID_GAIN_FIRST_PACKET:  //Download PID
+
+                            byte[] levelrateBytes = new byte[4];
+
+                            /*levelrateBytes[0] = (byte)serialPort1.ReadByte();
+                            levelrateBytes[1] = (byte)serialPort1.ReadByte();
+                            levelrateBytes[2] = (byte)serialPort1.ReadByte();
+                            levelrateBytes[3] = (byte)serialPort1.ReadByte();*/
+
+                            p_gain_downloaded = SerialHelper.ReadFloat();
+                            i_gain_downloaded = SerialHelper.ReadFloat();
+                            d_gain_downloaded = SerialHelper.ReadFloat();
+
+                            p_gain_yaw_downloaded = SerialHelper.ReadFloat();
+                            i_gain_yaw_downloaded = SerialHelper.ReadFloat();
+                            d_gain_yaw_downloaded = SerialHelper.ReadFloat();
+
+                            //level_rate = System.BitConverter.ToSingle(levelrateBytes, 0);
+
+                            updatePIDTextbox = true;
+
+                            waitingforpidreply = false;
+
+                            break;
+
+                        /*case 0x03:  //RC Input
+                            int throttleVal = (int)((((byte)serialPort1.ReadByte()) << 24) | (((byte)serialPort1.ReadByte()) << 16) | (((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
+
+                            if (throttleVal != 0)
+                            {
+                                throttle = throttleVal;
+                                UpdateGraph(1, 0, ((double)throttleVal));
+                            }
+
+                            break;*/
+
+                        case (byte)SerialHelper.CommandFromSerial.PID_OUTPUT_PACKET:  //PID Outputs
+                            //byte[] throttle_output = new byte[4];
+
+
+                            /*throttle_output[0] = (byte)serialPort1.ReadByte();
+                            throttle_output[1] = (byte)serialPort1.ReadByte();
+                            throttle_output[2] = (byte)serialPort1.ReadByte();
+                            throttle_output[3] = (byte)serialPort1.ReadByte();*/
+
+                            roll_output_downloaded = SerialHelper.ReadInt32();
+                            pitch_output_downloaded = SerialHelper.ReadInt32();
+                            yaw_output_downloaded = SerialHelper.ReadInt32();
+                            //throttle_output_downloaded = System.BitConverter.ToInt32(throttle_output, 0);
+
+                            graphScales[6] = 0.001;
+                            graphScales[7] = -0.001;
+
+                            UpdateGraph(2, 0, (double)roll_output_downloaded);
+                            UpdateGraph(2, 1, (double)pitch_output_downloaded);
+                            UpdateGraph(2, 2, (double)yaw_output_downloaded);
+                            //UpdateGraph(2, 3, (double)-throttle_output_downloaded);
+
+                            //updatePIDOutputTextbox = true;
+                            break;
+                        /*case 0x06: //Altitudes
+                            byte[] ultrasonic = new byte[4];
+                            byte[] bmpAlt = new byte[4];
+
+                            ultrasonic[0] = (byte)serialPort1.ReadByte();
+                            ultrasonic[1] = (byte)serialPort1.ReadByte();
+                            ultrasonic[2] = (byte)serialPort1.ReadByte();
+                            ultrasonic[3] = (byte)serialPort1.ReadByte();
+
+                            bmpAlt[0] = (byte)serialPort1.ReadByte();
+                            bmpAlt[1] = (byte)serialPort1.ReadByte();
+                            bmpAlt[2] = (byte)serialPort1.ReadByte();
+                            bmpAlt[3] = (byte)serialPort1.ReadByte();
+
+                            ultrasonicDistance = System.BitConverter.ToSingle(ultrasonic, 0);
+                            barometerDistance = System.BitConverter.ToSingle(bmpAlt, 0);
+
+                            graphScales[8] = 0.001;
+                            graphScales[9] = -0.001;
+
+                            UpdateGraph(4, 0, (double)ultrasonicDistance);
+                            UpdateGraph(4, 1, (double)barometerDistance);
+                            break;*/
+                    }
+                }
+                catch (Exception ex)
                 {
-                    case 0x01:  //Gyro
-                        short valX = (short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
-                        short valY = (short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
-                        short valZ = (short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
-
-                        gyroX = valX;
-                        gyroY = valY;
-                        gyroZ = valZ;
-
-                        byte[] roll_angle_output = new byte[4];
-                        byte[] pitch_angle_output = new byte[4];
-                        byte[] yaw_angle_output = new byte[4];
-
-                        roll_angle_output[0] = (byte)serialPort1.ReadByte();
-                        roll_angle_output[1] = (byte)serialPort1.ReadByte();
-                        roll_angle_output[2] = (byte)serialPort1.ReadByte();
-                        roll_angle_output[3] = (byte)serialPort1.ReadByte();
-
-                        pitch_angle_output[0] = (byte)serialPort1.ReadByte();
-                        pitch_angle_output[1] = (byte)serialPort1.ReadByte();
-                        pitch_angle_output[2] = (byte)serialPort1.ReadByte();
-                        pitch_angle_output[3] = (byte)serialPort1.ReadByte();
-
-                        yaw_angle_output[0] = (byte)serialPort1.ReadByte();
-                        yaw_angle_output[1] = (byte)serialPort1.ReadByte();
-                        yaw_angle_output[2] = (byte)serialPort1.ReadByte();
-                        yaw_angle_output[3] = (byte)serialPort1.ReadByte();
-
-                        flight_mode = (short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
-
-                        //battery_voltage = (float)serialPort1.ReadByte();
-                        //battery_voltage += (float)Math.Truncate((double)serialPort1.ReadByte()) / 100f;
-                        raw_battery_voltage = ((short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte())));
-                        battery_voltage = (float)Math.Truncate(raw_battery_voltage * 5.6734f) / 100f;
-
-                        roll_angle = System.BitConverter.ToSingle(roll_angle_output, 0);
-                        pitch_angle = System.BitConverter.ToSingle(pitch_angle_output, 0);
-                        yaw_angle = System.BitConverter.ToSingle(yaw_angle_output, 0);
-
-                        UpdateGraph(0, 0, ((double)valX) / 65.5f);
-                        UpdateGraph(0, 1, ((double)valY) / 65.5f);
-                        UpdateGraph(0, 2, ((double)valZ) / 65.5f);
-
-                        UpdateGraph(3, 7, (double)roll_angle);
-                        UpdateGraph(3, 8, (double)pitch_angle);
-                        UpdateGraph(3, 9, (double)yaw_angle);
-
-                        break;
-
-                    case 0x02:  //Download PID
-                        byte[] p_gain = new byte[4];
-                        byte[] i_gain = new byte[4];
-                        byte[] d_gain = new byte[4];
-
-                        byte[] p_gain_yaw = new byte[4];
-                        byte[] i_gain_yaw = new byte[4];
-                        byte[] d_gain_yaw = new byte[4];
-
-                        byte[] levelrateBytes = new byte[4];
-
-                        p_gain[0] = (byte)serialPort1.ReadByte();
-                        p_gain[1] = (byte)serialPort1.ReadByte();
-                        p_gain[2] = (byte)serialPort1.ReadByte();
-                        p_gain[3] = (byte)serialPort1.ReadByte();
-
-                        i_gain[0] = (byte)serialPort1.ReadByte();
-                        i_gain[1] = (byte)serialPort1.ReadByte();
-                        i_gain[2] = (byte)serialPort1.ReadByte();
-                        i_gain[3] = (byte)serialPort1.ReadByte();
-
-                        d_gain[0] = (byte)serialPort1.ReadByte();
-                        d_gain[1] = (byte)serialPort1.ReadByte();
-                        d_gain[2] = (byte)serialPort1.ReadByte();
-                        d_gain[3] = (byte)serialPort1.ReadByte();
-
-                        p_gain_yaw[0] = (byte)serialPort1.ReadByte();
-                        p_gain_yaw[1] = (byte)serialPort1.ReadByte();
-                        p_gain_yaw[2] = (byte)serialPort1.ReadByte();
-                        p_gain_yaw[3] = (byte)serialPort1.ReadByte();
-
-                        i_gain_yaw[0] = (byte)serialPort1.ReadByte();
-                        i_gain_yaw[1] = (byte)serialPort1.ReadByte();
-                        i_gain_yaw[2] = (byte)serialPort1.ReadByte();
-                        i_gain_yaw[3] = (byte)serialPort1.ReadByte();
-
-                        d_gain_yaw[0] = (byte)serialPort1.ReadByte();
-                        d_gain_yaw[1] = (byte)serialPort1.ReadByte();
-                        d_gain_yaw[2] = (byte)serialPort1.ReadByte();
-                        d_gain_yaw[3] = (byte)serialPort1.ReadByte();
-
-                        levelrateBytes[0] = (byte)serialPort1.ReadByte();
-                        levelrateBytes[1] = (byte)serialPort1.ReadByte();
-                        levelrateBytes[2] = (byte)serialPort1.ReadByte();
-                        levelrateBytes[3] = (byte)serialPort1.ReadByte();
-
-                        p_gain_downloaded = System.BitConverter.ToSingle(p_gain, 0);
-                        i_gain_downloaded = System.BitConverter.ToSingle(i_gain, 0);
-                        d_gain_downloaded = System.BitConverter.ToSingle(d_gain, 0);
-
-                        p_gain_yaw_downloaded = System.BitConverter.ToSingle(p_gain_yaw, 0);
-                        i_gain_yaw_downloaded = System.BitConverter.ToSingle(i_gain_yaw, 0);
-                        d_gain_yaw_downloaded = System.BitConverter.ToSingle(d_gain_yaw, 0);
-
-                        level_rate = System.BitConverter.ToSingle(levelrateBytes, 0);
-
-                        updatePIDTextbox = true;
-
-                        waitingforpidreply = false;
-
-                        break;
-
-                    case 0x03:  //RC Input
-                        int throttleVal = (int)((((byte)serialPort1.ReadByte()) << 24) | (((byte)serialPort1.ReadByte()) << 16) | (((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte()));
-
-                        if (throttleVal != 0)
-                        {
-                            throttle = throttleVal;
-                            UpdateGraph(1, 3, ((double)throttleVal));
-                        }
-
-                        break;
-
-                    case 0x04:  //PID Outputs
-                        byte[] roll_output = new byte[4];
-                        byte[] pitch_output = new byte[4];
-                        byte[] yaw_output = new byte[4];
-
-                        roll_output[0] = (byte)serialPort1.ReadByte();
-                        roll_output[1] = (byte)serialPort1.ReadByte();
-                        roll_output[2] = (byte)serialPort1.ReadByte();
-                        roll_output[3] = (byte)serialPort1.ReadByte();
-
-                        pitch_output[0] = (byte)serialPort1.ReadByte();
-                        pitch_output[1] = (byte)serialPort1.ReadByte();
-                        pitch_output[2] = (byte)serialPort1.ReadByte();
-                        pitch_output[3] = (byte)serialPort1.ReadByte();
-
-                        yaw_output[0] = (byte)serialPort1.ReadByte();
-                        yaw_output[1] = (byte)serialPort1.ReadByte();
-                        yaw_output[2] = (byte)serialPort1.ReadByte();
-                        yaw_output[3] = (byte)serialPort1.ReadByte();
-
-                        roll_output_downloaded = System.BitConverter.ToInt32(roll_output, 0);
-                        pitch_output_downloaded = System.BitConverter.ToInt32(pitch_output, 0);
-                        yaw_output_downloaded = System.BitConverter.ToInt32(yaw_output, 0);
-
-                        UpdateGraph(2, 4, (double)roll_output_downloaded);
-                        UpdateGraph(2, 5, (double)pitch_output_downloaded);
-                        UpdateGraph(2, 6, (double)yaw_output_downloaded);
-
-                        //updatePIDOutputTextbox = true;
-                        break;
+                    statusWriteBuffer.Add("Failed");
                 }
             }
 
-            while(serialPort1.IsOpen && serialPort1.BytesToRead > 0)
+            while(SerialHelper.serialPort.IsOpen && SerialHelper.serialPort.BytesToRead > 0)
             {
-                serialPort1.ReadByte();
+                SerialHelper.serialPort.ReadByte();
             }
 
             timeSinceLastTelem = updateTimerStopwatch.ElapsedMilliseconds;
@@ -381,15 +489,17 @@ namespace GroundControlv1
 
         private void connect_btn_Click(object sender, EventArgs e)
         {
-            serialPort1.PortName = port_list.SelectedItem.ToString();
-            serialPort1.BaudRate = int.Parse(baud_list.SelectedItem.ToString());
+            SerialHelper.serialPort.DtrEnable = true;
+            SerialHelper.serialPort.PortName = port_list.SelectedItem.ToString();
+            SerialHelper.serialPort.BaudRate = int.Parse(baud_list.SelectedItem.ToString());
 
             try
             {
-                serialPort1.Open();
+                SerialHelper.serialPort.Open();
                 statusWriteBuffer.Add("Connected");
                 connect_btn.Visible = false;
                 disconnect_btn.Visible = true;
+                refreshcom_btn.Visible = false;
 
                 poshold_btn.Enabled = true;
                 rth_btn.Enabled = true;
@@ -411,9 +521,10 @@ namespace GroundControlv1
         {
             statusWriteBuffer.Add("Disconnected");
 
-            serialPort1.Close();
+            SerialHelper.serialPort.Close();
             disconnect_btn.Visible = false;
             connect_btn.Visible = true;
+            refreshcom_btn.Visible = true;
 
             poshold_btn.Enabled = false;
             rth_btn.Enabled = false;
@@ -428,39 +539,96 @@ namespace GroundControlv1
 
         private void UpdateGraph(int graphIndex, int curveIndex, double y)
         {
-            for (int i = 0; i < pointPairListArray[curveIndex].Count - 1; i++)
+            int localIndex = curveIndex;
+
+            for (int i = 0; i < graphCount; i++)
             {
-                pointPairListArray[curveIndex][i].Y = pointPairListArray[curveIndex][i + 1].Y;
+                if (i == graphIndex)
+                    break;
+
+                localIndex += graphCurveCounts[i];
+            }
+
+            Debug.Print(localIndex.ToString() + " : " + graphIndex.ToString());
+
+            for (int i = 0; i < pointPairListArray[localIndex].Count - 1; i++)
+            {
+                pointPairListArray[localIndex][i].Y = pointPairListArray[localIndex][i + 1].Y;
+
+                if (pointPairListArray[localIndex][i].Y > graphScales[graphIndex * 2])
+                {
+                    graphScales[graphIndex * 2] = pointPairListArray[localIndex][i].Y;
+                }
+
+                if (pointPairListArray[localIndex][i].Y < graphScales[graphIndex * 2 + 1])
+                {
+                    graphScales[graphIndex * 2 + 1] = pointPairListArray[localIndex][i].Y;
+                }
             }
 
             double x = 0;
 
-            if(pointPairListArray[curveIndex].Count >= graphXLength)
-                pointPairListArray[curveIndex].RemoveAt(pointPairListArray[curveIndex].Count - 1);
+            if(pointPairListArray[localIndex].Count >= graphXLength)
+                pointPairListArray[localIndex].RemoveAt(pointPairListArray[localIndex].Count - 1);
 
             PointPair pointPair = new PointPair(x, y);
 
-            pointPairListArray[curveIndex].Add(pointPair);
+            pointPairListArray[localIndex].Add(pointPair);
+
+            float bias = 0.2f;
+            float headRoom = 0f;
+
 
             if (graphIndex == 0)
             {
-                graphPaneArray[graphIndex].YAxis.Scale.Max = 10;
-                graphPaneArray[graphIndex].YAxis.Scale.Min = -10;
+                headRoom = .3f;
+
+                //graphPaneArray[graphIndex].YAxis.Scale.Max = 10;
+                //graphPaneArray[graphIndex].YAxis.Scale.Min = -10;
+
+                //graphPaneArray[graphIndex].YAxis.Scale.Max = (graphScales[graphIndex * 2] + graphScales[graphIndex * 2] * headRoom) * bias + graphPaneArray[graphIndex].YAxis.Scale.Max * (1f - bias);
+                //graphPaneArray[graphIndex].YAxis.Scale.Min = (graphScales[graphIndex * 2 + 1] + graphScales[graphIndex * 2 + 1] * headRoom) * bias + graphPaneArray[graphIndex].YAxis.Scale.Min * (1f - bias);
             }
             else if(graphIndex == 1)
             {
                 graphPaneArray[graphIndex].YAxis.Scale.Max = 2000;
                 graphPaneArray[graphIndex].YAxis.Scale.Min = 1000;
+
+                //graphPaneArray[graphIndex].YAxis.Scale.Max = (graphScales[graphIndex * 2] + graphScales[graphIndex * 2] * 0.1f) * bias + graphPaneArray[graphIndex].YAxis.Scale.Max * (1f - bias);
+                //graphPaneArray[graphIndex].YAxis.Scale.Min = (graphScales[graphIndex * 2 + 1] - graphScales[graphIndex * 2 + 1] * 0.1f) * bias + graphPaneArray[graphIndex].YAxis.Scale.Min * (1f - bias);
             }
             else if (graphIndex == 2)
             {
-                graphPaneArray[graphIndex].YAxis.Scale.Max = 450;
-                graphPaneArray[graphIndex].YAxis.Scale.Min = -450;
+                //graphPaneArray[graphIndex].YAxis.Scale.Max = 450;
+                //graphPaneArray[graphIndex].YAxis.Scale.Min = -450;
+                headRoom = 50f;
+
+                //graphPaneArray[graphIndex].YAxis.Scale.Max = (graphScales[graphIndex * 2] + graphScales[graphIndex * 2] * headRoom) * bias + graphPaneArray[graphIndex].YAxis.Scale.Max * (1f - bias);
+                //graphPaneArray[graphIndex].YAxis.Scale.Min = (graphScales[graphIndex * 2 + 1] + graphScales[graphIndex * 2 + 1] * headRoom) * bias + graphPaneArray[graphIndex].YAxis.Scale.Min * (1f - bias);
             }
             else if (graphIndex == 3)
             {
-                graphPaneArray[graphIndex].YAxis.Scale.Max = 180;
-                graphPaneArray[graphIndex].YAxis.Scale.Min = -180;
+                //graphPaneArray[graphIndex].YAxis.Scale.Max = 180;
+                //graphPaneArray[graphIndex].YAxis.Scale.Min = -180;
+                headRoom  = 2f;
+
+                //graphPaneArray[graphIndex].YAxis.Scale.Max = (graphScales[graphIndex * 2] + graphScales[graphIndex * 2] * headRoom) * bias + graphPaneArray[graphIndex].YAxis.Scale.Max * (1f - bias);
+                //graphPaneArray[graphIndex].YAxis.Scale.Min = (graphScales[graphIndex * 2 + 1] + graphScales[graphIndex * 2 + 1] * headRoom) * bias + graphPaneArray[graphIndex].YAxis.Scale.Min * (1f - bias);
+            }
+            else if(graphIndex == 4)
+            {
+                headRoom  = 0.3f;
+            }
+            else if (graphIndex == 5)
+            {
+                graphPaneArray[graphIndex].YAxis.Scale.Max = 4500;
+                graphPaneArray[graphIndex].YAxis.Scale.Min = 3800;
+            }
+
+            if (graphIndex != 1 && graphIndex != 5)
+            {
+                graphPaneArray[graphIndex].YAxis.Scale.Max = (graphScales[graphIndex * 2] + headRoom) * bias + graphPaneArray[graphIndex].YAxis.Scale.Max * (1f - bias);
+                graphPaneArray[graphIndex].YAxis.Scale.Min = (graphScales[graphIndex * 2 + 1] - headRoom) * bias + graphPaneArray[graphIndex].YAxis.Scale.Min * (1f - bias);
             }
 
             graphPaneArray[graphIndex].XAxis.Scale.Max = 0;
@@ -832,7 +1000,7 @@ namespace GroundControlv1
                 //askforpid = true;
             }
 
-            if(serialPort1.IsOpen && serialPort1.BytesToRead == 0)
+            if(SerialHelper.serialPort.IsOpen && SerialHelper.serialPort.BytesToRead == 0)
             {
                 if(askforpid)
                 {
@@ -841,18 +1009,19 @@ namespace GroundControlv1
                     waitingforpidTimer.Reset();
                     waitingforpidTimer.Start();
 
-                    serialPort1.Write(new byte[1] { 0x01 }, 0, 1);
+                    SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.PID_GAIN_FIRST_REQUEST);
                     askforpid = false;
                     statusWriteBuffer.Add("Downloaded PID values.");
                 }
                 else if(updatepid)
                 {
                     //serialPort1.Write(new byte[1] { 0x02 }, 0, 1);
-                    float[] gains = new float[7] { float.Parse(pgain_textbox.Text.ToString()), float.Parse(igain_textbox.Text.ToString()), float.Parse(dgain_textbox.Text.ToString()), float.Parse(pgainyaw_textbox.Text.ToString()), float.Parse(igainyaw_textbox.Text.ToString()), float.Parse(dgainyaw_textbox.Text.ToString()), float.Parse(levelrate_textbox.Text.ToString()) } ;
-                    byte[] p = new byte[29];
-                    p[0] = 0x02;
-                    System.Buffer.BlockCopy(gains, 0, p, 1, 28);
-                    serialPort1.Write(p, 0, 29);
+
+                    float[] gains = new float[6] { float.Parse(pgain_textbox.Text.ToString()), float.Parse(igain_textbox.Text.ToString()), float.Parse(dgain_textbox.Text.ToString()), float.Parse(pgainyaw_textbox.Text.ToString()), float.Parse(igainyaw_textbox.Text.ToString()), float.Parse(dgainyaw_textbox.Text.ToString()) } ;
+                    byte[] p = new byte[25];
+                    p[0] = (byte)SerialHelper.CommandFromSerial.PID_GAIN_FIRST_UPDATE_REQUEST;
+                    System.Buffer.BlockCopy(gains, 0, p, 1, 24);
+                    SerialHelper.serialPort.Write(p, 0, 25);
 
                     updatepid = false;
                     statusWriteBuffer.Add("Uploaded PID values.");
@@ -867,19 +1036,21 @@ namespace GroundControlv1
 
                     levelrate_textbox.Text = "~";
                 }
-                else if(calibrateGyro)
+
+                if(calibrateGyro)
                 {
                     statusWriteBuffer.Add("Calibrating Gyro...");
-                    serialPort1.Write(new byte[1] { 0x03 }, 0, 1);
+                    SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.CALIBRATE_REQUEST);
                     calibrateGyro = false;
                 }
-                else if(flightModeToSend > 0)
+
+                /*else if(flightModeToSend > 0)
                 {
                     statusWriteBuffer.Add("Changing Flight Mode...");
                     serialPort1.Write(new byte[3] { 0x04, (byte)((flightModeToSend >> 8) & 0xFF), (byte)(flightModeToSend & 0xFF) }, 0, 3);
 
                     flightModeToSend = 0;
-                }
+                }*/
             }
 
             if (markedToClear)
@@ -904,17 +1075,22 @@ namespace GroundControlv1
             gyrozraw_label.Text = gyroZ.ToString();
             throttle_label.Text = throttle.ToString();
             flight_mode_raw_label.Text = flight_mode.ToString();
+            looptime_label.Text = loopTime.ToString();
 
             battery_voltage_label.Text = "Battery: " + battery_voltage.ToString() + "V";
-            batteryraw_label.Text = raw_battery_voltage.ToString();
+            batteryraw_label1.Text = raw_battery_voltage.ToString();
 
             double x = Math.Truncate(roll_angle * 100) / 100;
             double y = Math.Truncate(pitch_angle * 100) / 100;
             double z = Math.Truncate(yaw_angle * 100) / 100;
+            double z1 = Math.Truncate(ultrasonicDistance * 100) / 100;
+            double z2 = Math.Truncate(barometerDistance * 100) / 100;
 
             roll_label.Text = string.Format("{0:N2}", x);
             pitch_label.Text = string.Format("{0:N2}", y);
             yaw_label.Text = string.Format("{0:N2}", z);
+            ultrasonicraw_label.Text = string.Format("{0:N2}", z1);
+            barometerraw_label.Text = string.Format("{0:N2}", z2);
 
             switch (flight_mode)
             {
@@ -931,7 +1107,10 @@ namespace GroundControlv1
                     flight_mode_label.Text = "Flight Mode: Auto Level - Armed";
                     break;
                 case 4:
-                    flight_mode_label.Text = "Flight Mode: Starting...";
+                    flight_mode_label.Text = "Flight Mode: Altitude Hold - Barometer";
+                    break;
+                case 5:
+                    flight_mode_label.Text = "Flight Mode: Altitude Hold - Ultrasonic";
                     break;
             }
         }
@@ -983,6 +1162,92 @@ namespace GroundControlv1
         private void disarm_btn_Click(object sender, EventArgs e)
         {
             flightModeToSend = 1;
+        }
+
+        private void refreshcom_btn_Click(object sender, EventArgs e)
+        {
+            RefreshComPorts();
+        }
+
+        private void recorddata_btn_Click(object sender, EventArgs e)
+        {
+            stoprecording_btn.Visible = true;
+            recorddata_btn.Visible = false;
+
+            DialogResult result = saveFileDialogLogging.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                loggingPath = Path.GetFullPath(saveFileDialogLogging.FileName);
+                isRecording = true;
+                File.WriteAllText(loggingPath, "");
+                dataFirstLine = true;
+            }
+            else if (result == DialogResult.Cancel)
+            {
+                stoprecording_btn.Visible = false;
+                recorddata_btn.Visible = true;
+                isRecording = false;
+            }
+        }
+
+        private void stoprecording_btn_Click(object sender, EventArgs e)
+        {
+            stoprecording_btn.Visible = false;
+            recorddata_btn.Visible = true;
+            isRecording = false;
+            dataFirstLine = true;
+            dataTimeCounter = 0;
+        }
+
+        private void logging_timer_Tick(object sender, EventArgs e)
+        {
+            if(isRecording)
+            {
+                string dataToLog;
+
+                if(dataFirstLine)
+                {
+                    dataToLog = "time(ms)\tgyro_x(deg/s)\tgyro_y(deg/s)\tgyro_z(deg/s)\torientation_roll(deg)\torientation_pitch(deg)\torientation_yaw(deg)\tthrottle\tbattery(V)\tloop_time(uS)\tpid_output_roll\tpid_output_pitch\tpid_output_yaw\tultrasonic_alt\tbaro_alt\tflight_mode\n";
+                    dataFirstLine = false;
+                    File.WriteAllText(loggingPath, dataToLog);
+                }
+                else
+                {
+                    //dataToLog = File.ReadAllText(loggingPath);
+                    dataTimeCounter += dataLogStopwatch.ElapsedMilliseconds;
+
+                    dataToLog = dataTimeCounter.ToString() + "\t";
+
+                    dataToLog += gyroX.ToString() + "\t";
+                    dataToLog += gyroY.ToString() + "\t";
+                    dataToLog += gyroZ.ToString() + "\t";
+
+                    dataToLog += roll_angle.ToString() + "\t";
+                    dataToLog += pitch_angle.ToString() + "\t";
+                    dataToLog += yaw_angle.ToString() + "\t";
+
+                    dataToLog += throttle.ToString() + "\t";
+
+                    dataToLog += battery_voltage.ToString() + "\t";
+
+                    dataToLog += loopTime.ToString() + "\t";
+
+                    dataToLog += roll_output_downloaded.ToString() + "\t";
+                    dataToLog += pitch_output_downloaded.ToString() + "\t";
+                    dataToLog += yaw_output_downloaded.ToString() + "\t";
+
+                    dataToLog += ultrasonicDistance.ToString() + "\t";
+                    dataToLog += barometerDistance.ToString() + "\t";
+                    dataToLog += flight_mode.ToString() + "\n";
+
+                    File.AppendAllText(loggingPath, dataToLog);
+                }
+
+                dataLogStopwatch.Stop();
+                dataLogStopwatch.Reset();
+                dataLogStopwatch.Start();
+            }
         }
 
         private void LoadMap()

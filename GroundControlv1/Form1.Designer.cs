@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.connect_btn = new System.Windows.Forms.Button();
             this.disconnect_btn = new System.Windows.Forms.Button();
             this.port_list = new System.Windows.Forms.ComboBox();
@@ -41,6 +40,11 @@
             this.throttleGraphControl = new ZedGraph.ZedGraphControl();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.stoprecording_btn = new System.Windows.Forms.Button();
+            this.recorddata_btn = new System.Windows.Forms.Button();
+            this.refreshcom_btn = new System.Windows.Forms.Button();
+            this.loopfrequencyGraphControl = new ZedGraph.ZedGraphControl();
+            this.altitudegraphControl = new ZedGraph.ZedGraphControl();
             this.battery_voltage_label = new System.Windows.Forms.Label();
             this.flight_mode_label = new System.Windows.Forms.Label();
             this.lasttelem_label = new System.Windows.Forms.Label();
@@ -111,6 +115,14 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.positionhold_marker = new System.Windows.Forms.Label();
             this.telemraw_groupBox = new System.Windows.Forms.GroupBox();
+            this.looptime_label = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.barometerraw_label = new System.Windows.Forms.Label();
+            this.ultrasonicraw_label = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.batteryraw_label1 = new System.Windows.Forms.Label();
+            this.batteryraw_label = new System.Windows.Forms.Label();
             this.yaw_label = new System.Windows.Forms.Label();
             this.pitch_label = new System.Windows.Forms.Label();
             this.roll_label = new System.Windows.Forms.Label();
@@ -128,8 +140,8 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.mainLoopTimer = new System.Windows.Forms.Timer(this.components);
-            this.label25 = new System.Windows.Forms.Label();
-            this.batteryraw_label = new System.Windows.Forms.Label();
+            this.logging_timer = new System.Windows.Forms.Timer(this.components);
+            this.saveFileDialogLogging = new System.Windows.Forms.SaveFileDialog();
             this.panel3.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
             this.statusterminal_groupBox.SuspendLayout();
@@ -143,13 +155,6 @@
             this.markerGroupBox.SuspendLayout();
             this.telemraw_groupBox.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // serialPort1
-            // 
-            this.serialPort1.BaudRate = 115200;
-            this.serialPort1.DtrEnable = true;
-            this.serialPort1.PortName = "COM13";
-            this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
             // connect_btn
             // 
@@ -259,6 +264,11 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.stoprecording_btn);
+            this.panel3.Controls.Add(this.recorddata_btn);
+            this.panel3.Controls.Add(this.refreshcom_btn);
+            this.panel3.Controls.Add(this.loopfrequencyGraphControl);
+            this.panel3.Controls.Add(this.altitudegraphControl);
             this.panel3.Controls.Add(this.battery_voltage_label);
             this.panel3.Controls.Add(this.flight_mode_label);
             this.panel3.Controls.Add(this.lasttelem_label);
@@ -277,10 +287,74 @@
             this.panel3.Size = new System.Drawing.Size(898, 1064);
             this.panel3.TabIndex = 12;
             // 
+            // stoprecording_btn
+            // 
+            this.stoprecording_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.stoprecording_btn.Location = new System.Drawing.Point(346, 13);
+            this.stoprecording_btn.Name = "stoprecording_btn";
+            this.stoprecording_btn.Size = new System.Drawing.Size(94, 23);
+            this.stoprecording_btn.TabIndex = 21;
+            this.stoprecording_btn.Text = "Stop Recording";
+            this.stoprecording_btn.UseVisualStyleBackColor = true;
+            this.stoprecording_btn.Visible = false;
+            this.stoprecording_btn.Click += new System.EventHandler(this.stoprecording_btn_Click);
+            // 
+            // recorddata_btn
+            // 
+            this.recorddata_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.recorddata_btn.Location = new System.Drawing.Point(346, 13);
+            this.recorddata_btn.Name = "recorddata_btn";
+            this.recorddata_btn.Size = new System.Drawing.Size(94, 23);
+            this.recorddata_btn.TabIndex = 20;
+            this.recorddata_btn.Text = "Record Data";
+            this.recorddata_btn.UseVisualStyleBackColor = true;
+            this.recorddata_btn.Click += new System.EventHandler(this.recorddata_btn_Click);
+            // 
+            // refreshcom_btn
+            // 
+            this.refreshcom_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.refreshcom_btn.Location = new System.Drawing.Point(246, 13);
+            this.refreshcom_btn.Name = "refreshcom_btn";
+            this.refreshcom_btn.Size = new System.Drawing.Size(94, 23);
+            this.refreshcom_btn.TabIndex = 19;
+            this.refreshcom_btn.Text = "Refresh COM";
+            this.refreshcom_btn.UseVisualStyleBackColor = true;
+            this.refreshcom_btn.Click += new System.EventHandler(this.refreshcom_btn_Click);
+            // 
+            // loopfrequencyGraphControl
+            // 
+            this.loopfrequencyGraphControl.Location = new System.Drawing.Point(346, 659);
+            this.loopfrequencyGraphControl.Name = "loopfrequencyGraphControl";
+            this.loopfrequencyGraphControl.ScrollGrace = 0D;
+            this.loopfrequencyGraphControl.ScrollMaxX = 0D;
+            this.loopfrequencyGraphControl.ScrollMaxY = 0D;
+            this.loopfrequencyGraphControl.ScrollMaxY2 = 0D;
+            this.loopfrequencyGraphControl.ScrollMinX = 0D;
+            this.loopfrequencyGraphControl.ScrollMinY = 0D;
+            this.loopfrequencyGraphControl.ScrollMinY2 = 0D;
+            this.loopfrequencyGraphControl.Size = new System.Drawing.Size(340, 200);
+            this.loopfrequencyGraphControl.TabIndex = 18;
+            this.loopfrequencyGraphControl.UseExtendedPrintDialog = true;
+            // 
+            // altitudegraphControl
+            // 
+            this.altitudegraphControl.Location = new System.Drawing.Point(346, 453);
+            this.altitudegraphControl.Name = "altitudegraphControl";
+            this.altitudegraphControl.ScrollGrace = 0D;
+            this.altitudegraphControl.ScrollMaxX = 0D;
+            this.altitudegraphControl.ScrollMaxY = 0D;
+            this.altitudegraphControl.ScrollMaxY2 = 0D;
+            this.altitudegraphControl.ScrollMinX = 0D;
+            this.altitudegraphControl.ScrollMinY = 0D;
+            this.altitudegraphControl.ScrollMinY2 = 0D;
+            this.altitudegraphControl.Size = new System.Drawing.Size(340, 200);
+            this.altitudegraphControl.TabIndex = 17;
+            this.altitudegraphControl.UseExtendedPrintDialog = true;
+            // 
             // battery_voltage_label
             // 
             this.battery_voltage_label.AutoSize = true;
-            this.battery_voltage_label.Location = new System.Drawing.Point(352, 32);
+            this.battery_voltage_label.Location = new System.Drawing.Point(352, 39);
             this.battery_voltage_label.Name = "battery_voltage_label";
             this.battery_voltage_label.Size = new System.Drawing.Size(46, 13);
             this.battery_voltage_label.TabIndex = 16;
@@ -289,7 +363,7 @@
             // flight_mode_label
             // 
             this.flight_mode_label.AutoSize = true;
-            this.flight_mode_label.Location = new System.Drawing.Point(352, 52);
+            this.flight_mode_label.Location = new System.Drawing.Point(352, 58);
             this.flight_mode_label.Name = "flight_mode_label";
             this.flight_mode_label.Size = new System.Drawing.Size(68, 13);
             this.flight_mode_label.TabIndex = 15;
@@ -298,7 +372,7 @@
             // lasttelem_label
             // 
             this.lasttelem_label.AutoSize = true;
-            this.lasttelem_label.Location = new System.Drawing.Point(174, 53);
+            this.lasttelem_label.Location = new System.Drawing.Point(174, 57);
             this.lasttelem_label.Name = "lasttelem_label";
             this.lasttelem_label.Size = new System.Drawing.Size(89, 13);
             this.lasttelem_label.TabIndex = 12;
@@ -577,7 +651,7 @@
             this.gyro_callibrate_btn.Name = "gyro_callibrate_btn";
             this.gyro_callibrate_btn.Size = new System.Drawing.Size(94, 23);
             this.gyro_callibrate_btn.TabIndex = 6;
-            this.gyro_callibrate_btn.Text = "Calibrate Gyro";
+            this.gyro_callibrate_btn.Text = "Calibrate Sensors";
             this.gyro_callibrate_btn.UseVisualStyleBackColor = true;
             this.gyro_callibrate_btn.Click += new System.EventHandler(this.gyro_callibrate_btn_Click);
             // 
@@ -980,7 +1054,13 @@
             // 
             // telemraw_groupBox
             // 
-            this.telemraw_groupBox.Controls.Add(this.label25);
+            this.telemraw_groupBox.Controls.Add(this.looptime_label);
+            this.telemraw_groupBox.Controls.Add(this.label26);
+            this.telemraw_groupBox.Controls.Add(this.barometerraw_label);
+            this.telemraw_groupBox.Controls.Add(this.ultrasonicraw_label);
+            this.telemraw_groupBox.Controls.Add(this.label30);
+            this.telemraw_groupBox.Controls.Add(this.label31);
+            this.telemraw_groupBox.Controls.Add(this.batteryraw_label1);
             this.telemraw_groupBox.Controls.Add(this.batteryraw_label);
             this.telemraw_groupBox.Controls.Add(this.yaw_label);
             this.telemraw_groupBox.Controls.Add(this.pitch_label);
@@ -1004,6 +1084,78 @@
             this.telemraw_groupBox.TabIndex = 8;
             this.telemraw_groupBox.TabStop = false;
             this.telemraw_groupBox.Text = "Telemetry Raw";
+            // 
+            // looptime_label
+            // 
+            this.looptime_label.AutoSize = true;
+            this.looptime_label.Location = new System.Drawing.Point(159, 122);
+            this.looptime_label.Name = "looptime_label";
+            this.looptime_label.Size = new System.Drawing.Size(14, 13);
+            this.looptime_label.TabIndex = 31;
+            this.looptime_label.Text = "~";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(98, 122);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(60, 13);
+            this.label26.TabIndex = 30;
+            this.label26.Text = "Loop Time:";
+            // 
+            // barometerraw_label
+            // 
+            this.barometerraw_label.AutoSize = true;
+            this.barometerraw_label.Location = new System.Drawing.Point(278, 47);
+            this.barometerraw_label.Name = "barometerraw_label";
+            this.barometerraw_label.Size = new System.Drawing.Size(14, 13);
+            this.barometerraw_label.TabIndex = 29;
+            this.barometerraw_label.Text = "~";
+            // 
+            // ultrasonicraw_label
+            // 
+            this.ultrasonicraw_label.AutoSize = true;
+            this.ultrasonicraw_label.Location = new System.Drawing.Point(278, 23);
+            this.ultrasonicraw_label.Name = "ultrasonicraw_label";
+            this.ultrasonicraw_label.Size = new System.Drawing.Size(14, 13);
+            this.ultrasonicraw_label.TabIndex = 28;
+            this.ultrasonicraw_label.Text = "~";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(217, 47);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(58, 13);
+            this.label30.TabIndex = 27;
+            this.label30.Text = "Barometer:";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(217, 22);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(57, 13);
+            this.label31.TabIndex = 26;
+            this.label31.Text = "Ultrasonic:";
+            // 
+            // batteryraw_label1
+            // 
+            this.batteryraw_label1.AutoSize = true;
+            this.batteryraw_label1.Location = new System.Drawing.Point(159, 98);
+            this.batteryraw_label1.Name = "batteryraw_label1";
+            this.batteryraw_label1.Size = new System.Drawing.Size(14, 13);
+            this.batteryraw_label1.TabIndex = 25;
+            this.batteryraw_label1.Text = "~";
+            // 
+            // batteryraw_label
+            // 
+            this.batteryraw_label.AutoSize = true;
+            this.batteryraw_label.Location = new System.Drawing.Point(98, 98);
+            this.batteryraw_label.Name = "batteryraw_label";
+            this.batteryraw_label.Size = new System.Drawing.Size(43, 13);
+            this.batteryraw_label.TabIndex = 24;
+            this.batteryraw_label.Text = "Battery:";
             // 
             // yaw_label
             // 
@@ -1155,23 +1307,10 @@
             this.mainLoopTimer.Interval = 10;
             this.mainLoopTimer.Tick += new System.EventHandler(this.mainLoopTimer_Tick);
             // 
-            // label25
+            // logging_timer
             // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(159, 98);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(14, 13);
-            this.label25.TabIndex = 25;
-            this.label25.Text = "~";
-            // 
-            // batteryraw_label
-            // 
-            this.batteryraw_label.AutoSize = true;
-            this.batteryraw_label.Location = new System.Drawing.Point(98, 98);
-            this.batteryraw_label.Name = "batteryraw_label";
-            this.batteryraw_label.Size = new System.Drawing.Size(43, 13);
-            this.batteryraw_label.TabIndex = 24;
-            this.batteryraw_label.Text = "Battery:";
+            this.logging_timer.Enabled = true;
+            this.logging_timer.Tick += new System.EventHandler(this.logging_timer_Tick);
             // 
             // Form1
             // 
@@ -1223,7 +1362,6 @@
         }
 
         #endregion
-        public System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.Button connect_btn;
         private System.Windows.Forms.Button disconnect_btn;
         private System.Windows.Forms.ComboBox port_list;
@@ -1322,8 +1460,21 @@
         private System.Windows.Forms.Button disarm_btn;
         private System.Windows.Forms.TextBox levelrate_textbox;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label batteryraw_label1;
         private System.Windows.Forms.Label batteryraw_label;
+        private ZedGraph.ZedGraphControl altitudegraphControl;
+        private System.Windows.Forms.Label barometerraw_label;
+        private System.Windows.Forms.Label ultrasonicraw_label;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label31;
+        private ZedGraph.ZedGraphControl loopfrequencyGraphControl;
+        private System.Windows.Forms.Label looptime_label;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Button refreshcom_btn;
+        private System.Windows.Forms.Button stoprecording_btn;
+        private System.Windows.Forms.Button recorddata_btn;
+        private System.Windows.Forms.Timer logging_timer;
+        private System.Windows.Forms.SaveFileDialog saveFileDialogLogging;
     }
 }
 
