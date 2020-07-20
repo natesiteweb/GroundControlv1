@@ -47,13 +47,13 @@ namespace GroundControlv1
         bool markedToClear = false;
 
         const int graphCount = 6;
-        const int curveCount = 14;
+        const int curveCount = 16;
 
         ZedGraphControl[] graphControlArray = new ZedGraphControl[graphCount];
         GraphPane[] graphPaneArray = new GraphPane[graphCount];
         PointPairList[] pointPairListArray = new PointPairList[curveCount];
         double[] graphScales = new double[graphCount * 2];
-        int[] graphCurveCounts = new int[graphCount] { 3, 1, 4, 3, 2, 1 };
+        int[] graphCurveCounts = new int[graphCount] { 3, 1, 4, 3, 3, 1 };
         int graphXLength = 150;
         bool[] markedToUpdateGraphs = new bool[curveCount];
 
@@ -79,6 +79,14 @@ namespace GroundControlv1
         float p_gain_yaw_downloaded = 0f;
         float i_gain_yaw_downloaded = 0f;
         float d_gain_yaw_downloaded = 0f;
+        float p_gain_altitude_downloaded = 0f;
+        float i_gain_altitude_downloaded = 0f;
+        float d_gain_altitude_downloaded = 0f;
+
+        float p_gain_altitude_captured = 0f;
+        float i_gain_altitude_captured = 0f;
+        float d_gain_altitude_captured = 0f;
+
         bool updatePIDTextbox = false;
 
         float battery_voltage = 0f;
@@ -93,13 +101,18 @@ namespace GroundControlv1
         bool updatePIDOutputTextbox = false;
 
         bool askforpid = false;
+        bool askforpid2 = false;
         bool waitingforpidreply = false;
         bool updatepid = false;
+        bool updatepid2 = false;
         bool calibrateGyro = false;
 
         short flightModeToSend = 0;
 
         Stopwatch waitingforpidTimer = new Stopwatch();
+
+        Stopwatch waitingsecondPIDTimer = new Stopwatch();
+        Stopwatch waitingsecondPIDTimer2 = new Stopwatch();
 
         public Form1()
         {
@@ -213,9 +226,11 @@ namespace GroundControlv1
             curveIndex++;
 
             graphPaneArray[4].Title.Text = "Altitude";
-            LineItem lineItemUltrasonic = graphPaneArray[4].AddCurve("Ultrasonic", pointPairListArray[curveIndex], Color.Red, SymbolType.None);
+            LineItem lineItemUltrasonic = graphPaneArray[4].AddCurve("Ultrasonic", pointPairListArray[curveIndex], Color.Green, SymbolType.None);
             curveIndex++;
             LineItem lineItemBarometer = graphPaneArray[4].AddCurve("Barometer", pointPairListArray[curveIndex], Color.Blue, SymbolType.None);
+            curveIndex++;
+            LineItem lineItemAltSetpoint = graphPaneArray[4].AddCurve("Setpoint", pointPairListArray[curveIndex], Color.Red, SymbolType.None);
             curveIndex++;
 
             graphPaneArray[5].Title.Text = "Control Loop Time";
@@ -290,6 +305,12 @@ namespace GroundControlv1
                             UpdateGraph(3, 2, (double)yaw_angle);
 
                             UpdateGraph(5, 0, (double)loopTime);
+
+                            markedToUpdateGraphs[0] = true;
+
+                            markedToUpdateGraphs[3] = true;
+
+                            markedToUpdateGraphs[5] = true;
 
                             /*byte[] valX = new byte[2];
                             byte[] valY = new byte[2];
@@ -373,13 +394,6 @@ namespace GroundControlv1
 
                         case (byte)SerialHelper.CommandFromSerial.PID_GAIN_FIRST_PACKET:  //Download PID
 
-                            byte[] levelrateBytes = new byte[4];
-
-                            /*levelrateBytes[0] = (byte)serialPort1.ReadByte();
-                            levelrateBytes[1] = (byte)serialPort1.ReadByte();
-                            levelrateBytes[2] = (byte)serialPort1.ReadByte();
-                            levelrateBytes[3] = (byte)serialPort1.ReadByte();*/
-
                             p_gain_downloaded = SerialHelper.ReadFloat();
                             i_gain_downloaded = SerialHelper.ReadFloat();
                             d_gain_downloaded = SerialHelper.ReadFloat();
@@ -388,7 +402,16 @@ namespace GroundControlv1
                             i_gain_yaw_downloaded = SerialHelper.ReadFloat();
                             d_gain_yaw_downloaded = SerialHelper.ReadFloat();
 
-                            //level_rate = System.BitConverter.ToSingle(levelrateBytes, 0);
+                            updatePIDTextbox = true;
+
+                            waitingforpidreply = false;
+
+                            break;
+                        case (byte)SerialHelper.CommandFromSerial.PID_GAIN_SECOND_PACKET:  //Download PID 2
+
+                            p_gain_altitude_downloaded = SerialHelper.ReadFloat();
+                            i_gain_altitude_downloaded = SerialHelper.ReadFloat();
+                            d_gain_altitude_downloaded = SerialHelper.ReadFloat();
 
                             updatePIDTextbox = true;
 
@@ -419,6 +442,7 @@ namespace GroundControlv1
                             roll_output_downloaded = SerialHelper.ReadInt32();
                             pitch_output_downloaded = SerialHelper.ReadInt32();
                             yaw_output_downloaded = SerialHelper.ReadInt32();
+                            throttle_output_downloaded = SerialHelper.ReadInt32();
                             //throttle_output_downloaded = System.BitConverter.ToInt32(throttle_output, 0);
 
                             graphScales[6] = 0.001;
@@ -427,33 +451,27 @@ namespace GroundControlv1
                             UpdateGraph(2, 0, (double)roll_output_downloaded);
                             UpdateGraph(2, 1, (double)pitch_output_downloaded);
                             UpdateGraph(2, 2, (double)yaw_output_downloaded);
+                            UpdateGraph(2, 3, (double)throttle_output_downloaded);
+
+                            markedToUpdateGraphs[2] = true;
+
                             //UpdateGraph(2, 3, (double)-throttle_output_downloaded);
 
                             //updatePIDOutputTextbox = true;
                             break;
-                        /*case 0x06: //Altitudes
-                            byte[] ultrasonic = new byte[4];
-                            byte[] bmpAlt = new byte[4];
-
-                            ultrasonic[0] = (byte)serialPort1.ReadByte();
-                            ultrasonic[1] = (byte)serialPort1.ReadByte();
-                            ultrasonic[2] = (byte)serialPort1.ReadByte();
-                            ultrasonic[3] = (byte)serialPort1.ReadByte();
-
-                            bmpAlt[0] = (byte)serialPort1.ReadByte();
-                            bmpAlt[1] = (byte)serialPort1.ReadByte();
-                            bmpAlt[2] = (byte)serialPort1.ReadByte();
-                            bmpAlt[3] = (byte)serialPort1.ReadByte();
-
-                            ultrasonicDistance = System.BitConverter.ToSingle(ultrasonic, 0);
-                            barometerDistance = System.BitConverter.ToSingle(bmpAlt, 0);
+                        case (byte)SerialHelper.CommandFromSerial.ALTITUDE_PACKET: //Altitudes
+                            barometerDistance = SerialHelper.ReadFloat();
+                            ultrasonicDistance = SerialHelper.ReadFloat();
 
                             graphScales[8] = 0.001;
                             graphScales[9] = -0.001;
 
                             UpdateGraph(4, 0, (double)ultrasonicDistance);
                             UpdateGraph(4, 1, (double)barometerDistance);
-                            break;*/
+                            UpdateGraph(4, 2, (double)0.500);
+
+                            markedToUpdateGraphs[4] = true;
+                            break;
                     }
                 }
                 catch (Exception ex)
@@ -539,6 +557,9 @@ namespace GroundControlv1
 
         private void UpdateGraph(int graphIndex, int curveIndex, double y)
         {
+            if (markedToUpdateGraphs[graphIndex])
+                return;
+
             int localIndex = curveIndex;
 
             for (int i = 0; i < graphCount; i++)
@@ -575,7 +596,7 @@ namespace GroundControlv1
 
             pointPairListArray[localIndex].Add(pointPair);
 
-            float bias = 0.2f;
+            float bias = 0.01f;
             float headRoom = 0f;
 
 
@@ -633,9 +654,6 @@ namespace GroundControlv1
 
             graphPaneArray[graphIndex].XAxis.Scale.Max = 0;
             graphPaneArray[graphIndex].XAxis.Scale.Min = -graphXLength;
-
-            graphPaneArray[graphIndex].AxisChange();
-            markedToUpdateGraphs[graphIndex] = true;
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -962,7 +980,10 @@ namespace GroundControlv1
             {
                 if (markedToUpdateGraphs[i])
                 {
-                    graphControlArray[i].Refresh();
+                    graphPaneArray[i].AxisChange();
+                    //graphControlArray[i].Update();
+                    graphControlArray[i].Invalidate();
+                    //graphControlArray[i].Refresh();
                     markedToUpdateGraphs[i] = false;
                 }
             }
@@ -979,7 +1000,9 @@ namespace GroundControlv1
                 igainyaw_textbox.Text = i_gain_yaw_downloaded.ToString();
                 dgainyaw_textbox.Text = d_gain_yaw_downloaded.ToString();
 
-                levelrate_textbox.Text = level_rate.ToString();
+                pgainaltitude_textbox.Text = p_gain_altitude_downloaded.ToString();
+                igainaltitude_textbox.Text = i_gain_altitude_downloaded.ToString();
+                dgainaltitude_textbox.Text = d_gain_altitude_downloaded.ToString();
             }
 
             /*if (updatePIDOutputTextbox)
@@ -1011,7 +1034,19 @@ namespace GroundControlv1
 
                     SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.PID_GAIN_FIRST_REQUEST);
                     askforpid = false;
+                    askforpid2 = true;
                     statusWriteBuffer.Add("Downloaded PID values.");
+
+                    waitingsecondPIDTimer2.Reset();
+                    waitingsecondPIDTimer2.Stop();
+                    waitingsecondPIDTimer2.Start();
+                }
+                else if (askforpid2 && waitingsecondPIDTimer2.IsRunning && waitingsecondPIDTimer2.ElapsedMilliseconds > 200)
+                {
+                    waitingsecondPIDTimer.Stop();
+
+                    SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.PID_GAIN_SECOND_REQUEST);
+                    askforpid2 = false;
                 }
                 else if(updatepid)
                 {
@@ -1024,7 +1059,12 @@ namespace GroundControlv1
                     SerialHelper.serialPort.Write(p, 0, 25);
 
                     updatepid = false;
+                    updatepid2 = true;
                     statusWriteBuffer.Add("Uploaded PID values.");
+
+                    p_gain_altitude_captured = float.Parse(pgainaltitude_textbox.Text.ToString());
+                    i_gain_altitude_captured = float.Parse(igainaltitude_textbox.Text.ToString());
+                    d_gain_altitude_captured = float.Parse(dgainaltitude_textbox.Text.ToString());
 
                     pgain_textbox.Text = "~";
                     igain_textbox.Text = "~";
@@ -1034,7 +1074,24 @@ namespace GroundControlv1
                     igainyaw_textbox.Text = "~";
                     dgainyaw_textbox.Text = "~";
 
-                    levelrate_textbox.Text = "~";
+                    pgainaltitude_textbox.Text = "~";
+                    igainaltitude_textbox.Text = "~";
+                    dgainaltitude_textbox.Text = "~";
+
+                    waitingsecondPIDTimer.Reset();
+                    waitingsecondPIDTimer.Stop();
+                    waitingsecondPIDTimer.Start();
+                }
+                else if (updatepid2 && waitingsecondPIDTimer.IsRunning && waitingsecondPIDTimer.ElapsedMilliseconds > 200)
+                {
+                    float[] gains = new float[3] { p_gain_altitude_captured, i_gain_altitude_captured, d_gain_altitude_captured };
+                    byte[] p = new byte[13];
+                    p[0] = (byte)SerialHelper.CommandFromSerial.PID_GAIN_SECOND_UPDATE_REQUEST;
+                    System.Buffer.BlockCopy(gains, 0, p, 1, 12);
+                    SerialHelper.serialPort.Write(p, 0, 13);
+
+                    waitingsecondPIDTimer.Stop();
+                    updatepid2 = false;
                 }
 
                 if(calibrateGyro)
@@ -1107,10 +1164,10 @@ namespace GroundControlv1
                     flight_mode_label.Text = "Flight Mode: Auto Level - Armed";
                     break;
                 case 4:
-                    flight_mode_label.Text = "Flight Mode: Altitude Hold - Barometer";
+                    flight_mode_label.Text = "Flight Mode: Altitude Hold - Ultrasonic";
                     break;
                 case 5:
-                    flight_mode_label.Text = "Flight Mode: Altitude Hold - Ultrasonic";
+                    flight_mode_label.Text = "Flight Mode: Altitude Hold - Barometer";
                     break;
             }
         }
@@ -1136,7 +1193,9 @@ namespace GroundControlv1
             igainyaw_textbox.Text = "~";
             dgainyaw_textbox.Text = "~";
 
-            levelrate_textbox.Text = "~";
+            pgainaltitude_textbox.Text = "~";
+            igainaltitude_textbox.Text = "~";
+            dgainaltitude_textbox.Text = "~";
         }
 
         private void uploadtuning_btn_Click(object sender, EventArgs e)

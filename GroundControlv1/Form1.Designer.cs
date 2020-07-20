@@ -51,8 +51,6 @@
             this.orientationGraphControl = new ZedGraph.ZedGraphControl();
             this.pidoutputGraphControl = new ZedGraph.ZedGraphControl();
             this.tuning_groupBox = new System.Windows.Forms.GroupBox();
-            this.levelrate_textbox = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
@@ -142,6 +140,12 @@
             this.mainLoopTimer = new System.Windows.Forms.Timer(this.components);
             this.logging_timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialogLogging = new System.Windows.Forms.SaveFileDialog();
+            this.dgainaltitude_textbox = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.igainaltitude_textbox = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.pgainaltitude_textbox = new System.Windows.Forms.TextBox();
+            this.label32 = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
             this.statusterminal_groupBox.SuspendLayout();
@@ -410,8 +414,12 @@
             // 
             // tuning_groupBox
             // 
-            this.tuning_groupBox.Controls.Add(this.levelrate_textbox);
+            this.tuning_groupBox.Controls.Add(this.dgainaltitude_textbox);
             this.tuning_groupBox.Controls.Add(this.label24);
+            this.tuning_groupBox.Controls.Add(this.igainaltitude_textbox);
+            this.tuning_groupBox.Controls.Add(this.label25);
+            this.tuning_groupBox.Controls.Add(this.pgainaltitude_textbox);
+            this.tuning_groupBox.Controls.Add(this.label32);
             this.tuning_groupBox.Controls.Add(this.label19);
             this.tuning_groupBox.Controls.Add(this.label20);
             this.tuning_groupBox.Controls.Add(this.label21);
@@ -432,22 +440,6 @@
             this.tuning_groupBox.TabIndex = 12;
             this.tuning_groupBox.TabStop = false;
             this.tuning_groupBox.Text = "Tuning";
-            // 
-            // levelrate_textbox
-            // 
-            this.levelrate_textbox.Location = new System.Drawing.Point(9, 113);
-            this.levelrate_textbox.Name = "levelrate_textbox";
-            this.levelrate_textbox.Size = new System.Drawing.Size(79, 20);
-            this.levelrate_textbox.TabIndex = 27;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(6, 97);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(62, 13);
-            this.label24.TabIndex = 26;
-            this.label24.Text = "Level Rate:";
             // 
             // label19
             // 
@@ -1304,13 +1296,61 @@
             // mainLoopTimer
             // 
             this.mainLoopTimer.Enabled = true;
-            this.mainLoopTimer.Interval = 10;
+            this.mainLoopTimer.Interval = 1;
             this.mainLoopTimer.Tick += new System.EventHandler(this.mainLoopTimer_Tick);
             // 
             // logging_timer
             // 
             this.logging_timer.Enabled = true;
             this.logging_timer.Tick += new System.EventHandler(this.logging_timer_Tick);
+            // 
+            // dgainaltitude_textbox
+            // 
+            this.dgainaltitude_textbox.Location = new System.Drawing.Point(29, 145);
+            this.dgainaltitude_textbox.Name = "dgainaltitude_textbox";
+            this.dgainaltitude_textbox.Size = new System.Drawing.Size(59, 20);
+            this.dgainaltitude_textbox.TabIndex = 31;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(6, 149);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(25, 13);
+            this.label24.TabIndex = 30;
+            this.label24.Text = "DA:";
+            // 
+            // igainaltitude_textbox
+            // 
+            this.igainaltitude_textbox.Location = new System.Drawing.Point(29, 119);
+            this.igainaltitude_textbox.Name = "igainaltitude_textbox";
+            this.igainaltitude_textbox.Size = new System.Drawing.Size(59, 20);
+            this.igainaltitude_textbox.TabIndex = 29;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(6, 122);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(20, 13);
+            this.label25.TabIndex = 28;
+            this.label25.Text = "IA:";
+            // 
+            // pgainaltitude_textbox
+            // 
+            this.pgainaltitude_textbox.Location = new System.Drawing.Point(29, 93);
+            this.pgainaltitude_textbox.Name = "pgainaltitude_textbox";
+            this.pgainaltitude_textbox.Size = new System.Drawing.Size(59, 20);
+            this.pgainaltitude_textbox.TabIndex = 27;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(6, 97);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(24, 13);
+            this.label32.TabIndex = 26;
+            this.label32.Text = "PA:";
             // 
             // Form1
             // 
@@ -1458,8 +1498,6 @@
         private System.Windows.Forms.Button ratemode_btn;
         private System.Windows.Forms.Button levelmode_btn;
         private System.Windows.Forms.Button disarm_btn;
-        private System.Windows.Forms.TextBox levelrate_textbox;
-        private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label batteryraw_label1;
         private System.Windows.Forms.Label batteryraw_label;
         private ZedGraph.ZedGraphControl altitudegraphControl;
@@ -1475,6 +1513,12 @@
         private System.Windows.Forms.Button recorddata_btn;
         private System.Windows.Forms.Timer logging_timer;
         private System.Windows.Forms.SaveFileDialog saveFileDialogLogging;
+        private System.Windows.Forms.TextBox dgainaltitude_textbox;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.TextBox igainaltitude_textbox;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.TextBox pgainaltitude_textbox;
+        private System.Windows.Forms.Label label32;
     }
 }
 
