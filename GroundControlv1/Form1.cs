@@ -1343,6 +1343,10 @@ namespace GroundControlv1
 
         private void pauserecording_btn_Click(object sender, EventArgs e)
         {
+            if (recordingPaused)
+                pauserecording_btn.Text = "Pause";
+            else pauserecording_btn.Text = "Resume";
+
             recordingPaused = !recordingPaused;
         }
 

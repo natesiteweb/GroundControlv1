@@ -40,6 +40,7 @@
             this.throttleGraphControl = new ZedGraph.ZedGraphControl();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.pauserecording_btn = new System.Windows.Forms.Button();
             this.stoprecording_btn = new System.Windows.Forms.Button();
             this.recorddata_btn = new System.Windows.Forms.Button();
             this.refreshcom_btn = new System.Windows.Forms.Button();
@@ -146,7 +147,6 @@
             this.mainLoopTimer = new System.Windows.Forms.Timer(this.components);
             this.logging_timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialogLogging = new System.Windows.Forms.SaveFileDialog();
-            this.pauserecording_btn = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
             this.statusterminal_groupBox.SuspendLayout();
@@ -292,6 +292,18 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(898, 1064);
             this.panel3.TabIndex = 12;
+            // 
+            // pauserecording_btn
+            // 
+            this.pauserecording_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.pauserecording_btn.Location = new System.Drawing.Point(446, 13);
+            this.pauserecording_btn.Name = "pauserecording_btn";
+            this.pauserecording_btn.Size = new System.Drawing.Size(94, 23);
+            this.pauserecording_btn.TabIndex = 22;
+            this.pauserecording_btn.Text = "Pause";
+            this.pauserecording_btn.UseVisualStyleBackColor = true;
+            this.pauserecording_btn.Visible = false;
+            this.pauserecording_btn.Click += new System.EventHandler(this.pauserecording_btn_Click);
             // 
             // stoprecording_btn
             // 
@@ -1353,18 +1365,6 @@
             // 
             this.logging_timer.Enabled = true;
             this.logging_timer.Tick += new System.EventHandler(this.logging_timer_Tick);
-            // 
-            // pauserecording_btn
-            // 
-            this.pauserecording_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.pauserecording_btn.Location = new System.Drawing.Point(446, 13);
-            this.pauserecording_btn.Name = "pauserecording_btn";
-            this.pauserecording_btn.Size = new System.Drawing.Size(106, 23);
-            this.pauserecording_btn.TabIndex = 22;
-            this.pauserecording_btn.Text = "Pause Recording";
-            this.pauserecording_btn.UseVisualStyleBackColor = true;
-            this.pauserecording_btn.Visible = false;
-            this.pauserecording_btn.Click += new System.EventHandler(this.pauserecording_btn_Click);
             // 
             // Form1
             // 
