@@ -37,6 +37,7 @@ namespace GroundControlv1
         int dataFileCounter = 0;
         int dataLineCounter = 0;
         bool dataFirstLine = true;
+        bool recordingPaused = false;
         double dataTimeCounter = 0;
 
         System.Windows.Forms.Label[] allMarkers = new System.Windows.Forms.Label[3];
@@ -1234,6 +1235,7 @@ namespace GroundControlv1
         {
             stoprecording_btn.Visible = true;
             recorddata_btn.Visible = false;
+            pauserecording_btn.Visible = true;
 
             DialogResult result = saveFileDialogLogging.ShowDialog();
 
@@ -1248,6 +1250,7 @@ namespace GroundControlv1
             else if (result == DialogResult.Cancel)
             {
                 stoprecording_btn.Visible = false;
+                pauserecording_btn.Visible = false;
                 recorddata_btn.Visible = true;
                 isRecording = false;
             }
@@ -1257,6 +1260,7 @@ namespace GroundControlv1
         {
             stoprecording_btn.Visible = false;
             recorddata_btn.Visible = true;
+            pauserecording_btn.Visible = false;
             isRecording = false;
             dataFirstLine = true;
             dataTimeCounter = 0;
@@ -1266,53 +1270,63 @@ namespace GroundControlv1
         {
             if(isRecording)
             {
+                dataTimeCounter += dataLogStopwatch.ElapsedMilliseconds;
+
                 string dataToLog;
 
-                if(dataFirstLine)
+                if (!recordingPaused)
                 {
-                    dataToLog = "time(ms)\tgyro_x(deg/s)\tgyro_y(deg/s)\tgyro_z(deg/s)\torientation_roll(deg)\torientation_pitch(deg)\torientation_yaw(deg)\tthrottle\tbattery(V)\tloop_time(uS)\tpid_output_roll\tpid_output_pitch\tpid_output_yaw\tpid_output_throttle\tultrasonic_alt\tbaro_alt\tflight_mode\n";
-                    dataFirstLine = false;
-                    File.WriteAllText(loggingPath + "-" + dataFileCounter.ToString() + ".txt", dataToLog);
-                    dataLineCounter++;
-                }
-                else
-                {
-                    //dataToLog = File.ReadAllText(loggingPath);
-                    dataTimeCounter += dataLogStopwatch.ElapsedMilliseconds;
 
-                    dataToLog = dataTimeCounter.ToString() + "\t";
-
-                    dataToLog += gyroX.ToString() + "\t";
-                    dataToLog += gyroY.ToString() + "\t";
-                    dataToLog += gyroZ.ToString() + "\t";
-
-                    dataToLog += roll_angle.ToString() + "\t";
-                    dataToLog += pitch_angle.ToString() + "\t";
-                    dataToLog += yaw_angle.ToString() + "\t";
-
-                    dataToLog += throttle.ToString() + "\t";
-
-                    dataToLog += battery_voltage.ToString() + "\t";
-
-                    dataToLog += loopTime.ToString() + "\t";
-
-                    dataToLog += roll_output_downloaded.ToString() + "\t";
-                    dataToLog += pitch_output_downloaded.ToString() + "\t";
-                    dataToLog += yaw_output_downloaded.ToString() + "\t";
-                    dataToLog += throttle_output_downloaded.ToString() + "\t";
-
-                    dataToLog += ultrasonicDistance.ToString() + "\t";
-                    dataToLog += barometerDistance.ToString() + "\t";
-                    dataToLog += flight_mode.ToString() + "\n";
-
-                    File.AppendAllText(loggingPath + "-" + dataFileCounter.ToString() + ".txt", dataToLog);
-                    dataLineCounter++;
-
-                    if(dataLineCounter > 300)
+                    if (dataFirstLine)
                     {
-                        dataLineCounter = 0;
-                        dataFirstLine = true;
-                        dataFileCounter++;
+                        dataToLog = "time(ms)\tgyro_x(deg/s)\tgyro_y(deg/s)\tgyro_z(deg/s)\torientation_roll(deg)\torientation_pitch(deg)\torientation_yaw(deg)\tthrottle\tbattery(V)\tloop_time(uS)\tpid_output_roll\tpid_output_pitch\tpid_output_yaw\tpid_output_throttle\tultrasonic_alt\tbaro_alt\tflight_mode\tp_gain_altitude\ti_gain_altitude\td_gain_altitude\n";
+                        dataFirstLine = false;
+                        File.WriteAllText(loggingPath + "-" + dataFileCounter.ToString() + ".txt", dataToLog);
+                        dataLineCounter++;
+                    }
+                    else
+                    {
+                        //dataToLog = File.ReadAllText(loggingPath);
+                        //dataTimeCounter += dataLogStopwatch.ElapsedMilliseconds;
+
+                        dataToLog = dataTimeCounter.ToString() + "\t";
+
+                        dataToLog += gyroX.ToString() + "\t";
+                        dataToLog += gyroY.ToString() + "\t";
+                        dataToLog += gyroZ.ToString() + "\t";
+
+                        dataToLog += roll_angle.ToString() + "\t";
+                        dataToLog += pitch_angle.ToString() + "\t";
+                        dataToLog += yaw_angle.ToString() + "\t";
+
+                        dataToLog += throttle.ToString() + "\t";
+
+                        dataToLog += battery_voltage.ToString() + "\t";
+
+                        dataToLog += loopTime.ToString() + "\t";
+
+                        dataToLog += roll_output_downloaded.ToString() + "\t";
+                        dataToLog += pitch_output_downloaded.ToString() + "\t";
+                        dataToLog += yaw_output_downloaded.ToString() + "\t";
+                        dataToLog += throttle_output_downloaded.ToString() + "\t";
+
+                        dataToLog += ultrasonicDistance.ToString() + "\t";
+                        dataToLog += barometerDistance.ToString() + "\t";
+                        dataToLog += flight_mode.ToString() + "\t";
+
+                        dataToLog += p_gain_altitude_downloaded.ToString() + "\t";
+                        dataToLog += i_gain_altitude_downloaded.ToString() + "\t";
+                        dataToLog += d_gain_altitude_downloaded.ToString() + "\n";
+
+                        File.AppendAllText(loggingPath + "-" + dataFileCounter.ToString() + ".txt", dataToLog);
+                        dataLineCounter++;
+
+                        if (dataLineCounter > 300)
+                        {
+                            dataLineCounter = 0;
+                            dataFirstLine = true;
+                            dataFileCounter++;
+                        }
                     }
                 }
 
@@ -1320,6 +1334,11 @@ namespace GroundControlv1
                 dataLogStopwatch.Reset();
                 dataLogStopwatch.Start();
             }
+        }
+
+        private void pauserecording_btn_Click(object sender, EventArgs e)
+        {
+            recordingPaused = !recordingPaused;
         }
 
         private void LoadMap()

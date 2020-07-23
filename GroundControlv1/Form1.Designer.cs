@@ -51,6 +51,12 @@
             this.orientationGraphControl = new ZedGraph.ZedGraphControl();
             this.pidoutputGraphControl = new ZedGraph.ZedGraphControl();
             this.tuning_groupBox = new System.Windows.Forms.GroupBox();
+            this.dgainaltitude_textbox = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.igainaltitude_textbox = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.pgainaltitude_textbox = new System.Windows.Forms.TextBox();
+            this.label32 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
@@ -140,12 +146,7 @@
             this.mainLoopTimer = new System.Windows.Forms.Timer(this.components);
             this.logging_timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialogLogging = new System.Windows.Forms.SaveFileDialog();
-            this.dgainaltitude_textbox = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.igainaltitude_textbox = new System.Windows.Forms.TextBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.pgainaltitude_textbox = new System.Windows.Forms.TextBox();
-            this.label32 = new System.Windows.Forms.Label();
+            this.pauserecording_btn = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
             this.statusterminal_groupBox.SuspendLayout();
@@ -268,6 +269,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.pauserecording_btn);
             this.panel3.Controls.Add(this.stoprecording_btn);
             this.panel3.Controls.Add(this.recorddata_btn);
             this.panel3.Controls.Add(this.refreshcom_btn);
@@ -440,6 +442,54 @@
             this.tuning_groupBox.TabIndex = 12;
             this.tuning_groupBox.TabStop = false;
             this.tuning_groupBox.Text = "Tuning";
+            // 
+            // dgainaltitude_textbox
+            // 
+            this.dgainaltitude_textbox.Location = new System.Drawing.Point(29, 145);
+            this.dgainaltitude_textbox.Name = "dgainaltitude_textbox";
+            this.dgainaltitude_textbox.Size = new System.Drawing.Size(59, 20);
+            this.dgainaltitude_textbox.TabIndex = 31;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(6, 149);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(25, 13);
+            this.label24.TabIndex = 30;
+            this.label24.Text = "DA:";
+            // 
+            // igainaltitude_textbox
+            // 
+            this.igainaltitude_textbox.Location = new System.Drawing.Point(29, 119);
+            this.igainaltitude_textbox.Name = "igainaltitude_textbox";
+            this.igainaltitude_textbox.Size = new System.Drawing.Size(59, 20);
+            this.igainaltitude_textbox.TabIndex = 29;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(6, 122);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(20, 13);
+            this.label25.TabIndex = 28;
+            this.label25.Text = "IA:";
+            // 
+            // pgainaltitude_textbox
+            // 
+            this.pgainaltitude_textbox.Location = new System.Drawing.Point(29, 93);
+            this.pgainaltitude_textbox.Name = "pgainaltitude_textbox";
+            this.pgainaltitude_textbox.Size = new System.Drawing.Size(59, 20);
+            this.pgainaltitude_textbox.TabIndex = 27;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(6, 97);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(24, 13);
+            this.label32.TabIndex = 26;
+            this.label32.Text = "PA:";
             // 
             // label19
             // 
@@ -1304,53 +1354,17 @@
             this.logging_timer.Enabled = true;
             this.logging_timer.Tick += new System.EventHandler(this.logging_timer_Tick);
             // 
-            // dgainaltitude_textbox
+            // pauserecording_btn
             // 
-            this.dgainaltitude_textbox.Location = new System.Drawing.Point(29, 145);
-            this.dgainaltitude_textbox.Name = "dgainaltitude_textbox";
-            this.dgainaltitude_textbox.Size = new System.Drawing.Size(59, 20);
-            this.dgainaltitude_textbox.TabIndex = 31;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(6, 149);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(25, 13);
-            this.label24.TabIndex = 30;
-            this.label24.Text = "DA:";
-            // 
-            // igainaltitude_textbox
-            // 
-            this.igainaltitude_textbox.Location = new System.Drawing.Point(29, 119);
-            this.igainaltitude_textbox.Name = "igainaltitude_textbox";
-            this.igainaltitude_textbox.Size = new System.Drawing.Size(59, 20);
-            this.igainaltitude_textbox.TabIndex = 29;
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(6, 122);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(20, 13);
-            this.label25.TabIndex = 28;
-            this.label25.Text = "IA:";
-            // 
-            // pgainaltitude_textbox
-            // 
-            this.pgainaltitude_textbox.Location = new System.Drawing.Point(29, 93);
-            this.pgainaltitude_textbox.Name = "pgainaltitude_textbox";
-            this.pgainaltitude_textbox.Size = new System.Drawing.Size(59, 20);
-            this.pgainaltitude_textbox.TabIndex = 27;
-            // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(6, 97);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(24, 13);
-            this.label32.TabIndex = 26;
-            this.label32.Text = "PA:";
+            this.pauserecording_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.pauserecording_btn.Location = new System.Drawing.Point(446, 13);
+            this.pauserecording_btn.Name = "pauserecording_btn";
+            this.pauserecording_btn.Size = new System.Drawing.Size(106, 23);
+            this.pauserecording_btn.TabIndex = 22;
+            this.pauserecording_btn.Text = "Pause Recording";
+            this.pauserecording_btn.UseVisualStyleBackColor = true;
+            this.pauserecording_btn.Visible = false;
+            this.pauserecording_btn.Click += new System.EventHandler(this.pauserecording_btn_Click);
             // 
             // Form1
             // 
@@ -1519,6 +1533,7 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.TextBox pgainaltitude_textbox;
         private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Button pauserecording_btn;
     }
 }
 
