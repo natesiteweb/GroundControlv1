@@ -1264,6 +1264,11 @@ namespace GroundControlv1
             isRecording = false;
             dataFirstLine = true;
             dataTimeCounter = 0;
+
+            recordingPaused = false;
+            dataFirstLine = true;
+            dataLineCounter = 0;
+            dataFileCounter = 0;
         }
 
         private void logging_timer_Tick(object sender, EventArgs e)
