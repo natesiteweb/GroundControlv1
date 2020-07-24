@@ -1172,6 +1172,9 @@ namespace GroundControlv1
                 case 5:
                     flight_mode_label.Text = "Flight Mode: Altitude Hold - Barometer";
                     break;
+                case 6:
+                    flight_mode_label.Text = "Flight Mode: Accelerometer Hold";
+                    break;
             }
         }
 
