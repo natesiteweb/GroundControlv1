@@ -86,11 +86,17 @@ namespace GroundControlv1
         float i_gain_altitude_downloaded = 0f;
         float d_gain_altitude_downloaded = 0f;
 
+        float sonaralt_downloaded = 0f;
+        float baroalt_downloaded = 0f;
+
         float p_gain_altitude_captured = 0f;
         float i_gain_altitude_captured = 0f;
         float d_gain_altitude_captured = 0f;
+        float sonaralt_captured = 0f;
+        float baroalt_captured = 0f;
 
         bool updatePIDTextbox = false;
+        bool updateAltTextbox = false;
 
         float battery_voltage = 0f;
         float ultrasonicDistance = 0f;
@@ -109,6 +115,9 @@ namespace GroundControlv1
         bool updatepid = false;
         bool updatepid2 = false;
         bool calibrateGyro = false;
+
+        bool askforalt = false;
+        bool updatealt = false;
 
         short flightModeToSend = 0;
 
@@ -475,6 +484,11 @@ namespace GroundControlv1
 
                             markedToUpdateGraphs[4] = true;
                             break;
+                        case (byte)SerialHelper.CommandFromSerial.ALTITUDE_SET_PACKET:
+                            sonaralt_downloaded = SerialHelper.ReadFloat();
+                            baroalt_downloaded = SerialHelper.ReadFloat();
+                            updateAltTextbox = true;
+                            break;
                     }
                 }
                 catch (Exception ex)
@@ -525,6 +539,8 @@ namespace GroundControlv1
                 poshold_btn.Enabled = true;
                 rth_btn.Enabled = true;
                 uploadtuning_btn.Enabled = true;
+                uploadaltsetpoint_btn.Enabled = true;
+                downloadaltsetpoint_btn.Enabled = true;
                 downloadtuning_btn.Enabled = true;
                 uploadhomeandpos_btn.Enabled = true;
                 gyro_callibrate_btn.Enabled = true;
@@ -550,6 +566,8 @@ namespace GroundControlv1
             poshold_btn.Enabled = false;
             rth_btn.Enabled = false;
             uploadtuning_btn.Enabled = false;
+            uploadaltsetpoint_btn.Enabled = false;
+            downloadaltsetpoint_btn.Enabled = false;
             downloadtuning_btn.Enabled = false;
             uploadhomeandpos_btn.Enabled = false;
             gyro_callibrate_btn.Enabled = false;
@@ -1006,6 +1024,17 @@ namespace GroundControlv1
                 pgainaltitude_textbox.Text = p_gain_altitude_downloaded.ToString();
                 igainaltitude_textbox.Text = i_gain_altitude_downloaded.ToString();
                 dgainaltitude_textbox.Text = d_gain_altitude_downloaded.ToString();
+
+                sonaralt_textbox.Text = sonaralt_downloaded.ToString();
+                baroalt_textbox.Text = baroalt_downloaded.ToString();
+            }
+
+            if(updateAltTextbox)
+            {
+                updateAltTextbox = false;
+
+                sonaralt_textbox.Text = sonaralt_downloaded.ToString();
+                baroalt_textbox.Text = baroalt_downloaded.ToString();
             }
 
             /*if (updatePIDOutputTextbox)
@@ -1028,7 +1057,27 @@ namespace GroundControlv1
 
             if(SerialHelper.serialPort.IsOpen && SerialHelper.serialPort.BytesToRead == 0)
             {
-                if(askforpid)
+                if(updatealt)
+                {
+                    float[] gains = new float[2] { float.Parse(sonaralt_textbox.Text.ToString()), float.Parse(baroalt_textbox.Text.ToString()) };
+                    byte[] p = new byte[9];
+                    p[0] = (byte)SerialHelper.CommandFromSerial.ALTITUDE_SET_PACKET;
+                    System.Buffer.BlockCopy(gains, 0, p, 1, 8);
+                    SerialHelper.serialPort.Write(p, 0, 9);
+
+                    updatealt = false;
+                    statusWriteBuffer.Add("Uploaded altitude setpoints.");
+
+                    sonaralt_textbox.Text = "~";
+                    baroalt_textbox.Text = "~";
+                }
+                else if(askforalt)
+                {
+                    SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.ALTITUDE_SET_REQUEST);
+                    askforalt = false;
+                    statusWriteBuffer.Add("Downloading altitude setpoints...");
+                }
+                else if(askforpid)
                 {
                     waitingforpidTimer.Stop();
 
@@ -1038,7 +1087,7 @@ namespace GroundControlv1
                     SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.PID_GAIN_FIRST_REQUEST);
                     askforpid = false;
                     askforpid2 = true;
-                    statusWriteBuffer.Add("Downloaded PID values.");
+                    statusWriteBuffer.Add("Downloading PID values...");
 
                     waitingsecondPIDTimer2.Reset();
                     waitingsecondPIDTimer2.Stop();
@@ -1081,17 +1130,18 @@ namespace GroundControlv1
                     igainaltitude_textbox.Text = "~";
                     dgainaltitude_textbox.Text = "~";
 
+
                     waitingsecondPIDTimer.Reset();
                     waitingsecondPIDTimer.Stop();
                     waitingsecondPIDTimer.Start();
                 }
                 else if (updatepid2 && waitingsecondPIDTimer.IsRunning && waitingsecondPIDTimer.ElapsedMilliseconds > 200)
                 {
-                    float[] gains = new float[3] { p_gain_altitude_captured, i_gain_altitude_captured, d_gain_altitude_captured };
-                    byte[] p = new byte[13];
+                    float[] gains = new float[5] { p_gain_altitude_captured, i_gain_altitude_captured, d_gain_altitude_captured, sonaralt_captured, baroalt_captured };
+                    byte[] p = new byte[21];
                     p[0] = (byte)SerialHelper.CommandFromSerial.PID_GAIN_SECOND_UPDATE_REQUEST;
-                    System.Buffer.BlockCopy(gains, 0, p, 1, 12);
-                    SerialHelper.serialPort.Write(p, 0, 13);
+                    System.Buffer.BlockCopy(gains, 0, p, 1, 20);
+                    SerialHelper.serialPort.Write(p, 0, 21);
 
                     waitingsecondPIDTimer.Stop();
                     updatepid2 = false;
@@ -1351,6 +1401,19 @@ namespace GroundControlv1
             else pauserecording_btn.Text = "Resume";
 
             recordingPaused = !recordingPaused;
+        }
+
+        private void downloadaltsetpoint_btn_Click(object sender, EventArgs e)
+        {
+            askforalt = true;
+
+            sonaralt_textbox.Text = "~";
+            baroalt_textbox.Text = "~";
+        }
+
+        private void uploadaltsetpoint_btn_Click(object sender, EventArgs e)
+        {
+            updatealt = true;
         }
 
         private void LoadMap()

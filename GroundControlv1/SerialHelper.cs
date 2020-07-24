@@ -99,6 +99,7 @@ namespace GroundControlv1
             PID_GAIN_SECOND_PACKET = 0x04,
             CHECK_GROUND_REQUEST = 0x05,
             ALTITUDE_PACKET = 0x06,
+            ALTITUDE_SET_PACKET = 0x07,
 
             //From leo to STM, from Ground Control to leo
             GYRO_REQUEST = 0xF1,
@@ -108,7 +109,8 @@ namespace GroundControlv1
             PID_GAIN_FIRST_UPDATE_REQUEST = 0xF5,
             PID_GAIN_SECOND_UPDATE_REQUEST = 0xF6,
             CALIBRATE_REQUEST = 0xF7,
-            ALTITUDE_REQUEST = 0xF8
+            ALTITUDE_REQUEST = 0xF8,
+            ALTITUDE_SET_REQUEST = 0xF9
         }
     }
 }

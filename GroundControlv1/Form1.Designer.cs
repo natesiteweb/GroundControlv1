@@ -147,6 +147,13 @@
             this.mainLoopTimer = new System.Windows.Forms.Timer(this.components);
             this.logging_timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialogLogging = new System.Windows.Forms.SaveFileDialog();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.baroalt_textbox = new System.Windows.Forms.TextBox();
+            this.sonaralt_textbox = new System.Windows.Forms.TextBox();
+            this.downloadaltsetpoint_btn = new System.Windows.Forms.Button();
+            this.uploadaltsetpoint_btn = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
             this.statusterminal_groupBox.SuspendLayout();
@@ -159,6 +166,7 @@
             this.mapInput.SuspendLayout();
             this.markerGroupBox.SuspendLayout();
             this.telemraw_groupBox.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // connect_btn
@@ -269,6 +277,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.groupBox1);
             this.panel3.Controls.Add(this.pauserecording_btn);
             this.panel3.Controls.Add(this.stoprecording_btn);
             this.panel3.Controls.Add(this.recorddata_btn);
@@ -553,6 +562,7 @@
             // 
             // downloadtuning_btn
             // 
+            this.downloadtuning_btn.Enabled = false;
             this.downloadtuning_btn.Location = new System.Drawing.Point(6, 171);
             this.downloadtuning_btn.Name = "downloadtuning_btn";
             this.downloadtuning_btn.Size = new System.Drawing.Size(80, 23);
@@ -1366,6 +1376,75 @@
             this.logging_timer.Enabled = true;
             this.logging_timer.Tick += new System.EventHandler(this.logging_timer_Tick);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label35);
+            this.groupBox1.Controls.Add(this.label36);
+            this.groupBox1.Controls.Add(this.baroalt_textbox);
+            this.groupBox1.Controls.Add(this.sonaralt_textbox);
+            this.groupBox1.Controls.Add(this.downloadaltsetpoint_btn);
+            this.groupBox1.Controls.Add(this.uploadaltsetpoint_btn);
+            this.groupBox1.Location = new System.Drawing.Point(692, 453);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(180, 107);
+            this.groupBox1.TabIndex = 36;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Altitude Hold";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(6, 56);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(47, 13);
+            this.label35.TabIndex = 35;
+            this.label35.Text = "Baro Alt:";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(6, 26);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(53, 13);
+            this.label36.TabIndex = 34;
+            this.label36.Text = "Sonar Alt:";
+            // 
+            // baroalt_textbox
+            // 
+            this.baroalt_textbox.Location = new System.Drawing.Point(65, 53);
+            this.baroalt_textbox.Name = "baroalt_textbox";
+            this.baroalt_textbox.Size = new System.Drawing.Size(109, 20);
+            this.baroalt_textbox.TabIndex = 33;
+            // 
+            // sonaralt_textbox
+            // 
+            this.sonaralt_textbox.Location = new System.Drawing.Point(65, 23);
+            this.sonaralt_textbox.Name = "sonaralt_textbox";
+            this.sonaralt_textbox.Size = new System.Drawing.Size(109, 20);
+            this.sonaralt_textbox.TabIndex = 32;
+            // 
+            // downloadaltsetpoint_btn
+            // 
+            this.downloadaltsetpoint_btn.Enabled = false;
+            this.downloadaltsetpoint_btn.Location = new System.Drawing.Point(6, 79);
+            this.downloadaltsetpoint_btn.Name = "downloadaltsetpoint_btn";
+            this.downloadaltsetpoint_btn.Size = new System.Drawing.Size(80, 23);
+            this.downloadaltsetpoint_btn.TabIndex = 19;
+            this.downloadaltsetpoint_btn.Text = "Download";
+            this.downloadaltsetpoint_btn.UseVisualStyleBackColor = true;
+            this.downloadaltsetpoint_btn.Click += new System.EventHandler(this.downloadaltsetpoint_btn_Click);
+            // 
+            // uploadaltsetpoint_btn
+            // 
+            this.uploadaltsetpoint_btn.Enabled = false;
+            this.uploadaltsetpoint_btn.Location = new System.Drawing.Point(94, 79);
+            this.uploadaltsetpoint_btn.Name = "uploadaltsetpoint_btn";
+            this.uploadaltsetpoint_btn.Size = new System.Drawing.Size(80, 23);
+            this.uploadaltsetpoint_btn.TabIndex = 0;
+            this.uploadaltsetpoint_btn.Text = "Upload";
+            this.uploadaltsetpoint_btn.UseVisualStyleBackColor = true;
+            this.uploadaltsetpoint_btn.Click += new System.EventHandler(this.uploadaltsetpoint_btn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1410,6 +1489,8 @@
             this.markerGroupBox.PerformLayout();
             this.telemraw_groupBox.ResumeLayout(false);
             this.telemraw_groupBox.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1534,6 +1615,13 @@
         private System.Windows.Forms.TextBox pgainaltitude_textbox;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Button pauserecording_btn;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.TextBox baroalt_textbox;
+        private System.Windows.Forms.TextBox sonaralt_textbox;
+        private System.Windows.Forms.Button downloadaltsetpoint_btn;
+        private System.Windows.Forms.Button uploadaltsetpoint_btn;
     }
 }
 
