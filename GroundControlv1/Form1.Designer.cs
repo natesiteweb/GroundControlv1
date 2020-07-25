@@ -154,6 +154,7 @@
             this.sonaralt_textbox = new System.Windows.Forms.TextBox();
             this.downloadaltsetpoint_btn = new System.Windows.Forms.Button();
             this.uploadaltsetpoint_btn = new System.Windows.Forms.Button();
+            this.craft_marker = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
             this.statusterminal_groupBox.SuspendLayout();
@@ -1445,12 +1446,24 @@
             this.uploadaltsetpoint_btn.UseVisualStyleBackColor = true;
             this.uploadaltsetpoint_btn.Click += new System.EventHandler(this.uploadaltsetpoint_btn_Click);
             // 
+            // craft_marker
+            // 
+            this.craft_marker.AutoSize = true;
+            this.craft_marker.BackColor = System.Drawing.Color.Lime;
+            this.craft_marker.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.craft_marker.Location = new System.Drawing.Point(1046, 776);
+            this.craft_marker.Name = "craft_marker";
+            this.craft_marker.Size = new System.Drawing.Size(18, 16);
+            this.craft_marker.TabIndex = 12;
+            this.craft_marker.Text = "C";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1904, 1041);
+            this.Controls.Add(this.craft_marker);
             this.Controls.Add(this.positionhold_marker);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.telemraw_groupBox);
@@ -1622,6 +1635,7 @@
         private System.Windows.Forms.TextBox sonaralt_textbox;
         private System.Windows.Forms.Button downloadaltsetpoint_btn;
         private System.Windows.Forms.Button uploadaltsetpoint_btn;
+        private System.Windows.Forms.Label craft_marker;
     }
 }
 

@@ -40,11 +40,13 @@ namespace GroundControlv1
         bool recordingPaused = false;
         double dataTimeCounter = 0;
 
-        System.Windows.Forms.Label[] allMarkers = new System.Windows.Forms.Label[3];
+        System.Windows.Forms.Label[] allMarkers = new System.Windows.Forms.Label[4];
 
-        Point[] markerPoints = new Point[3];
-        int[] markerSetArray = new int[3];
-        int[] markerVisibleArray = new int[3];
+        Point[] markerPoints = new Point[4];
+        int[] markerSetArray = new int[4];
+        int[] markerVisibleArray = new int[4];
+
+        int satelliteCount = 0;
         
         List<string> statusWriteBuffer = new List<string>();
         bool markedToClear = false;
@@ -97,6 +99,7 @@ namespace GroundControlv1
 
         bool updatePIDTextbox = false;
         bool updateAltTextbox = false;
+        bool newCraftPos = false;
 
         float battery_voltage = 0f;
         float ultrasonicDistance = 0f;
@@ -133,14 +136,17 @@ namespace GroundControlv1
             allMarkers[0] = home_marker;
             allMarkers[1] = positionhold_marker;
             allMarkers[2] = marker2;
+            allMarkers[3] = craft_marker;
 
             markerPoints[0] = new Point(0, 0);
             markerPoints[1] = new Point(0, 0);
             markerPoints[2] = new Point(0, 0);
+            markerPoints[3] = new Point(-913936400, 409237500);
 
             markerVisibleArray[0] = 0;
             markerVisibleArray[1] = 0;
             markerVisibleArray[2] = 0;
+            markerVisibleArray[3] = 1;
 
             graphPaneArray[0] = gyroGraphControl.GraphPane;
             graphPaneArray[1] = throttleGraphControl.GraphPane;
@@ -489,6 +495,14 @@ namespace GroundControlv1
                             baroalt_downloaded = SerialHelper.ReadFloat();
                             updateAltTextbox = true;
                             break;
+                        case (byte)SerialHelper.CommandFromSerial.GPS_PACKET:
+                            satelliteCount = SerialHelper.ReadInt32();
+                            markerPoints[3].X = SerialHelper.ReadInt32();//Longitude
+                            markerPoints[3].Y = SerialHelper.ReadInt32();//Latitude
+
+                            newCraftPos = true;
+
+                            break;
                     }
                 }
                 catch (Exception ex)
@@ -591,7 +605,7 @@ namespace GroundControlv1
                 localIndex += graphCurveCounts[i];
             }
 
-            Debug.Print(localIndex.ToString() + " : " + graphIndex.ToString());
+            //Debug.Print(localIndex.ToString() + " : " + graphIndex.ToString());
 
             for (int i = 0; i < pointPairListArray[localIndex].Count - 1; i++)
             {
@@ -755,7 +769,7 @@ namespace GroundControlv1
                             //homePos.Y = (int)((loaded_latitude + ((float)y * scale_factor) / 111111f) * 1000000f);
                             //homePos.X = (int)((loaded_longitude - ((float)x * scale_factor) / (111111f * (float)Math.Cos(loaded_latitude * 0.017453f))) * 1000000f);
 
-                            markerPoints[i] = new Point((int)((loaded_longitude - ((float)x * scale_factor) / (111111f * (float)Math.Cos(loaded_latitude * 0.017453f))) * 1000000f), (int)((loaded_latitude + ((float)y * scale_factor) / 111111f) * 1000000f));
+                            markerPoints[i] = new Point((int)((loaded_longitude - ((float)x * scale_factor) / (111111f * (float)Math.Cos(loaded_latitude * 0.017453f))) * 10000000f), (int)((loaded_latitude + ((float)y * scale_factor) / 111111f) * 10000000f));
 
 
                             if (i == 0)
@@ -917,8 +931,10 @@ namespace GroundControlv1
 
                     scale_factor *= (float)Math.Cos(loaded_latitude * 0.017453f);
 
-                    float homeLon = markerPoints[i].X / 1000000f;
-                    float homeLat = markerPoints[i].Y / 1000000f;
+                    float homeLon = markerPoints[i].X / 10000000f;
+                    float homeLat = markerPoints[i].Y / 10000000f;
+
+                    Debug.Print(markerPoints[i].X.ToString());
 
                     allMarkers[i].Location = new Point((int)((homeLon - loaded_longitude) * (111111f * (float)Math.Cos(loaded_latitude * 0.017453f)) / scale_factor) + (webBrowser1.Location.X + (webBrowser1.Width / 2)) - 8, (int)((homeLat - loaded_latitude) * -111111f / scale_factor) + (webBrowser1.Location.Y + (webBrowser1.Height / 2)) - 8 + 24);
 
@@ -1036,6 +1052,29 @@ namespace GroundControlv1
                 sonaralt_textbox.Text = sonaralt_downloaded.ToString();
                 baroalt_textbox.Text = baroalt_downloaded.ToString();
             }
+
+            
+            if(satelliteCount == 0)
+            {
+                gps_sats_label.Text = "No Fix";
+                gps_lat_label.Text = "~";
+                gps_lon_label.Text = "~";
+            }
+            else
+            {
+                gps_sats_label.Text = satelliteCount.ToString();
+                gps_lat_label.Text = (markerPoints[3].Y / 10000000f).ToString();
+                gps_lon_label.Text = (markerPoints[3].X / 10000000f).ToString();
+
+                if (newCraftPos)
+                {
+                    newCraftPos = false;
+                    RefreshMarkerPositions();
+                }
+            }
+
+                
+                
 
             /*if (updatePIDOutputTextbox)
             {
@@ -1223,7 +1262,10 @@ namespace GroundControlv1
                     flight_mode_label.Text = "Flight Mode: Altitude Hold - Barometer";
                     break;
                 case 6:
-                    flight_mode_label.Text = "Flight Mode: Accelerometer Hold";
+                    flight_mode_label.Text = "Flight Mode: Auto Takeoff";
+                    break;
+                case 7:
+                    flight_mode_label.Text = "Flight Mode: Auto Landing";
                     break;
             }
         }

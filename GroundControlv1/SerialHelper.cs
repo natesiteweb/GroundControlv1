@@ -100,6 +100,7 @@ namespace GroundControlv1
             CHECK_GROUND_REQUEST = 0x05,
             ALTITUDE_PACKET = 0x06,
             ALTITUDE_SET_PACKET = 0x07,
+            GPS_PACKET = 0x08,
 
             //From leo to STM, from Ground Control to leo
             GYRO_REQUEST = 0xF1,
