@@ -31,6 +31,7 @@ namespace GroundControlv1
         float yaw_angle = 0;
         float level_rate = 0;
         int loopTime;
+        float compass_heading = 0f;
 
         string loggingPath = "";
         bool isRecording = false;
@@ -306,6 +307,8 @@ namespace GroundControlv1
                             yaw_angle = SerialHelper.ReadFloat();
 
                             flight_mode = SerialHelper.ReadInt16();
+
+                            compass_heading = SerialHelper.ReadFloat();
 
                             graphScales[0] = 0.001;
                             graphScales[1] = -0.001;
@@ -1234,12 +1237,14 @@ namespace GroundControlv1
             double z = Math.Truncate(yaw_angle * 100) / 100;
             double z1 = Math.Truncate(ultrasonicDistance * 100) / 100;
             double z2 = Math.Truncate(barometerDistance * 100) / 100;
+            double z3 = Math.Truncate(compass_heading * 100) / 100;
 
             roll_label.Text = string.Format("{0:N2}", x);
             pitch_label.Text = string.Format("{0:N2}", y);
             yaw_label.Text = string.Format("{0:N2}", z);
             ultrasonicraw_label.Text = string.Format("{0:N2}", z1);
             barometerraw_label.Text = string.Format("{0:N2}", z2);
+            compassheading_label.Text = string.Format("{0:N2}", z3);
 
             switch (flight_mode)
             {

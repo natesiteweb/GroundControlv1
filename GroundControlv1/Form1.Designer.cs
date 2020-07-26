@@ -40,6 +40,13 @@
             this.throttleGraphControl = new ZedGraph.ZedGraphControl();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.baroalt_textbox = new System.Windows.Forms.TextBox();
+            this.sonaralt_textbox = new System.Windows.Forms.TextBox();
+            this.downloadaltsetpoint_btn = new System.Windows.Forms.Button();
+            this.uploadaltsetpoint_btn = new System.Windows.Forms.Button();
             this.pauserecording_btn = new System.Windows.Forms.Button();
             this.stoprecording_btn = new System.Windows.Forms.Button();
             this.recorddata_btn = new System.Windows.Forms.Button();
@@ -147,15 +154,11 @@
             this.mainLoopTimer = new System.Windows.Forms.Timer(this.components);
             this.logging_timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialogLogging = new System.Windows.Forms.SaveFileDialog();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label35 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.baroalt_textbox = new System.Windows.Forms.TextBox();
-            this.sonaralt_textbox = new System.Windows.Forms.TextBox();
-            this.downloadaltsetpoint_btn = new System.Windows.Forms.Button();
-            this.uploadaltsetpoint_btn = new System.Windows.Forms.Button();
             this.craft_marker = new System.Windows.Forms.Label();
+            this.compassheading_label = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
             this.statusterminal_groupBox.SuspendLayout();
             this.sendcmd_groupBox.SuspendLayout();
@@ -167,7 +170,6 @@
             this.mapInput.SuspendLayout();
             this.markerGroupBox.SuspendLayout();
             this.telemraw_groupBox.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // connect_btn
@@ -302,6 +304,75 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(898, 1064);
             this.panel3.TabIndex = 12;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label35);
+            this.groupBox1.Controls.Add(this.label36);
+            this.groupBox1.Controls.Add(this.baroalt_textbox);
+            this.groupBox1.Controls.Add(this.sonaralt_textbox);
+            this.groupBox1.Controls.Add(this.downloadaltsetpoint_btn);
+            this.groupBox1.Controls.Add(this.uploadaltsetpoint_btn);
+            this.groupBox1.Location = new System.Drawing.Point(692, 453);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(180, 107);
+            this.groupBox1.TabIndex = 36;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Altitude Hold";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(6, 56);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(47, 13);
+            this.label35.TabIndex = 35;
+            this.label35.Text = "Baro Alt:";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(6, 26);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(53, 13);
+            this.label36.TabIndex = 34;
+            this.label36.Text = "Sonar Alt:";
+            // 
+            // baroalt_textbox
+            // 
+            this.baroalt_textbox.Location = new System.Drawing.Point(65, 53);
+            this.baroalt_textbox.Name = "baroalt_textbox";
+            this.baroalt_textbox.Size = new System.Drawing.Size(109, 20);
+            this.baroalt_textbox.TabIndex = 33;
+            // 
+            // sonaralt_textbox
+            // 
+            this.sonaralt_textbox.Location = new System.Drawing.Point(65, 23);
+            this.sonaralt_textbox.Name = "sonaralt_textbox";
+            this.sonaralt_textbox.Size = new System.Drawing.Size(109, 20);
+            this.sonaralt_textbox.TabIndex = 32;
+            // 
+            // downloadaltsetpoint_btn
+            // 
+            this.downloadaltsetpoint_btn.Enabled = false;
+            this.downloadaltsetpoint_btn.Location = new System.Drawing.Point(6, 79);
+            this.downloadaltsetpoint_btn.Name = "downloadaltsetpoint_btn";
+            this.downloadaltsetpoint_btn.Size = new System.Drawing.Size(80, 23);
+            this.downloadaltsetpoint_btn.TabIndex = 19;
+            this.downloadaltsetpoint_btn.Text = "Download";
+            this.downloadaltsetpoint_btn.UseVisualStyleBackColor = true;
+            this.downloadaltsetpoint_btn.Click += new System.EventHandler(this.downloadaltsetpoint_btn_Click);
+            // 
+            // uploadaltsetpoint_btn
+            // 
+            this.uploadaltsetpoint_btn.Enabled = false;
+            this.uploadaltsetpoint_btn.Location = new System.Drawing.Point(94, 79);
+            this.uploadaltsetpoint_btn.Name = "uploadaltsetpoint_btn";
+            this.uploadaltsetpoint_btn.Size = new System.Drawing.Size(80, 23);
+            this.uploadaltsetpoint_btn.TabIndex = 0;
+            this.uploadaltsetpoint_btn.Text = "Upload";
+            this.uploadaltsetpoint_btn.UseVisualStyleBackColor = true;
+            this.uploadaltsetpoint_btn.Click += new System.EventHandler(this.uploadaltsetpoint_btn_Click);
             // 
             // pauserecording_btn
             // 
@@ -742,6 +813,8 @@
             // 
             // gpstelem_groupBox
             // 
+            this.gpstelem_groupBox.Controls.Add(this.compassheading_label);
+            this.gpstelem_groupBox.Controls.Add(this.label34);
             this.gpstelem_groupBox.Controls.Add(this.gps_sats_label);
             this.gpstelem_groupBox.Controls.Add(this.label12);
             this.gpstelem_groupBox.Controls.Add(this.gps_lat_label);
@@ -1171,7 +1244,7 @@
             // barometerraw_label
             // 
             this.barometerraw_label.AutoSize = true;
-            this.barometerraw_label.Location = new System.Drawing.Point(278, 47);
+            this.barometerraw_label.Location = new System.Drawing.Point(278, 46);
             this.barometerraw_label.Name = "barometerraw_label";
             this.barometerraw_label.Size = new System.Drawing.Size(14, 13);
             this.barometerraw_label.TabIndex = 29;
@@ -1189,7 +1262,7 @@
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(217, 47);
+            this.label30.Location = new System.Drawing.Point(217, 46);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(58, 13);
             this.label30.TabIndex = 27;
@@ -1377,75 +1450,6 @@
             this.logging_timer.Enabled = true;
             this.logging_timer.Tick += new System.EventHandler(this.logging_timer_Tick);
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.label35);
-            this.groupBox1.Controls.Add(this.label36);
-            this.groupBox1.Controls.Add(this.baroalt_textbox);
-            this.groupBox1.Controls.Add(this.sonaralt_textbox);
-            this.groupBox1.Controls.Add(this.downloadaltsetpoint_btn);
-            this.groupBox1.Controls.Add(this.uploadaltsetpoint_btn);
-            this.groupBox1.Location = new System.Drawing.Point(692, 453);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(180, 107);
-            this.groupBox1.TabIndex = 36;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Altitude Hold";
-            // 
-            // label35
-            // 
-            this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(6, 56);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(47, 13);
-            this.label35.TabIndex = 35;
-            this.label35.Text = "Baro Alt:";
-            // 
-            // label36
-            // 
-            this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(6, 26);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(53, 13);
-            this.label36.TabIndex = 34;
-            this.label36.Text = "Sonar Alt:";
-            // 
-            // baroalt_textbox
-            // 
-            this.baroalt_textbox.Location = new System.Drawing.Point(65, 53);
-            this.baroalt_textbox.Name = "baroalt_textbox";
-            this.baroalt_textbox.Size = new System.Drawing.Size(109, 20);
-            this.baroalt_textbox.TabIndex = 33;
-            // 
-            // sonaralt_textbox
-            // 
-            this.sonaralt_textbox.Location = new System.Drawing.Point(65, 23);
-            this.sonaralt_textbox.Name = "sonaralt_textbox";
-            this.sonaralt_textbox.Size = new System.Drawing.Size(109, 20);
-            this.sonaralt_textbox.TabIndex = 32;
-            // 
-            // downloadaltsetpoint_btn
-            // 
-            this.downloadaltsetpoint_btn.Enabled = false;
-            this.downloadaltsetpoint_btn.Location = new System.Drawing.Point(6, 79);
-            this.downloadaltsetpoint_btn.Name = "downloadaltsetpoint_btn";
-            this.downloadaltsetpoint_btn.Size = new System.Drawing.Size(80, 23);
-            this.downloadaltsetpoint_btn.TabIndex = 19;
-            this.downloadaltsetpoint_btn.Text = "Download";
-            this.downloadaltsetpoint_btn.UseVisualStyleBackColor = true;
-            this.downloadaltsetpoint_btn.Click += new System.EventHandler(this.downloadaltsetpoint_btn_Click);
-            // 
-            // uploadaltsetpoint_btn
-            // 
-            this.uploadaltsetpoint_btn.Enabled = false;
-            this.uploadaltsetpoint_btn.Location = new System.Drawing.Point(94, 79);
-            this.uploadaltsetpoint_btn.Name = "uploadaltsetpoint_btn";
-            this.uploadaltsetpoint_btn.Size = new System.Drawing.Size(80, 23);
-            this.uploadaltsetpoint_btn.TabIndex = 0;
-            this.uploadaltsetpoint_btn.Text = "Upload";
-            this.uploadaltsetpoint_btn.UseVisualStyleBackColor = true;
-            this.uploadaltsetpoint_btn.Click += new System.EventHandler(this.uploadaltsetpoint_btn_Click);
-            // 
             // craft_marker
             // 
             this.craft_marker.AutoSize = true;
@@ -1456,6 +1460,24 @@
             this.craft_marker.Size = new System.Drawing.Size(18, 16);
             this.craft_marker.TabIndex = 12;
             this.craft_marker.Text = "C";
+            // 
+            // compassheading_label
+            // 
+            this.compassheading_label.Location = new System.Drawing.Point(62, 93);
+            this.compassheading_label.Name = "compassheading_label";
+            this.compassheading_label.Size = new System.Drawing.Size(59, 23);
+            this.compassheading_label.TabIndex = 7;
+            this.compassheading_label.Text = "~";
+            this.compassheading_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(6, 98);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(50, 13);
+            this.label34.TabIndex = 6;
+            this.label34.Text = "Heading:";
             // 
             // Form1
             // 
@@ -1484,6 +1506,8 @@
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.tuning_groupBox.ResumeLayout(false);
             this.tuning_groupBox.PerformLayout();
             this.statusterminal_groupBox.ResumeLayout(false);
@@ -1502,8 +1526,6 @@
             this.markerGroupBox.PerformLayout();
             this.telemraw_groupBox.ResumeLayout(false);
             this.telemraw_groupBox.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1636,6 +1658,8 @@
         private System.Windows.Forms.Button downloadaltsetpoint_btn;
         private System.Windows.Forms.Button uploadaltsetpoint_btn;
         private System.Windows.Forms.Label craft_marker;
+        private System.Windows.Forms.Label compassheading_label;
+        private System.Windows.Forms.Label label34;
     }
 }
 
