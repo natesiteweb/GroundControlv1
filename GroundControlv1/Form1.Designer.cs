@@ -90,6 +90,8 @@
             this.poshold_btn = new System.Windows.Forms.Button();
             this.rth_btn = new System.Windows.Forms.Button();
             this.gpstelem_groupBox = new System.Windows.Forms.GroupBox();
+            this.compassheading_label = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
             this.gps_sats_label = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.gps_lat_label = new System.Windows.Forms.Label();
@@ -155,8 +157,10 @@
             this.logging_timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialogLogging = new System.Windows.Forms.SaveFileDialog();
             this.craft_marker = new System.Windows.Forms.Label();
-            this.compassheading_label = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
+            this.dgaingps_textbox = new System.Windows.Forms.TextBox();
+            this.label33 = new System.Windows.Forms.Label();
+            this.pgaingps_textbox = new System.Windows.Forms.TextBox();
+            this.label37 = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
@@ -509,6 +513,10 @@
             // 
             // tuning_groupBox
             // 
+            this.tuning_groupBox.Controls.Add(this.dgaingps_textbox);
+            this.tuning_groupBox.Controls.Add(this.label33);
+            this.tuning_groupBox.Controls.Add(this.pgaingps_textbox);
+            this.tuning_groupBox.Controls.Add(this.label37);
             this.tuning_groupBox.Controls.Add(this.dgainaltitude_textbox);
             this.tuning_groupBox.Controls.Add(this.label24);
             this.tuning_groupBox.Controls.Add(this.igainaltitude_textbox);
@@ -827,6 +835,24 @@
             this.gpstelem_groupBox.TabIndex = 9;
             this.gpstelem_groupBox.TabStop = false;
             this.gpstelem_groupBox.Text = "GPS Telemetry";
+            // 
+            // compassheading_label
+            // 
+            this.compassheading_label.Location = new System.Drawing.Point(62, 93);
+            this.compassheading_label.Name = "compassheading_label";
+            this.compassheading_label.Size = new System.Drawing.Size(59, 23);
+            this.compassheading_label.TabIndex = 7;
+            this.compassheading_label.Text = "~";
+            this.compassheading_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(6, 98);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(50, 13);
+            this.label34.TabIndex = 6;
+            this.label34.Text = "Heading:";
             // 
             // gps_sats_label
             // 
@@ -1461,23 +1487,37 @@
             this.craft_marker.TabIndex = 12;
             this.craft_marker.Text = "C";
             // 
-            // compassheading_label
+            // dgaingps_textbox
             // 
-            this.compassheading_label.Location = new System.Drawing.Point(62, 93);
-            this.compassheading_label.Name = "compassheading_label";
-            this.compassheading_label.Size = new System.Drawing.Size(59, 23);
-            this.compassheading_label.TabIndex = 7;
-            this.compassheading_label.Text = "~";
-            this.compassheading_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.dgaingps_textbox.Location = new System.Drawing.Point(115, 119);
+            this.dgaingps_textbox.Name = "dgaingps_textbox";
+            this.dgaingps_textbox.Size = new System.Drawing.Size(59, 20);
+            this.dgaingps_textbox.TabIndex = 35;
             // 
-            // label34
+            // label33
             // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(6, 98);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(50, 13);
-            this.label34.TabIndex = 6;
-            this.label34.Text = "Heading:";
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(92, 122);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(26, 13);
+            this.label33.TabIndex = 34;
+            this.label33.Text = "DG:";
+            // 
+            // pgaingps_textbox
+            // 
+            this.pgaingps_textbox.Location = new System.Drawing.Point(115, 93);
+            this.pgaingps_textbox.Name = "pgaingps_textbox";
+            this.pgaingps_textbox.Size = new System.Drawing.Size(59, 20);
+            this.pgaingps_textbox.TabIndex = 33;
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(92, 97);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(25, 13);
+            this.label37.TabIndex = 32;
+            this.label37.Text = "PG:";
             // 
             // Form1
             // 
@@ -1660,6 +1700,10 @@
         private System.Windows.Forms.Label craft_marker;
         private System.Windows.Forms.Label compassheading_label;
         private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.TextBox dgaingps_textbox;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.TextBox pgaingps_textbox;
+        private System.Windows.Forms.Label label37;
     }
 }
 

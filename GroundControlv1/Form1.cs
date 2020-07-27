@@ -88,6 +88,8 @@ namespace GroundControlv1
         float p_gain_altitude_downloaded = 0f;
         float i_gain_altitude_downloaded = 0f;
         float d_gain_altitude_downloaded = 0f;
+        float p_gain_gps_downloaded = 0f;
+        float d_gain_gps_downloaded = 0f;
 
         float sonaralt_downloaded = 0f;
         float baroalt_downloaded = 0f;
@@ -95,6 +97,8 @@ namespace GroundControlv1
         float p_gain_altitude_captured = 0f;
         float i_gain_altitude_captured = 0f;
         float d_gain_altitude_captured = 0f;
+        float p_gain_gps_captured = 0f;
+        float d_gain_gps_captured = 0f;
         float sonaralt_captured = 0f;
         float baroalt_captured = 0f;
 
@@ -434,6 +438,9 @@ namespace GroundControlv1
                             i_gain_altitude_downloaded = SerialHelper.ReadFloat();
                             d_gain_altitude_downloaded = SerialHelper.ReadFloat();
 
+                            p_gain_gps_downloaded = SerialHelper.ReadFloat();
+                            d_gain_gps_downloaded = SerialHelper.ReadFloat();
+
                             updatePIDTextbox = true;
 
                             waitingforpidreply = false;
@@ -500,8 +507,8 @@ namespace GroundControlv1
                             break;
                         case (byte)SerialHelper.CommandFromSerial.GPS_PACKET:
                             satelliteCount = SerialHelper.ReadInt32();
-                            markerPoints[3].X = SerialHelper.ReadInt32();//Longitude
-                            markerPoints[3].Y = SerialHelper.ReadInt32();//Latitude
+                            markerPoints[3].Y = (int)(SerialHelper.ReadFloat() * 10000000);//Latitude
+                            markerPoints[3].X = (int)(SerialHelper.ReadFloat() * 10000000);//Longitude
 
                             newCraftPos = true;
 
@@ -1044,6 +1051,9 @@ namespace GroundControlv1
                 igainaltitude_textbox.Text = i_gain_altitude_downloaded.ToString();
                 dgainaltitude_textbox.Text = d_gain_altitude_downloaded.ToString();
 
+                pgaingps_textbox.Text = p_gain_gps_downloaded.ToString();
+                dgaingps_textbox.Text = d_gain_gps_downloaded.ToString();
+
                 sonaralt_textbox.Text = sonaralt_downloaded.ToString();
                 baroalt_textbox.Text = baroalt_downloaded.ToString();
             }
@@ -1160,6 +1170,9 @@ namespace GroundControlv1
                     i_gain_altitude_captured = float.Parse(igainaltitude_textbox.Text.ToString());
                     d_gain_altitude_captured = float.Parse(dgainaltitude_textbox.Text.ToString());
 
+                    p_gain_gps_captured = float.Parse(pgaingps_textbox.Text.ToString());
+                    d_gain_gps_captured = float.Parse(dgaingps_textbox.Text.ToString());
+
                     pgain_textbox.Text = "~";
                     igain_textbox.Text = "~";
                     dgain_textbox.Text = "~";
@@ -1172,6 +1185,9 @@ namespace GroundControlv1
                     igainaltitude_textbox.Text = "~";
                     dgainaltitude_textbox.Text = "~";
 
+                    pgaingps_textbox.Text = "~";
+                    dgaingps_textbox.Text = "~";
+
 
                     waitingsecondPIDTimer.Reset();
                     waitingsecondPIDTimer.Stop();
@@ -1179,7 +1195,7 @@ namespace GroundControlv1
                 }
                 else if (updatepid2 && waitingsecondPIDTimer.IsRunning && waitingsecondPIDTimer.ElapsedMilliseconds > 200)
                 {
-                    float[] gains = new float[5] { p_gain_altitude_captured, i_gain_altitude_captured, d_gain_altitude_captured, sonaralt_captured, baroalt_captured };
+                    float[] gains = new float[5] { p_gain_altitude_captured, i_gain_altitude_captured, d_gain_altitude_captured, p_gain_gps_captured, d_gain_gps_captured };
                     byte[] p = new byte[21];
                     p[0] = (byte)SerialHelper.CommandFromSerial.PID_GAIN_SECOND_UPDATE_REQUEST;
                     System.Buffer.BlockCopy(gains, 0, p, 1, 20);
@@ -1271,6 +1287,9 @@ namespace GroundControlv1
                     break;
                 case 7:
                     flight_mode_label.Text = "Flight Mode: Auto Landing";
+                    break;
+                case 8:
+                    flight_mode_label.Text = "Flight Mode: GPS Hold";
                     break;
             }
         }
@@ -1384,7 +1403,7 @@ namespace GroundControlv1
 
                     if (dataFirstLine)
                     {
-                        dataToLog = "time(ms)\tgyro_x(deg/s)\tgyro_y(deg/s)\tgyro_z(deg/s)\torientation_roll(deg)\torientation_pitch(deg)\torientation_yaw(deg)\tthrottle\tbattery(V)\tloop_time(uS)\tpid_output_roll\tpid_output_pitch\tpid_output_yaw\tpid_output_throttle\tultrasonic_alt\tbaro_alt\tflight_mode\tp_gain_altitude\ti_gain_altitude\td_gain_altitude\n";
+                        dataToLog = "time(ms)\tgyro_x(deg/s)\tgyro_y(deg/s)\tgyro_z(deg/s)\torientation_roll(deg)\torientation_pitch(deg)\torientation_yaw(deg)\tthrottle\tbattery(V)\tloop_time(uS)\tpid_output_roll\tpid_output_pitch\tpid_output_yaw\tpid_output_throttle\tultrasonic_alt\tbaro_alt\tflight_mode\tp_gain_altitude\ti_gain_altitude\td_gain_altitude\tcompass_heading\tlatitude\tlongitude\n";
                         dataFirstLine = false;
                         File.WriteAllText(loggingPath + "-" + dataFileCounter.ToString() + ".txt", dataToLog);
                         dataLineCounter++;
@@ -1421,7 +1440,11 @@ namespace GroundControlv1
 
                         dataToLog += p_gain_altitude_downloaded.ToString() + "\t";
                         dataToLog += i_gain_altitude_downloaded.ToString() + "\t";
-                        dataToLog += d_gain_altitude_downloaded.ToString() + "\n";
+                        dataToLog += d_gain_altitude_downloaded.ToString() + "\t";
+
+                        dataToLog += compass_heading.ToString() + "\t";
+                        dataToLog += (markerPoints[3].Y / 10000000f).ToString() + "\t";
+                        dataToLog += (markerPoints[3].X / 10000000f).ToString() + "\n";
 
                         File.AppendAllText(loggingPath + "-" + dataFileCounter.ToString() + ".txt", dataToLog);
                         dataLineCounter++;
