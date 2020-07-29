@@ -507,8 +507,8 @@ namespace GroundControlv1
                             break;
                         case (byte)SerialHelper.CommandFromSerial.GPS_PACKET:
                             satelliteCount = SerialHelper.ReadInt32();
-                            markerPoints[3].Y = (int)(SerialHelper.ReadFloat() * 10000000);//Latitude
-                            markerPoints[3].X = (int)(SerialHelper.ReadFloat() * 10000000);//Longitude
+                            markerPoints[3].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
+                            markerPoints[3].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
 
                             newCraftPos = true;
 
