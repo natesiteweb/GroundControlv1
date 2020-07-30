@@ -506,7 +506,7 @@ namespace GroundControlv1
                             updateAltTextbox = true;
                             break;
                         case (byte)SerialHelper.CommandFromSerial.GPS_PACKET:
-                            satelliteCount = SerialHelper.ReadInt32();
+                            satelliteCount = SerialHelper.ReadInt16();
                             markerPoints[3].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
                             markerPoints[3].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
 
