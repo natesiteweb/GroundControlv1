@@ -1076,8 +1076,13 @@ namespace GroundControlv1
             else
             {
                 gps_sats_label.Text = satelliteCount.ToString();
-                gps_lat_label.Text = (markerPoints[3].Y / 10000000f).ToString();
-                gps_lon_label.Text = (markerPoints[3].X / 10000000f).ToString();
+
+
+                gps_lat_label.Text = string.Format("{0:N6}", (double)(markerPoints[3].Y / 10000000f));
+                gps_lon_label.Text = string.Format("{0:N6}", (double)(markerPoints[3].X / 10000000f));
+
+                //gps_lat_label.Text = (markerPoints[3].Y / 10000000f).ToString();
+                //gps_lon_label.Text = (markerPoints[3].X / 10000000f).ToString();
 
                 if (newCraftPos)
                 {
