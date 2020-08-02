@@ -59,6 +59,10 @@
             this.orientationGraphControl = new ZedGraph.ZedGraphControl();
             this.pidoutputGraphControl = new ZedGraph.ZedGraphControl();
             this.tuning_groupBox = new System.Windows.Forms.GroupBox();
+            this.dgaingps_textbox = new System.Windows.Forms.TextBox();
+            this.label33 = new System.Windows.Forms.Label();
+            this.pgaingps_textbox = new System.Windows.Forms.TextBox();
+            this.label37 = new System.Windows.Forms.Label();
             this.dgainaltitude_textbox = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
             this.igainaltitude_textbox = new System.Windows.Forms.TextBox();
@@ -157,10 +161,8 @@
             this.logging_timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialogLogging = new System.Windows.Forms.SaveFileDialog();
             this.craft_marker = new System.Windows.Forms.Label();
-            this.dgaingps_textbox = new System.Windows.Forms.TextBox();
-            this.label33 = new System.Windows.Forms.Label();
-            this.pgaingps_textbox = new System.Windows.Forms.TextBox();
-            this.label37 = new System.Windows.Forms.Label();
+            this.igaingps_textbox = new System.Windows.Forms.TextBox();
+            this.label38 = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
@@ -513,6 +515,8 @@
             // 
             // tuning_groupBox
             // 
+            this.tuning_groupBox.Controls.Add(this.igaingps_textbox);
+            this.tuning_groupBox.Controls.Add(this.label38);
             this.tuning_groupBox.Controls.Add(this.dgaingps_textbox);
             this.tuning_groupBox.Controls.Add(this.label33);
             this.tuning_groupBox.Controls.Add(this.pgaingps_textbox);
@@ -543,6 +547,38 @@
             this.tuning_groupBox.TabIndex = 12;
             this.tuning_groupBox.TabStop = false;
             this.tuning_groupBox.Text = "Tuning";
+            // 
+            // dgaingps_textbox
+            // 
+            this.dgaingps_textbox.Location = new System.Drawing.Point(115, 146);
+            this.dgaingps_textbox.Name = "dgaingps_textbox";
+            this.dgaingps_textbox.Size = new System.Drawing.Size(59, 20);
+            this.dgaingps_textbox.TabIndex = 35;
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(92, 149);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(26, 13);
+            this.label33.TabIndex = 34;
+            this.label33.Text = "DG:";
+            // 
+            // pgaingps_textbox
+            // 
+            this.pgaingps_textbox.Location = new System.Drawing.Point(115, 93);
+            this.pgaingps_textbox.Name = "pgaingps_textbox";
+            this.pgaingps_textbox.Size = new System.Drawing.Size(59, 20);
+            this.pgaingps_textbox.TabIndex = 33;
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(92, 97);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(25, 13);
+            this.label37.TabIndex = 32;
+            this.label37.Text = "PG:";
             // 
             // dgainaltitude_textbox
             // 
@@ -1487,37 +1523,21 @@
             this.craft_marker.TabIndex = 12;
             this.craft_marker.Text = "C";
             // 
-            // dgaingps_textbox
+            // igaingps_textbox
             // 
-            this.dgaingps_textbox.Location = new System.Drawing.Point(115, 119);
-            this.dgaingps_textbox.Name = "dgaingps_textbox";
-            this.dgaingps_textbox.Size = new System.Drawing.Size(59, 20);
-            this.dgaingps_textbox.TabIndex = 35;
+            this.igaingps_textbox.Location = new System.Drawing.Point(115, 119);
+            this.igaingps_textbox.Name = "igaingps_textbox";
+            this.igaingps_textbox.Size = new System.Drawing.Size(59, 20);
+            this.igaingps_textbox.TabIndex = 37;
             // 
-            // label33
+            // label38
             // 
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(92, 122);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(26, 13);
-            this.label33.TabIndex = 34;
-            this.label33.Text = "DG:";
-            // 
-            // pgaingps_textbox
-            // 
-            this.pgaingps_textbox.Location = new System.Drawing.Point(115, 93);
-            this.pgaingps_textbox.Name = "pgaingps_textbox";
-            this.pgaingps_textbox.Size = new System.Drawing.Size(59, 20);
-            this.pgaingps_textbox.TabIndex = 33;
-            // 
-            // label37
-            // 
-            this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(92, 97);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(25, 13);
-            this.label37.TabIndex = 32;
-            this.label37.Text = "PG:";
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(92, 122);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(21, 13);
+            this.label38.TabIndex = 36;
+            this.label38.Text = "IG:";
             // 
             // Form1
             // 
@@ -1704,6 +1724,8 @@
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.TextBox pgaingps_textbox;
         private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.TextBox igaingps_textbox;
+        private System.Windows.Forms.Label label38;
     }
 }
 
