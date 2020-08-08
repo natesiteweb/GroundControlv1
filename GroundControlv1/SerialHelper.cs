@@ -111,7 +111,8 @@ namespace GroundControlv1
             PID_GAIN_SECOND_UPDATE_REQUEST = 0xF6,
             CALIBRATE_REQUEST = 0xF7,
             ALTITUDE_REQUEST = 0xF8,
-            ALTITUDE_SET_REQUEST = 0xF9
+            ALTITUDE_SET_REQUEST = 0xF9,
+            CALIBRATE_COMPASS_REQUEST = 0xFA
         }
     }
 }

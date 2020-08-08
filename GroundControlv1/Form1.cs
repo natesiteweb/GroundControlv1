@@ -125,6 +125,7 @@ namespace GroundControlv1
         bool updatepid = false;
         bool updatepid2 = false;
         bool calibrateGyro = false;
+        bool calibrateCompass = false;
 
         bool askforalt = false;
         bool updatealt = false;
@@ -571,6 +572,7 @@ namespace GroundControlv1
                 downloadtuning_btn.Enabled = true;
                 uploadhomeandpos_btn.Enabled = true;
                 gyro_callibrate_btn.Enabled = true;
+                compass_callibrate_btn.Enabled = true;
                 levelmode_btn.Enabled = true;
                 ratemode_btn.Enabled = true;
                 disarm_btn.Enabled = true;
@@ -598,6 +600,7 @@ namespace GroundControlv1
             downloadtuning_btn.Enabled = false;
             uploadhomeandpos_btn.Enabled = false;
             gyro_callibrate_btn.Enabled = false;
+            compass_callibrate_btn.Enabled = false;
             levelmode_btn.Enabled = false;
             ratemode_btn.Enabled = false;
             disarm_btn.Enabled = false;
@@ -1215,12 +1218,17 @@ namespace GroundControlv1
                     waitingsecondPIDTimer.Stop();
                     updatepid2 = false;
                 }
-
-                if(calibrateGyro)
+                else if(calibrateGyro)
                 {
                     statusWriteBuffer.Add("Calibrating Gyro...");
                     SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.CALIBRATE_REQUEST);
                     calibrateGyro = false;
+                }
+                else if (calibrateCompass)
+                {
+                    statusWriteBuffer.Add("Calibrating Compass...");
+                    SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.CALIBRATE_COMPASS_REQUEST);
+                    calibrateCompass = false;
                 }
 
                 /*else if(flightModeToSend > 0)
@@ -1495,6 +1503,11 @@ namespace GroundControlv1
         private void uploadaltsetpoint_btn_Click(object sender, EventArgs e)
         {
             updatealt = true;
+        }
+
+        private void compass_callibrate_btn_Click(object sender, EventArgs e)
+        {
+            calibrateCompass = true;
         }
 
         private void LoadMap()

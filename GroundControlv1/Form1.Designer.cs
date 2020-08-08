@@ -59,6 +59,8 @@
             this.orientationGraphControl = new ZedGraph.ZedGraphControl();
             this.pidoutputGraphControl = new ZedGraph.ZedGraphControl();
             this.tuning_groupBox = new System.Windows.Forms.GroupBox();
+            this.igaingps_textbox = new System.Windows.Forms.TextBox();
+            this.label38 = new System.Windows.Forms.Label();
             this.dgaingps_textbox = new System.Windows.Forms.TextBox();
             this.label33 = new System.Windows.Forms.Label();
             this.pgaingps_textbox = new System.Windows.Forms.TextBox();
@@ -161,8 +163,7 @@
             this.logging_timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialogLogging = new System.Windows.Forms.SaveFileDialog();
             this.craft_marker = new System.Windows.Forms.Label();
-            this.igaingps_textbox = new System.Windows.Forms.TextBox();
-            this.label38 = new System.Windows.Forms.Label();
+            this.compass_callibrate_btn = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
@@ -548,6 +549,22 @@
             this.tuning_groupBox.TabStop = false;
             this.tuning_groupBox.Text = "Tuning";
             // 
+            // igaingps_textbox
+            // 
+            this.igaingps_textbox.Location = new System.Drawing.Point(115, 119);
+            this.igaingps_textbox.Name = "igaingps_textbox";
+            this.igaingps_textbox.Size = new System.Drawing.Size(59, 20);
+            this.igaingps_textbox.TabIndex = 37;
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(92, 122);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(21, 13);
+            this.label38.TabIndex = 36;
+            this.label38.Text = "IG:";
+            // 
             // dgaingps_textbox
             // 
             this.dgaingps_textbox.Location = new System.Drawing.Point(115, 146);
@@ -778,6 +795,7 @@
             // 
             // sendcmd_groupBox
             // 
+            this.sendcmd_groupBox.Controls.Add(this.compass_callibrate_btn);
             this.sendcmd_groupBox.Controls.Add(this.disarm_btn);
             this.sendcmd_groupBox.Controls.Add(this.ratemode_btn);
             this.sendcmd_groupBox.Controls.Add(this.levelmode_btn);
@@ -1523,21 +1541,16 @@
             this.craft_marker.TabIndex = 12;
             this.craft_marker.Text = "C";
             // 
-            // igaingps_textbox
+            // compass_callibrate_btn
             // 
-            this.igaingps_textbox.Location = new System.Drawing.Point(115, 119);
-            this.igaingps_textbox.Name = "igaingps_textbox";
-            this.igaingps_textbox.Size = new System.Drawing.Size(59, 20);
-            this.igaingps_textbox.TabIndex = 37;
-            // 
-            // label38
-            // 
-            this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(92, 122);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(21, 13);
-            this.label38.TabIndex = 36;
-            this.label38.Text = "IG:";
+            this.compass_callibrate_btn.Enabled = false;
+            this.compass_callibrate_btn.Location = new System.Drawing.Point(6, 109);
+            this.compass_callibrate_btn.Name = "compass_callibrate_btn";
+            this.compass_callibrate_btn.Size = new System.Drawing.Size(94, 23);
+            this.compass_callibrate_btn.TabIndex = 10;
+            this.compass_callibrate_btn.Text = "Calibrate Comp";
+            this.compass_callibrate_btn.UseVisualStyleBackColor = true;
+            this.compass_callibrate_btn.Click += new System.EventHandler(this.compass_callibrate_btn_Click);
             // 
             // Form1
             // 
@@ -1726,6 +1739,7 @@
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.TextBox igaingps_textbox;
         private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Button compass_callibrate_btn;
     }
 }
 
