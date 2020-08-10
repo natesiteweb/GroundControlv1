@@ -112,7 +112,8 @@ namespace GroundControlv1
             CALIBRATE_REQUEST = 0xF7,
             ALTITUDE_REQUEST = 0xF8,
             ALTITUDE_SET_REQUEST = 0xF9,
-            CALIBRATE_COMPASS_REQUEST = 0xFA
+            CALIBRATE_COMPASS_REQUEST = 0xFA,
+            CALIBRATE_ESC_REQUEST = 0xFB
         }
     }
 }

@@ -89,6 +89,7 @@
             this.clearstatus_btn = new System.Windows.Forms.Button();
             this.statusterminal_textbox = new System.Windows.Forms.TextBox();
             this.sendcmd_groupBox = new System.Windows.Forms.GroupBox();
+            this.compass_callibrate_btn = new System.Windows.Forms.Button();
             this.disarm_btn = new System.Windows.Forms.Button();
             this.ratemode_btn = new System.Windows.Forms.Button();
             this.levelmode_btn = new System.Windows.Forms.Button();
@@ -163,7 +164,7 @@
             this.logging_timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialogLogging = new System.Windows.Forms.SaveFileDialog();
             this.craft_marker = new System.Windows.Forms.Label();
-            this.compass_callibrate_btn = new System.Windows.Forms.Button();
+            this.esc_callibrate_btn = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
@@ -795,6 +796,7 @@
             // 
             // sendcmd_groupBox
             // 
+            this.sendcmd_groupBox.Controls.Add(this.esc_callibrate_btn);
             this.sendcmd_groupBox.Controls.Add(this.compass_callibrate_btn);
             this.sendcmd_groupBox.Controls.Add(this.disarm_btn);
             this.sendcmd_groupBox.Controls.Add(this.ratemode_btn);
@@ -808,6 +810,17 @@
             this.sendcmd_groupBox.TabIndex = 10;
             this.sendcmd_groupBox.TabStop = false;
             this.sendcmd_groupBox.Text = "Send Commands";
+            // 
+            // compass_callibrate_btn
+            // 
+            this.compass_callibrate_btn.Enabled = false;
+            this.compass_callibrate_btn.Location = new System.Drawing.Point(6, 109);
+            this.compass_callibrate_btn.Name = "compass_callibrate_btn";
+            this.compass_callibrate_btn.Size = new System.Drawing.Size(94, 23);
+            this.compass_callibrate_btn.TabIndex = 10;
+            this.compass_callibrate_btn.Text = "Calibrate Comp";
+            this.compass_callibrate_btn.UseVisualStyleBackColor = true;
+            this.compass_callibrate_btn.Click += new System.EventHandler(this.compass_callibrate_btn_Click);
             // 
             // disarm_btn
             // 
@@ -1541,16 +1554,16 @@
             this.craft_marker.TabIndex = 12;
             this.craft_marker.Text = "C";
             // 
-            // compass_callibrate_btn
+            // esc_callibrate_btn
             // 
-            this.compass_callibrate_btn.Enabled = false;
-            this.compass_callibrate_btn.Location = new System.Drawing.Point(6, 109);
-            this.compass_callibrate_btn.Name = "compass_callibrate_btn";
-            this.compass_callibrate_btn.Size = new System.Drawing.Size(94, 23);
-            this.compass_callibrate_btn.TabIndex = 10;
-            this.compass_callibrate_btn.Text = "Calibrate Comp";
-            this.compass_callibrate_btn.UseVisualStyleBackColor = true;
-            this.compass_callibrate_btn.Click += new System.EventHandler(this.compass_callibrate_btn_Click);
+            this.esc_callibrate_btn.Enabled = false;
+            this.esc_callibrate_btn.Location = new System.Drawing.Point(101, 109);
+            this.esc_callibrate_btn.Name = "esc_callibrate_btn";
+            this.esc_callibrate_btn.Size = new System.Drawing.Size(94, 23);
+            this.esc_callibrate_btn.TabIndex = 11;
+            this.esc_callibrate_btn.Text = "Calibrate ESCs";
+            this.esc_callibrate_btn.UseVisualStyleBackColor = true;
+            this.esc_callibrate_btn.Click += new System.EventHandler(this.esc_callibrate_btn_Click);
             // 
             // Form1
             // 
@@ -1740,6 +1753,7 @@
         private System.Windows.Forms.TextBox igaingps_textbox;
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.Button compass_callibrate_btn;
+        private System.Windows.Forms.Button esc_callibrate_btn;
     }
 }
 
