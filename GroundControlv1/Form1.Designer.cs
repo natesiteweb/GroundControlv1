@@ -89,9 +89,10 @@
             this.clearstatus_btn = new System.Windows.Forms.Button();
             this.statusterminal_textbox = new System.Windows.Forms.TextBox();
             this.sendcmd_groupBox = new System.Windows.Forms.GroupBox();
+            this.esc_callibrate_btn = new System.Windows.Forms.Button();
             this.compass_callibrate_btn = new System.Windows.Forms.Button();
             this.disarm_btn = new System.Windows.Forms.Button();
-            this.ratemode_btn = new System.Windows.Forms.Button();
+            this.gpshold_btn = new System.Windows.Forms.Button();
             this.levelmode_btn = new System.Windows.Forms.Button();
             this.gyro_callibrate_btn = new System.Windows.Forms.Button();
             this.poshold_btn = new System.Windows.Forms.Button();
@@ -164,7 +165,6 @@
             this.logging_timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialogLogging = new System.Windows.Forms.SaveFileDialog();
             this.craft_marker = new System.Windows.Forms.Label();
-            this.esc_callibrate_btn = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
@@ -799,7 +799,7 @@
             this.sendcmd_groupBox.Controls.Add(this.esc_callibrate_btn);
             this.sendcmd_groupBox.Controls.Add(this.compass_callibrate_btn);
             this.sendcmd_groupBox.Controls.Add(this.disarm_btn);
-            this.sendcmd_groupBox.Controls.Add(this.ratemode_btn);
+            this.sendcmd_groupBox.Controls.Add(this.gpshold_btn);
             this.sendcmd_groupBox.Controls.Add(this.levelmode_btn);
             this.sendcmd_groupBox.Controls.Add(this.gyro_callibrate_btn);
             this.sendcmd_groupBox.Controls.Add(this.poshold_btn);
@@ -810,6 +810,17 @@
             this.sendcmd_groupBox.TabIndex = 10;
             this.sendcmd_groupBox.TabStop = false;
             this.sendcmd_groupBox.Text = "Send Commands";
+            // 
+            // esc_callibrate_btn
+            // 
+            this.esc_callibrate_btn.Enabled = false;
+            this.esc_callibrate_btn.Location = new System.Drawing.Point(101, 109);
+            this.esc_callibrate_btn.Name = "esc_callibrate_btn";
+            this.esc_callibrate_btn.Size = new System.Drawing.Size(94, 23);
+            this.esc_callibrate_btn.TabIndex = 11;
+            this.esc_callibrate_btn.Text = "Calibrate ESCs";
+            this.esc_callibrate_btn.UseVisualStyleBackColor = true;
+            this.esc_callibrate_btn.Click += new System.EventHandler(this.esc_callibrate_btn_Click);
             // 
             // compass_callibrate_btn
             // 
@@ -825,7 +836,7 @@
             // disarm_btn
             // 
             this.disarm_btn.Enabled = false;
-            this.disarm_btn.Location = new System.Drawing.Point(101, 24);
+            this.disarm_btn.Location = new System.Drawing.Point(6, 24);
             this.disarm_btn.Name = "disarm_btn";
             this.disarm_btn.Size = new System.Drawing.Size(94, 23);
             this.disarm_btn.TabIndex = 9;
@@ -833,27 +844,27 @@
             this.disarm_btn.UseVisualStyleBackColor = true;
             this.disarm_btn.Click += new System.EventHandler(this.disarm_btn_Click);
             // 
-            // ratemode_btn
+            // gpshold_btn
             // 
-            this.ratemode_btn.Enabled = false;
-            this.ratemode_btn.Location = new System.Drawing.Point(101, 53);
-            this.ratemode_btn.Name = "ratemode_btn";
-            this.ratemode_btn.Size = new System.Drawing.Size(94, 23);
-            this.ratemode_btn.TabIndex = 8;
-            this.ratemode_btn.Text = "Rate Mode";
-            this.ratemode_btn.UseVisualStyleBackColor = true;
-            this.ratemode_btn.Click += new System.EventHandler(this.ratemode_btn_Click);
+            this.gpshold_btn.Enabled = false;
+            this.gpshold_btn.Location = new System.Drawing.Point(101, 24);
+            this.gpshold_btn.Name = "gpshold_btn";
+            this.gpshold_btn.Size = new System.Drawing.Size(94, 23);
+            this.gpshold_btn.TabIndex = 8;
+            this.gpshold_btn.Text = "GPS Hold";
+            this.gpshold_btn.UseVisualStyleBackColor = true;
+            this.gpshold_btn.Click += new System.EventHandler(this.gpshold_btn_Click);
             // 
             // levelmode_btn
             // 
             this.levelmode_btn.Enabled = false;
-            this.levelmode_btn.Location = new System.Drawing.Point(101, 82);
+            this.levelmode_btn.Location = new System.Drawing.Point(101, 53);
             this.levelmode_btn.Name = "levelmode_btn";
             this.levelmode_btn.Size = new System.Drawing.Size(94, 23);
             this.levelmode_btn.TabIndex = 7;
-            this.levelmode_btn.Text = "Level Mode";
+            this.levelmode_btn.Text = "Land";
             this.levelmode_btn.UseVisualStyleBackColor = true;
-            this.levelmode_btn.Click += new System.EventHandler(this.levelmode_btn_Click);
+            this.levelmode_btn.Click += new System.EventHandler(this.land_btn_Click);
             // 
             // gyro_callibrate_btn
             // 
@@ -869,7 +880,7 @@
             // poshold_btn
             // 
             this.poshold_btn.Enabled = false;
-            this.poshold_btn.Location = new System.Drawing.Point(6, 24);
+            this.poshold_btn.Location = new System.Drawing.Point(101, 82);
             this.poshold_btn.Name = "poshold_btn";
             this.poshold_btn.Size = new System.Drawing.Size(94, 23);
             this.poshold_btn.TabIndex = 5;
@@ -985,7 +996,9 @@
             // panel5
             // 
             this.panel5.Controls.Add(this.panel6);
+            this.panel5.Controls.Add(this.clearhold_btn);
             this.panel5.Controls.Add(this.label4);
+            this.panel5.Controls.Add(this.sethome_btn);
             this.panel5.Location = new System.Drawing.Point(902, -12);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(1048, 213);
@@ -1111,9 +1124,7 @@
             // markerGroupBox
             // 
             this.markerGroupBox.Controls.Add(this.uploadhomeandpos_btn);
-            this.markerGroupBox.Controls.Add(this.clearhold_btn);
             this.markerGroupBox.Controls.Add(this.setholdpos_btn);
-            this.markerGroupBox.Controls.Add(this.sethome_btn);
             this.markerGroupBox.Controls.Add(this.label9);
             this.markerGroupBox.Controls.Add(this.label8);
             this.markerGroupBox.Controls.Add(this.label7);
@@ -1139,7 +1150,7 @@
             // 
             // clearhold_btn
             // 
-            this.clearhold_btn.Location = new System.Drawing.Point(85, 86);
+            this.clearhold_btn.Location = new System.Drawing.Point(350, 25);
             this.clearhold_btn.Name = "clearhold_btn";
             this.clearhold_btn.Size = new System.Drawing.Size(112, 23);
             this.clearhold_btn.TabIndex = 10;
@@ -1160,12 +1171,13 @@
             // 
             // sethome_btn
             // 
-            this.sethome_btn.Location = new System.Drawing.Point(6, 86);
+            this.sethome_btn.Location = new System.Drawing.Point(250, 22);
             this.sethome_btn.Name = "sethome_btn";
             this.sethome_btn.Size = new System.Drawing.Size(73, 23);
             this.sethome_btn.TabIndex = 8;
             this.sethome_btn.Text = "Set Home";
             this.sethome_btn.UseVisualStyleBackColor = true;
+            this.sethome_btn.Visible = false;
             this.sethome_btn.Click += new System.EventHandler(this.sethome_btn_Click);
             // 
             // label9
@@ -1268,7 +1280,7 @@
             // 
             this.panel2.Location = new System.Drawing.Point(1846, 194);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(104, 598);
+            this.panel2.Size = new System.Drawing.Size(104, 612);
             this.panel2.TabIndex = 15;
             // 
             // positionhold_marker
@@ -1553,17 +1565,7 @@
             this.craft_marker.Size = new System.Drawing.Size(18, 16);
             this.craft_marker.TabIndex = 12;
             this.craft_marker.Text = "C";
-            // 
-            // esc_callibrate_btn
-            // 
-            this.esc_callibrate_btn.Enabled = false;
-            this.esc_callibrate_btn.Location = new System.Drawing.Point(101, 109);
-            this.esc_callibrate_btn.Name = "esc_callibrate_btn";
-            this.esc_callibrate_btn.Size = new System.Drawing.Size(94, 23);
-            this.esc_callibrate_btn.TabIndex = 11;
-            this.esc_callibrate_btn.Text = "Calibrate ESCs";
-            this.esc_callibrate_btn.UseVisualStyleBackColor = true;
-            this.esc_callibrate_btn.Click += new System.EventHandler(this.esc_callibrate_btn_Click);
+            this.craft_marker.Visible = false;
             // 
             // Form1
             // 
@@ -1711,7 +1713,7 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label battery_voltage_label;
-        private System.Windows.Forms.Button ratemode_btn;
+        private System.Windows.Forms.Button gpshold_btn;
         private System.Windows.Forms.Button levelmode_btn;
         private System.Windows.Forms.Button disarm_btn;
         private System.Windows.Forms.Label batteryraw_label1;

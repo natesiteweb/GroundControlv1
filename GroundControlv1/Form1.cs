@@ -511,9 +511,32 @@ namespace GroundControlv1
                             updateAltTextbox = true;
                             break;
                         case (byte)SerialHelper.CommandFromSerial.GPS_PACKET:
-                            satelliteCount = SerialHelper.ReadInt16();
-                            markerPoints[3].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
-                            markerPoints[3].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
+
+                            byte craftToUpdate = (byte)SerialHelper.serialPort.ReadByte();
+
+                            if (craftToUpdate == 0x00) //Update craft position
+                            {
+                                satelliteCount = SerialHelper.ReadInt16();
+                                markerPoints[3].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
+                                markerPoints[3].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
+                            }
+                            else if (craftToUpdate == 0x01) //Update home position
+                            {
+                                markerPoints[0].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
+                                markerPoints[0].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
+
+                                markerVisibleArray[0] = 1;
+                            }
+                            else if (craftToUpdate == 0x02) //Update gps hold position
+                            {
+                                markerPoints[3].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
+                                markerPoints[3].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
+                            }
+                            else if (craftToUpdate >= 0x05) //Update waypoints
+                            {
+                                markerPoints[3].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
+                                markerPoints[3].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
+                            }
 
                             newCraftPos = true;
 
@@ -576,7 +599,7 @@ namespace GroundControlv1
                 compass_callibrate_btn.Enabled = true;
                 esc_callibrate_btn.Enabled = true;
                 levelmode_btn.Enabled = true;
-                ratemode_btn.Enabled = true;
+                gpshold_btn.Enabled = true;
                 disarm_btn.Enabled = true;
             }
             catch (Exception ex)
@@ -605,7 +628,7 @@ namespace GroundControlv1
             compass_callibrate_btn.Enabled = false;
             esc_callibrate_btn.Enabled = false;
             levelmode_btn.Enabled = false;
-            ratemode_btn.Enabled = false;
+            gpshold_btn.Enabled = false;
             disarm_btn.Enabled = false;
         }
 
@@ -796,8 +819,8 @@ namespace GroundControlv1
                             else if (i == 1)
                             {
                                 setholdpos_btn.Text = "Set Hold Position";
-                                setholdpos_btn.Visible = false;
-                                clearhold_btn.Visible = true;
+                                //setholdpos_btn.Visible = false;
+                                //clearhold_btn.Visible = true;
 
                                 poshold_btn.Text = markerPoints[i].X.ToString();
                                 rth_btn.Text = markerPoints[i].Y.ToString();
@@ -1022,7 +1045,7 @@ namespace GroundControlv1
             markerVisibleArray[1] = 0;
 
             clearhold_btn.Visible = false;
-            setholdpos_btn.Visible = true;
+            //setholdpos_btn.Visible = true;
         }
 
         private void mainLoopTimer_Tick(object sender, EventArgs e)
@@ -1096,6 +1119,15 @@ namespace GroundControlv1
 
                 if (newCraftPos)
                 {
+                    if(satelliteCount >= 3)
+                    {
+                        markerVisibleArray[3] = 1;
+                    }
+                    else
+                    {
+                        markerVisibleArray[3] = 0;
+                    }
+
                     newCraftPos = false;
                     RefreshMarkerPositions();
                 }
@@ -1239,14 +1271,20 @@ namespace GroundControlv1
                     SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.CALIBRATE_ESC_REQUEST);
                     calibrateESC = false;
                 }
-
-                /*else if(flightModeToSend > 0)
+                else if (flightModeToSend > 0)
                 {
-                    statusWriteBuffer.Add("Changing Flight Mode...");
-                    serialPort1.Write(new byte[3] { 0x04, (byte)((flightModeToSend >> 8) & 0xFF), (byte)(flightModeToSend & 0xFF) }, 0, 3);
+                    //statusWriteBuffer.Add("Disarming...");
+
+                    //Int16[] gains = new Int16[1] { (Int16)flightModeToSend };
+                    byte[] p = new byte[3];
+                    p[0] = (byte)SerialHelper.CommandFromSerial.FLIGHT_MODE_UPDATE_REQUEST;
+                    p[1] = (byte)((flightModeToSend >> 8) & 0xFF);
+                    p[2] = (byte)(flightModeToSend & 0xFF);
+                    //System.Buffer.BlockCopy(gains, 0, p, 1, 2);
+                    SerialHelper.serialPort.Write(p, 0, 3);
 
                     flightModeToSend = 0;
-                }*/
+                }
             }
 
             if (markedToClear)
@@ -1346,6 +1384,10 @@ namespace GroundControlv1
             pgainaltitude_textbox.Text = "~";
             igainaltitude_textbox.Text = "~";
             dgainaltitude_textbox.Text = "~";
+
+            pgaingps_textbox.Text = "~";
+            igaingps_textbox.Text = "~";
+            dgaingps_textbox.Text = "~";
         }
 
         private void uploadtuning_btn_Click(object sender, EventArgs e)
@@ -1358,14 +1400,9 @@ namespace GroundControlv1
             calibrateGyro = true;
         }
 
-        private void levelmode_btn_Click(object sender, EventArgs e)
+        private void gpshold_btn_Click(object sender, EventArgs e)
         {
-            flightModeToSend = 3;
-        }
-
-        private void ratemode_btn_Click(object sender, EventArgs e)
-        {
-            flightModeToSend = 2;
+            flightModeToSend = 8;
         }
 
         private void disarm_btn_Click(object sender, EventArgs e)
@@ -1522,6 +1559,11 @@ namespace GroundControlv1
         private void esc_callibrate_btn_Click(object sender, EventArgs e)
         {
             calibrateESC = true;
+        }
+
+        private void land_btn_Click(object sender, EventArgs e)
+        {
+            flightModeToSend = 7;
         }
 
         private void LoadMap()
