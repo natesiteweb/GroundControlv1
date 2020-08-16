@@ -114,7 +114,10 @@ namespace GroundControlv1
             ALTITUDE_SET_REQUEST = 0xF9,
             CALIBRATE_COMPASS_REQUEST = 0xFA,
             CALIBRATE_ESC_REQUEST = 0xFB,
-            FLIGHT_MODE_UPDATE_REQUEST = 0xFC
+            FLIGHT_MODE_UPDATE_REQUEST = 0xFC,
+            GPS_PACKET_UPDATE_REQUEST = 0xFD,
+            GPS_PACKET_REQUEST = 0xFE,
+            GPS_COPY_BUFFER_REQUEST = 0xFF
         }
     }
 }

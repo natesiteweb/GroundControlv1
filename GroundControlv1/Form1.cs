@@ -127,9 +127,13 @@ namespace GroundControlv1
         bool calibrateGyro = false;
         bool calibrateCompass = false;
         bool calibrateESC = false;
+        bool updategpshold = false;
 
         bool askforalt = false;
         bool updatealt = false;
+        bool askforgps = false;
+
+        bool holdpos = false;
 
         short flightModeToSend = 0;
 
@@ -529,8 +533,9 @@ namespace GroundControlv1
                             }
                             else if (craftToUpdate == 0x02) //Update gps hold position
                             {
-                                markerPoints[3].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
-                                markerPoints[3].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
+                                markerPoints[1].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
+                                markerPoints[1].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
+                                markerVisibleArray[1] = 1;
                             }
                             else if (craftToUpdate >= 0x05) //Update waypoints
                             {
@@ -594,7 +599,8 @@ namespace GroundControlv1
                 uploadaltsetpoint_btn.Enabled = true;
                 downloadaltsetpoint_btn.Enabled = true;
                 downloadtuning_btn.Enabled = true;
-                uploadhomeandpos_btn.Enabled = true;
+                uploadpos_btn.Enabled = true;
+                downloadpos_btn.Enabled = true;
                 gyro_callibrate_btn.Enabled = true;
                 compass_callibrate_btn.Enabled = true;
                 esc_callibrate_btn.Enabled = true;
@@ -623,7 +629,8 @@ namespace GroundControlv1
             uploadaltsetpoint_btn.Enabled = false;
             downloadaltsetpoint_btn.Enabled = false;
             downloadtuning_btn.Enabled = false;
-            uploadhomeandpos_btn.Enabled = false;
+            uploadpos_btn.Enabled = false;
+            downloadpos_btn.Enabled = false;
             gyro_callibrate_btn.Enabled = false;
             compass_callibrate_btn.Enabled = false;
             esc_callibrate_btn.Enabled = false;
@@ -822,8 +829,8 @@ namespace GroundControlv1
                                 //setholdpos_btn.Visible = false;
                                 //clearhold_btn.Visible = true;
 
-                                poshold_btn.Text = markerPoints[i].X.ToString();
-                                rth_btn.Text = markerPoints[i].Y.ToString();
+                                //poshold_btn.Text = markerPoints[i].X.ToString();
+                                //rth_btn.Text = markerPoints[i].Y.ToString();
                             }
 
                             allMarkers[i].Location = new Point(click_lon - 8, click_lat - 8);
@@ -1285,6 +1292,27 @@ namespace GroundControlv1
 
                     flightModeToSend = 0;
                 }
+                else if(askforgps)
+                {
+                    SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.GPS_PACKET_REQUEST);
+                    askforgps = false;
+                }
+                else if (updategpshold)
+                {
+                    Int32[] gains = new Int32[2] { (markerPoints[1].Y / 10), (markerPoints[1].X / 10) };
+                    byte[] p = new byte[10];
+                    p[0] = (byte)SerialHelper.CommandFromSerial.GPS_PACKET_UPDATE_REQUEST;
+                    p[1] = (byte)0x01;
+                    System.Buffer.BlockCopy(gains, 0, p, 2, 8);
+                    SerialHelper.serialPort.Write(p, 0, 10);
+
+                    updategpshold = false;
+                }
+                else if (holdpos)
+                {
+                    SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.GPS_COPY_BUFFER_REQUEST);
+                    holdpos = false;
+                }
             }
 
             if (markedToClear)
@@ -1564,6 +1592,21 @@ namespace GroundControlv1
         private void land_btn_Click(object sender, EventArgs e)
         {
             flightModeToSend = 7;
+        }
+
+        private void uploadpos_btn_Click(object sender, EventArgs e)
+        {
+            updategpshold = true;
+        }
+
+        private void downloadpos_btn_Click(object sender, EventArgs e)
+        {
+            askforgps = true;
+        }
+
+        private void poshold_btn_Click(object sender, EventArgs e)
+        {
+            holdpos = true;
         }
 
         private void LoadMap()

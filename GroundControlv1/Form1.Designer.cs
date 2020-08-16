@@ -121,17 +121,17 @@
             this.lati_input = new System.Windows.Forms.TextBox();
             this.long_input = new System.Windows.Forms.TextBox();
             this.markerGroupBox = new System.Windows.Forms.GroupBox();
-            this.uploadhomeandpos_btn = new System.Windows.Forms.Button();
-            this.clearhold_btn = new System.Windows.Forms.Button();
+            this.uploadpos_btn = new System.Windows.Forms.Button();
             this.setholdpos_btn = new System.Windows.Forms.Button();
-            this.sethome_btn = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.clearhold_btn = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.sethome_btn = new System.Windows.Forms.Button();
             this.home_marker = new System.Windows.Forms.Label();
             this.marker2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -165,6 +165,7 @@
             this.logging_timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialogLogging = new System.Windows.Forms.SaveFileDialog();
             this.craft_marker = new System.Windows.Forms.Label();
+            this.downloadpos_btn = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
@@ -886,6 +887,7 @@
             this.poshold_btn.TabIndex = 5;
             this.poshold_btn.Text = "Hold Position At P";
             this.poshold_btn.UseVisualStyleBackColor = true;
+            this.poshold_btn.Click += new System.EventHandler(this.poshold_btn_Click);
             // 
             // rth_btn
             // 
@@ -1123,7 +1125,8 @@
             // 
             // markerGroupBox
             // 
-            this.markerGroupBox.Controls.Add(this.uploadhomeandpos_btn);
+            this.markerGroupBox.Controls.Add(this.downloadpos_btn);
+            this.markerGroupBox.Controls.Add(this.uploadpos_btn);
             this.markerGroupBox.Controls.Add(this.setholdpos_btn);
             this.markerGroupBox.Controls.Add(this.label9);
             this.markerGroupBox.Controls.Add(this.label8);
@@ -1138,47 +1141,26 @@
             this.markerGroupBox.TabStop = false;
             this.markerGroupBox.Text = "Marker Legend";
             // 
-            // uploadhomeandpos_btn
+            // uploadpos_btn
             // 
-            this.uploadhomeandpos_btn.Enabled = false;
-            this.uploadhomeandpos_btn.Location = new System.Drawing.Point(203, 86);
-            this.uploadhomeandpos_btn.Name = "uploadhomeandpos_btn";
-            this.uploadhomeandpos_btn.Size = new System.Drawing.Size(68, 23);
-            this.uploadhomeandpos_btn.TabIndex = 11;
-            this.uploadhomeandpos_btn.Text = "Upload";
-            this.uploadhomeandpos_btn.UseVisualStyleBackColor = true;
-            // 
-            // clearhold_btn
-            // 
-            this.clearhold_btn.Location = new System.Drawing.Point(350, 25);
-            this.clearhold_btn.Name = "clearhold_btn";
-            this.clearhold_btn.Size = new System.Drawing.Size(112, 23);
-            this.clearhold_btn.TabIndex = 10;
-            this.clearhold_btn.Text = "Clear Position Hold";
-            this.clearhold_btn.UseVisualStyleBackColor = true;
-            this.clearhold_btn.Visible = false;
-            this.clearhold_btn.Click += new System.EventHandler(this.clearhold_btn_Click);
+            this.uploadpos_btn.Enabled = false;
+            this.uploadpos_btn.Location = new System.Drawing.Point(129, 85);
+            this.uploadpos_btn.Name = "uploadpos_btn";
+            this.uploadpos_btn.Size = new System.Drawing.Size(68, 23);
+            this.uploadpos_btn.TabIndex = 11;
+            this.uploadpos_btn.Text = "Upload";
+            this.uploadpos_btn.UseVisualStyleBackColor = true;
+            this.uploadpos_btn.Click += new System.EventHandler(this.uploadpos_btn_Click);
             // 
             // setholdpos_btn
             // 
-            this.setholdpos_btn.Location = new System.Drawing.Point(85, 86);
+            this.setholdpos_btn.Location = new System.Drawing.Point(6, 86);
             this.setholdpos_btn.Name = "setholdpos_btn";
             this.setholdpos_btn.Size = new System.Drawing.Size(112, 23);
             this.setholdpos_btn.TabIndex = 9;
             this.setholdpos_btn.Text = "Set Hold Position";
             this.setholdpos_btn.UseVisualStyleBackColor = true;
             this.setholdpos_btn.Click += new System.EventHandler(this.setholdpos_btn_Click);
-            // 
-            // sethome_btn
-            // 
-            this.sethome_btn.Location = new System.Drawing.Point(250, 22);
-            this.sethome_btn.Name = "sethome_btn";
-            this.sethome_btn.Size = new System.Drawing.Size(73, 23);
-            this.sethome_btn.TabIndex = 8;
-            this.sethome_btn.Text = "Set Home";
-            this.sethome_btn.UseVisualStyleBackColor = true;
-            this.sethome_btn.Visible = false;
-            this.sethome_btn.Click += new System.EventHandler(this.sethome_btn_Click);
             // 
             // label9
             // 
@@ -1241,6 +1223,17 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Home:";
             // 
+            // clearhold_btn
+            // 
+            this.clearhold_btn.Location = new System.Drawing.Point(350, 25);
+            this.clearhold_btn.Name = "clearhold_btn";
+            this.clearhold_btn.Size = new System.Drawing.Size(112, 23);
+            this.clearhold_btn.TabIndex = 10;
+            this.clearhold_btn.Text = "Clear Position Hold";
+            this.clearhold_btn.UseVisualStyleBackColor = true;
+            this.clearhold_btn.Visible = false;
+            this.clearhold_btn.Click += new System.EventHandler(this.clearhold_btn_Click);
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -1249,6 +1242,17 @@
             this.label4.Size = new System.Drawing.Size(173, 13);
             this.label4.TabIndex = 13;
             this.label4.Text = " (Right click to change map center)";
+            // 
+            // sethome_btn
+            // 
+            this.sethome_btn.Location = new System.Drawing.Point(250, 22);
+            this.sethome_btn.Name = "sethome_btn";
+            this.sethome_btn.Size = new System.Drawing.Size(73, 23);
+            this.sethome_btn.TabIndex = 8;
+            this.sethome_btn.Text = "Set Home";
+            this.sethome_btn.UseVisualStyleBackColor = true;
+            this.sethome_btn.Visible = false;
+            this.sethome_btn.Click += new System.EventHandler(this.sethome_btn_Click);
             // 
             // home_marker
             // 
@@ -1567,6 +1571,17 @@
             this.craft_marker.Text = "C";
             this.craft_marker.Visible = false;
             // 
+            // downloadpos_btn
+            // 
+            this.downloadpos_btn.Enabled = false;
+            this.downloadpos_btn.Location = new System.Drawing.Point(203, 85);
+            this.downloadpos_btn.Name = "downloadpos_btn";
+            this.downloadpos_btn.Size = new System.Drawing.Size(68, 23);
+            this.downloadpos_btn.TabIndex = 12;
+            this.downloadpos_btn.Text = "Download";
+            this.downloadpos_btn.UseVisualStyleBackColor = true;
+            this.downloadpos_btn.Click += new System.EventHandler(this.downloadpos_btn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1677,7 +1692,7 @@
         private System.Windows.Forms.Button clearstatus_btn;
         private System.Windows.Forms.GroupBox tuning_groupBox;
         private System.Windows.Forms.Button uploadtuning_btn;
-        private System.Windows.Forms.Button uploadhomeandpos_btn;
+        private System.Windows.Forms.Button uploadpos_btn;
         private ZedGraph.ZedGraphControl orientationGraphControl;
         private ZedGraph.ZedGraphControl pidoutputGraphControl;
         private System.Windows.Forms.Label gyrozraw_label;
@@ -1756,6 +1771,7 @@
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.Button compass_callibrate_btn;
         private System.Windows.Forms.Button esc_callibrate_btn;
+        private System.Windows.Forms.Button downloadpos_btn;
     }
 }
 
