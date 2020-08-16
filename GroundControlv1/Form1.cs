@@ -539,8 +539,9 @@ namespace GroundControlv1
                             }
                             else if (craftToUpdate >= 0x05) //Update waypoints
                             {
-                                markerPoints[3].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
-                                markerPoints[3].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
+                                markerPoints[2].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
+                                markerPoints[2].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
+                                markerVisibleArray[2] = 1;
                             }
 
                             newCraftPos = true;

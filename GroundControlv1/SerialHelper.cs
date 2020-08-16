@@ -117,7 +117,7 @@ namespace GroundControlv1
             FLIGHT_MODE_UPDATE_REQUEST = 0xFC,
             GPS_PACKET_UPDATE_REQUEST = 0xFD,
             GPS_PACKET_REQUEST = 0xFE,
-            GPS_COPY_BUFFER_REQUEST = 0xFF
+            GPS_COPY_BUFFER_REQUEST = 0xE0
         }
     }
 }
