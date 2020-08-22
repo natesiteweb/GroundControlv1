@@ -121,6 +121,7 @@
             this.lati_input = new System.Windows.Forms.TextBox();
             this.long_input = new System.Windows.Forms.TextBox();
             this.markerGroupBox = new System.Windows.Forms.GroupBox();
+            this.downloadpos_btn = new System.Windows.Forms.Button();
             this.uploadpos_btn = new System.Windows.Forms.Button();
             this.setholdpos_btn = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
@@ -165,7 +166,6 @@
             this.logging_timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialogLogging = new System.Windows.Forms.SaveFileDialog();
             this.craft_marker = new System.Windows.Forms.Label();
-            this.downloadpos_btn = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
@@ -1141,6 +1141,17 @@
             this.markerGroupBox.TabStop = false;
             this.markerGroupBox.Text = "Marker Legend";
             // 
+            // downloadpos_btn
+            // 
+            this.downloadpos_btn.Enabled = false;
+            this.downloadpos_btn.Location = new System.Drawing.Point(203, 85);
+            this.downloadpos_btn.Name = "downloadpos_btn";
+            this.downloadpos_btn.Size = new System.Drawing.Size(68, 23);
+            this.downloadpos_btn.TabIndex = 12;
+            this.downloadpos_btn.Text = "Download";
+            this.downloadpos_btn.UseVisualStyleBackColor = true;
+            this.downloadpos_btn.Click += new System.EventHandler(this.downloadpos_btn_Click);
+            // 
             // uploadpos_btn
             // 
             this.uploadpos_btn.Enabled = false;
@@ -1258,6 +1269,7 @@
             // 
             this.home_marker.AutoSize = true;
             this.home_marker.BackColor = System.Drawing.Color.Black;
+            this.home_marker.Enabled = false;
             this.home_marker.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.home_marker.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.home_marker.Location = new System.Drawing.Point(913, 767);
@@ -1271,6 +1283,7 @@
             // 
             this.marker2.AutoSize = true;
             this.marker2.BackColor = System.Drawing.Color.DarkRed;
+            this.marker2.Enabled = false;
             this.marker2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.marker2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.marker2.Location = new System.Drawing.Point(960, 767);
@@ -1291,6 +1304,7 @@
             // 
             this.positionhold_marker.AutoSize = true;
             this.positionhold_marker.BackColor = System.Drawing.Color.Red;
+            this.positionhold_marker.Enabled = false;
             this.positionhold_marker.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.positionhold_marker.Location = new System.Drawing.Point(1001, 755);
             this.positionhold_marker.Name = "positionhold_marker";
@@ -1563,6 +1577,7 @@
             // 
             this.craft_marker.AutoSize = true;
             this.craft_marker.BackColor = System.Drawing.Color.Lime;
+            this.craft_marker.Enabled = false;
             this.craft_marker.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.craft_marker.Location = new System.Drawing.Point(1046, 776);
             this.craft_marker.Name = "craft_marker";
@@ -1570,17 +1585,6 @@
             this.craft_marker.TabIndex = 12;
             this.craft_marker.Text = "C";
             this.craft_marker.Visible = false;
-            // 
-            // downloadpos_btn
-            // 
-            this.downloadpos_btn.Enabled = false;
-            this.downloadpos_btn.Location = new System.Drawing.Point(203, 85);
-            this.downloadpos_btn.Name = "downloadpos_btn";
-            this.downloadpos_btn.Size = new System.Drawing.Size(68, 23);
-            this.downloadpos_btn.TabIndex = 12;
-            this.downloadpos_btn.Text = "Download";
-            this.downloadpos_btn.UseVisualStyleBackColor = true;
-            this.downloadpos_btn.Click += new System.EventHandler(this.downloadpos_btn_Click);
             // 
             // Form1
             // 
