@@ -17,7 +17,8 @@ namespace GroundControlv1
             bytes[0] = (byte)serialPort.ReadByte();
             bytes[1] = (byte)serialPort.ReadByte();
 
-            return BitConverter.ToInt16(bytes, 0);
+            //return BitConverter.ToInt16(bytes, 0);
+            return (Int16)((bytes[0] << 8) | bytes[1]);
         }
 
         public static float ReadFloat()

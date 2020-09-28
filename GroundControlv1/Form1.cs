@@ -309,7 +309,7 @@ namespace GroundControlv1
                             gyroY = SerialHelper.ReadInt16();
                             gyroZ = SerialHelper.ReadInt16();
 
-                            raw_battery_voltage = SerialHelper.ReadInt16();
+                            /*raw_battery_voltage = SerialHelper.ReadInt16();
                             battery_voltage = (float)Math.Truncate(raw_battery_voltage * 5.6734f) / 100f;
 
                             loopTime = SerialHelper.ReadInt32();
@@ -320,7 +320,7 @@ namespace GroundControlv1
 
                             flight_mode = SerialHelper.ReadInt16();
 
-                            compass_heading = SerialHelper.ReadFloat();
+                            compass_heading = SerialHelper.ReadFloat();*/
 
                             graphScales[0] = 0.001;
                             graphScales[1] = -0.001;
@@ -333,95 +333,17 @@ namespace GroundControlv1
                             UpdateGraph(0, 1, ((double)gyroY) / 65.5f);
                             UpdateGraph(0, 2, ((double)gyroZ) / 65.5f);
 
-                            UpdateGraph(3, 0, (double)roll_angle);
-                            UpdateGraph(3, 1, (double)pitch_angle);
-                            UpdateGraph(3, 2, (double)yaw_angle);
-
-                            UpdateGraph(5, 0, (double)loopTime);
-
-                            markedToUpdateGraphs[0] = true;
-
-                            markedToUpdateGraphs[3] = true;
-
-                            markedToUpdateGraphs[5] = true;
-
-                            /*byte[] valX = new byte[2];
-                            byte[] valY = new byte[2];
-                            byte[] valZ = new byte[2];
-
-                            valX[0] = (byte)serialPort1.ReadByte();
-                            valX[1] = (byte)serialPort1.ReadByte();
-
-                            valY[0] = (byte)serialPort1.ReadByte();
-                            valY[1] = (byte)serialPort1.ReadByte();
-
-                            valZ[0] = (byte)serialPort1.ReadByte();
-                            valZ[1] = (byte)serialPort1.ReadByte();
-
-                            gyroX = System.BitConverter.ToInt16(valX, 0);
-                            gyroY = System.BitConverter.ToInt16(valY, 0);
-                            gyroZ = System.BitConverter.ToInt16(valZ, 0);
-
-                            byte[] roll_angle_output = new byte[4];
-                            byte[] pitch_angle_output = new byte[4];
-                            byte[] yaw_angle_output = new byte[4];
-
-                            byte[] flight_mode_byte_array = new byte[2];
-
-                            byte[] loopTime_byte_array = new byte[4];
-
-                            roll_angle_output[0] = (byte)serialPort1.ReadByte();
-                            roll_angle_output[1] = (byte)serialPort1.ReadByte();
-                            roll_angle_output[2] = (byte)serialPort1.ReadByte();
-                            roll_angle_output[3] = (byte)serialPort1.ReadByte();
-
-                            pitch_angle_output[0] = (byte)serialPort1.ReadByte();
-                            pitch_angle_output[1] = (byte)serialPort1.ReadByte();
-                            pitch_angle_output[2] = (byte)serialPort1.ReadByte();
-                            pitch_angle_output[3] = (byte)serialPort1.ReadByte();
-
-                            yaw_angle_output[0] = (byte)serialPort1.ReadByte();
-                            yaw_angle_output[1] = (byte)serialPort1.ReadByte();
-                            yaw_angle_output[2] = (byte)serialPort1.ReadByte();
-                            yaw_angle_output[3] = (byte)serialPort1.ReadByte();
-
-                            flight_mode_byte_array[0] = (byte)serialPort1.ReadByte();
-                            flight_mode_byte_array[1] = (byte)serialPort1.ReadByte();
-
-                            flight_mode = BitConverter.ToInt16(flight_mode_byte_array, 0);
-
-                            //battery_voltage = (float)serialPort1.ReadByte();
-                            //battery_voltage += (float)Math.Truncate((double)serialPort1.ReadByte()) / 100f;
-                            raw_battery_voltage = ((short)((((byte)serialPort1.ReadByte()) << 8) | ((byte)serialPort1.ReadByte())));
-                            battery_voltage = (float)Math.Truncate(raw_battery_voltage * 5.6734f) / 100f;
-
-                            loopTime_byte_array[0] = (byte)serialPort1.ReadByte();
-                            loopTime_byte_array[1] = (byte)serialPort1.ReadByte();
-                            loopTime_byte_array[2] = (byte)serialPort1.ReadByte();
-                            loopTime_byte_array[3] = (byte)serialPort1.ReadByte();
-
-                            loopTime = BitConverter.ToInt32(loopTime_byte_array, 0);
-
-                            roll_angle = System.BitConverter.ToSingle(roll_angle_output, 0);
-                            pitch_angle = System.BitConverter.ToSingle(pitch_angle_output, 0);
-                            yaw_angle = System.BitConverter.ToSingle(yaw_angle_output, 0);
-
-                            graphScales[0] = 0.001;
-                            graphScales[1] = -0.001;
-                            graphScales[4] = 0.001;
-                            graphScales[5] = -0.001;
-                            graphScales[10] = 0.001;
-                            graphScales[11] = -0.001;
-
-                            UpdateGraph(0, 0, ((double)gyroX) / 65.5f);
-                            UpdateGraph(0, 1, ((double)gyroY) / 65.5f);
-                            UpdateGraph(0, 2, ((double)gyroZ) / 65.5f);
-
-                            UpdateGraph(3, 0, (double)roll_angle);
+                            /*UpdateGraph(3, 0, (double)roll_angle);
                             UpdateGraph(3, 1, (double)pitch_angle);
                             UpdateGraph(3, 2, (double)yaw_angle);
 
                             UpdateGraph(5, 0, (double)loopTime);*/
+
+                            markedToUpdateGraphs[0] = true;
+
+                            //markedToUpdateGraphs[3] = true;
+
+                            //markedToUpdateGraphs[5] = true;
 
                             break;
 
