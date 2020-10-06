@@ -313,6 +313,7 @@ namespace GroundControlv1
                             gyroY = SerialHelper.ReadInt16();
                             gyroZ = SerialHelper.ReadInt16();
 
+<<<<<<< HEAD
                             roll_angle = SerialHelper.ReadFloat();
                             pitch_angle = SerialHelper.ReadFloat();
                             yaw_angle = SerialHelper.ReadFloat();
@@ -321,6 +322,8 @@ namespace GroundControlv1
 
                             throttle = SerialHelper.ReadInt32();
 
+=======
+>>>>>>> 06a1aba52931f29076e120948053d296b64f7e85
                             /*raw_battery_voltage = SerialHelper.ReadInt16();
                             battery_voltage = (float)Math.Truncate(raw_battery_voltage * 5.6734f) / 100f;
 
@@ -345,17 +348,23 @@ namespace GroundControlv1
                             UpdateGraph(0, 1, ((double)gyroY) / 65.5f);
                             UpdateGraph(0, 2, ((double)gyroZ) / 65.5f);
 
-                            UpdateGraph(3, 0, (double)roll_angle);
+                            /*UpdateGraph(3, 0, (double)roll_angle);
                             UpdateGraph(3, 1, (double)pitch_angle);
                             UpdateGraph(3, 2, (double)yaw_angle);
 
-                            UpdateGraph(5, 0, (double)loopTime);
+                            UpdateGraph(5, 0, (double)loopTime);*/
 
                             markedToUpdateGraphs[0] = true;
 
+<<<<<<< HEAD
                             markedToUpdateGraphs[3] = true;
 
                             markedToUpdateGraphs[5] = true;
+=======
+                            //markedToUpdateGraphs[3] = true;
+
+                            //markedToUpdateGraphs[5] = true;
+>>>>>>> 06a1aba52931f29076e120948053d296b64f7e85
 
                             break;
 
