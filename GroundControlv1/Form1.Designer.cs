@@ -40,6 +40,7 @@
             this.throttleGraphControl = new ZedGraph.ZedGraphControl();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.pps_label = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label35 = new System.Windows.Forms.Label();
             this.label36 = new System.Windows.Forms.Label();
@@ -166,6 +167,7 @@
             this.logging_timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialogLogging = new System.Windows.Forms.SaveFileDialog();
             this.craft_marker = new System.Windows.Forms.Label();
+            this.PPS_timer = new System.Windows.Forms.Timer(this.components);
             this.panel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
@@ -289,6 +291,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.pps_label);
             this.panel3.Controls.Add(this.groupBox1);
             this.panel3.Controls.Add(this.pauserecording_btn);
             this.panel3.Controls.Add(this.stoprecording_btn);
@@ -313,6 +316,15 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(898, 1064);
             this.panel3.TabIndex = 12;
+            // 
+            // pps_label
+            // 
+            this.pps_label.AutoSize = true;
+            this.pps_label.Location = new System.Drawing.Point(286, 57);
+            this.pps_label.Name = "pps_label";
+            this.pps_label.Size = new System.Drawing.Size(34, 13);
+            this.pps_label.TabIndex = 37;
+            this.pps_label.Text = "PPS: ";
             // 
             // groupBox1
             // 
@@ -471,7 +483,7 @@
             // flight_mode_label
             // 
             this.flight_mode_label.AutoSize = true;
-            this.flight_mode_label.Location = new System.Drawing.Point(352, 58);
+            this.flight_mode_label.Location = new System.Drawing.Point(352, 57);
             this.flight_mode_label.Name = "flight_mode_label";
             this.flight_mode_label.Size = new System.Drawing.Size(68, 13);
             this.flight_mode_label.TabIndex = 15;
@@ -1586,6 +1598,12 @@
             this.craft_marker.Text = "C";
             this.craft_marker.Visible = false;
             // 
+            // PPS_timer
+            // 
+            this.PPS_timer.Enabled = true;
+            this.PPS_timer.Interval = 1000;
+            this.PPS_timer.Tick += new System.EventHandler(this.PPS_timer_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1776,6 +1794,8 @@
         private System.Windows.Forms.Button compass_callibrate_btn;
         private System.Windows.Forms.Button esc_callibrate_btn;
         private System.Windows.Forms.Button downloadpos_btn;
+        private System.Windows.Forms.Timer PPS_timer;
+        private System.Windows.Forms.Label pps_label;
     }
 }
 
