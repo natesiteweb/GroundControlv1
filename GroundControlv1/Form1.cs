@@ -435,14 +435,14 @@ namespace GroundControlv1
                             break;
                         case (byte)SerialHelper.CommandFromSerial.ALTITUDE_PACKET: //Altitudes
                             barometerDistance = SerialHelper.ReadFloat();
-                            ultrasonicDistance = SerialHelper.ReadFloat();
+                            //ultrasonicDistance = SerialHelper.ReadFloat();
 
                             graphScales[8] = 0.001;
                             graphScales[9] = -0.001;
 
-                            UpdateGraph(4, 0, (double)ultrasonicDistance);
+                            //UpdateGraph(4, 0, (double)ultrasonicDistance);
                             UpdateGraph(4, 1, (double)barometerDistance);
-                            UpdateGraph(4, 2, (double)0.500);
+                            //UpdateGraph(4, 2, (double)0.500);
 
                             markedToUpdateGraphs[4] = true;
                             break;
@@ -1130,12 +1130,12 @@ namespace GroundControlv1
 
                     SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.PID_GAIN_FIRST_REQUEST);
                     askforpid = false;
-                    //askforpid2 = true;
+                    askforpid2 = true;
                     statusWriteBuffer.Add("Downloading PID values...");
 
-                    //waitingsecondPIDTimer2.Reset();
-                    //waitingsecondPIDTimer2.Stop();
-                    //waitingsecondPIDTimer2.Start();
+                    waitingsecondPIDTimer2.Reset();
+                    waitingsecondPIDTimer2.Stop();
+                    waitingsecondPIDTimer2.Start();
                 }
                 else if (askforpid2 && waitingsecondPIDTimer2.IsRunning && waitingsecondPIDTimer2.ElapsedMilliseconds > 200)
                 {
@@ -1155,7 +1155,7 @@ namespace GroundControlv1
                     SerialHelper.serialPort.Write(p, 0, 25);
 
                     updatepid = false;
-                    //updatepid2 = true;
+                    updatepid2 = true;
                     statusWriteBuffer.Add("Uploaded PID values.");
 
                     p_gain_altitude_captured = float.Parse(pgainaltitude_textbox.Text.ToString());
@@ -1183,17 +1183,17 @@ namespace GroundControlv1
                     igaingps_textbox.Text = "~";
 
 
-                    //waitingsecondPIDTimer.Reset();
-                    //waitingsecondPIDTimer.Stop();
-                    //waitingsecondPIDTimer.Start();
+                    waitingsecondPIDTimer.Reset();
+                    waitingsecondPIDTimer.Stop();
+                    waitingsecondPIDTimer.Start();
                 }
                 else if (updatepid2 && waitingsecondPIDTimer.IsRunning && waitingsecondPIDTimer.ElapsedMilliseconds > 200)
                 {
-                    float[] gains = new float[6] { p_gain_altitude_captured, i_gain_altitude_captured, d_gain_altitude_captured, p_gain_gps_captured, d_gain_gps_captured, i_gain_gps_captured };
-                    byte[] p = new byte[25];
+                    float[] gains = new float[3] { p_gain_altitude_captured, i_gain_altitude_captured, d_gain_altitude_captured/*, p_gain_gps_captured, d_gain_gps_captured, i_gain_gps_captured*/ };
+                    byte[] p = new byte[10];
                     p[0] = (byte)SerialHelper.CommandFromSerial.PID_GAIN_SECOND_UPDATE_REQUEST;
-                    System.Buffer.BlockCopy(gains, 0, p, 1, 24);
-                    SerialHelper.serialPort.Write(p, 0, 25);
+                    System.Buffer.BlockCopy(gains, 0, p, 1, 9);
+                    SerialHelper.serialPort.Write(p, 0, 10);
 
                     waitingsecondPIDTimer.Stop();
                     updatepid2 = false;
