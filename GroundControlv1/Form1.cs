@@ -383,9 +383,9 @@ namespace GroundControlv1
                             i_gain_altitude_downloaded = SerialHelper.ReadFloat();
                             d_gain_altitude_downloaded = SerialHelper.ReadFloat();
 
-                            p_gain_gps_downloaded = SerialHelper.ReadFloat();
-                            d_gain_gps_downloaded = SerialHelper.ReadFloat();
-                            i_gain_gps_downloaded = SerialHelper.ReadFloat();
+                            //p_gain_gps_downloaded = SerialHelper.ReadFloat();
+                            //d_gain_gps_downloaded = SerialHelper.ReadFloat();
+                            //i_gain_gps_downloaded = SerialHelper.ReadFloat();
 
                             updatePIDTextbox = true;
 
@@ -1190,10 +1190,10 @@ namespace GroundControlv1
                 else if (updatepid2 && waitingsecondPIDTimer.IsRunning && waitingsecondPIDTimer.ElapsedMilliseconds > 200)
                 {
                     float[] gains = new float[3] { p_gain_altitude_captured, i_gain_altitude_captured, d_gain_altitude_captured/*, p_gain_gps_captured, d_gain_gps_captured, i_gain_gps_captured*/ };
-                    byte[] p = new byte[10];
+                    byte[] p = new byte[13];
                     p[0] = (byte)SerialHelper.CommandFromSerial.PID_GAIN_SECOND_UPDATE_REQUEST;
-                    System.Buffer.BlockCopy(gains, 0, p, 1, 9);
-                    SerialHelper.serialPort.Write(p, 0, 10);
+                    System.Buffer.BlockCopy(gains, 0, p, 1, 12);
+                    SerialHelper.serialPort.Write(p, 0, 13);
 
                     waitingsecondPIDTimer.Stop();
                     updatepid2 = false;
