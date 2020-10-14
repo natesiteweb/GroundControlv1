@@ -25,7 +25,7 @@ namespace GroundControlv1
         short gyroY = 0;
         short gyroZ = 0;
         int throttle = 0;
-        short flight_mode = -1;
+        byte flight_mode = 1;
         float roll_angle = 0;
         float pitch_angle = 0;
         float yaw_angle = 0;
@@ -436,6 +436,7 @@ namespace GroundControlv1
                         case (byte)SerialHelper.CommandFromSerial.ALTITUDE_PACKET: //Altitudes
                             barometerDistance = SerialHelper.ReadFloat();
                             //ultrasonicDistance = SerialHelper.ReadFloat();
+                            flight_mode = (byte)SerialHelper.serialPort.ReadByte();
 
                             graphScales[8] = 0.001;
                             graphScales[9] = -0.001;
@@ -447,7 +448,7 @@ namespace GroundControlv1
                             markedToUpdateGraphs[4] = true;
                             break;
                         case (byte)SerialHelper.CommandFromSerial.ALTITUDE_SET_PACKET:
-                            sonaralt_downloaded = SerialHelper.ReadFloat();
+                            //sonaralt_downloaded = SerialHelper.ReadFloat();
                             baroalt_downloaded = SerialHelper.ReadFloat();
                             updateAltTextbox = true;
                             break;
@@ -484,11 +485,23 @@ namespace GroundControlv1
                             newCraftPos = true;
 
                             break;
+                        case (byte)SerialHelper.CommandFromSerial.PRINT_PACKET:
+                            byte charCount = (byte)SerialHelper.serialPort.ReadByte();
+                            byte[] temp_bytes = new byte[30];
+
+                            for (int i = 0; i < charCount; i++)
+                            {
+                                temp_bytes[i] = (byte)SerialHelper.serialPort.ReadByte();
+                            }
+
+                            statusWriteBuffer.Add(Encoding.UTF8.GetString(temp_bytes));
+
+                            break;
                     }
                 }
                 catch (Exception ex)
                 {
-                    statusWriteBuffer.Add("Failed");
+                    statusWriteBuffer.Add("Failed\n");
                 }
             }
 
@@ -526,7 +539,7 @@ namespace GroundControlv1
             try
             {
                 SerialHelper.serialPort.Open();
-                statusWriteBuffer.Add("Connected");
+                statusWriteBuffer.Add("Connected\n");
                 connect_btn.Visible = false;
                 disconnect_btn.Visible = true;
                 refreshcom_btn.Visible = false;
@@ -548,13 +561,13 @@ namespace GroundControlv1
             }
             catch (Exception ex)
             {
-                statusWriteBuffer.Add("Failed");
+                statusWriteBuffer.Add("Failed\n");
             }
         }
 
         private void disconnect_btn_Click(object sender, EventArgs e)
         {
-            statusWriteBuffer.Add("Disconnected");
+            statusWriteBuffer.Add("Disconnected\n");
 
             SerialHelper.serialPort.Close();
             disconnect_btn.Visible = false;
@@ -993,6 +1006,8 @@ namespace GroundControlv1
             //setholdpos_btn.Visible = true;
         }
 
+        bool waiting_for_endline = false;
+
         private void mainLoopTimer_Tick(object sender, EventArgs e)
         {
             //gps_lon_label.Text = timeSinceLastTelem.ToString();
@@ -1103,23 +1118,23 @@ namespace GroundControlv1
             {
                 if(updatealt)
                 {
-                    float[] gains = new float[2] { float.Parse(sonaralt_textbox.Text.ToString()), float.Parse(baroalt_textbox.Text.ToString()) };
-                    byte[] p = new byte[9];
-                    p[0] = (byte)SerialHelper.CommandFromSerial.ALTITUDE_SET_PACKET;
-                    System.Buffer.BlockCopy(gains, 0, p, 1, 8);
-                    SerialHelper.serialPort.Write(p, 0, 9);
+                    float[] gains = new float[1] { float.Parse(baroalt_textbox.Text.ToString()) };
+                    byte[] p = new byte[5];
+                    p[0] = (byte)SerialHelper.CommandFromSerial.ALTITUDE_SET_REQUEST;
+                    System.Buffer.BlockCopy(gains, 0, p, 1, 4);
+                    SerialHelper.serialPort.Write(p, 0, 5);
 
                     updatealt = false;
-                    statusWriteBuffer.Add("Uploaded altitude setpoints.");
+                    //statusWriteBuffer.Add("Uploaded altitude setpoints.");
 
                     sonaralt_textbox.Text = "~";
                     baroalt_textbox.Text = "~";
                 }
                 else if(askforalt)
                 {
-                    SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.ALTITUDE_SET_REQUEST);
+                    SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.ALTITUDE_REQUEST);
                     askforalt = false;
-                    statusWriteBuffer.Add("Downloading altitude setpoints...");
+                    //statusWriteBuffer.Add("Downloading altitude setpoints...");
                 }
                 else if(askforpid)
                 {
@@ -1131,7 +1146,7 @@ namespace GroundControlv1
                     SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.PID_GAIN_FIRST_REQUEST);
                     askforpid = false;
                     askforpid2 = true;
-                    statusWriteBuffer.Add("Downloading PID values...");
+                    //statusWriteBuffer.Add("Downloading PID values...");
 
                     waitingsecondPIDTimer2.Reset();
                     waitingsecondPIDTimer2.Stop();
@@ -1156,7 +1171,7 @@ namespace GroundControlv1
 
                     updatepid = false;
                     updatepid2 = true;
-                    statusWriteBuffer.Add("Uploaded PID values.");
+                    //statusWriteBuffer.Add("Uploaded PID values.");
 
                     p_gain_altitude_captured = float.Parse(pgainaltitude_textbox.Text.ToString());
                     i_gain_altitude_captured = float.Parse(igainaltitude_textbox.Text.ToString());
@@ -1200,19 +1215,19 @@ namespace GroundControlv1
                 }
                 else if(calibrateGyro)
                 {
-                    statusWriteBuffer.Add("Calibrating Gyro...");
+                    //statusWriteBuffer.Add("Calibrating Gyro...");
                     SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.CALIBRATE_REQUEST);
                     calibrateGyro = false;
                 }
                 else if (calibrateCompass)
                 {
-                    statusWriteBuffer.Add("Calibrating Compass...");
+                    //statusWriteBuffer.Add("Calibrating Compass...");
                     SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.CALIBRATE_COMPASS_REQUEST);
                     calibrateCompass = false;
                 }
                 else if (calibrateESC)
                 {
-                    statusWriteBuffer.Add("Calibrating ESCs...");
+                    //statusWriteBuffer.Add("Calibrating ESCs...");
                     SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.CALIBRATE_ESC_REQUEST);
                     calibrateESC = false;
                 }
@@ -1262,7 +1277,25 @@ namespace GroundControlv1
 
             for (int i = 0; i < statusWriteBuffer.Count; i++)
             {
-                StatusWriteLine("> " + statusWriteBuffer[i]);
+                if(statusWriteBuffer[i].Contains("\n"))
+                {
+                    waiting_for_endline = true;
+                }
+                else
+                {
+                    waiting_for_endline = false;
+                }
+
+                if(waiting_for_endline)
+                {
+                    statusterminal_textbox.AppendText(Environment.NewLine + "> " + statusWriteBuffer[i]);
+                }
+                else
+                {
+                    statusterminal_textbox.AppendText(statusWriteBuffer[i]);
+                }
+
+                //StatusWriteLine("> " + statusWriteBuffer[i]);
             }
 
             statusWriteBuffer.Clear();
@@ -1303,25 +1336,10 @@ namespace GroundControlv1
                     flight_mode_label.Text = "Flight Mode: Disarmed";
                     break;
                 case 2:
-                    flight_mode_label.Text = "Flight Mode: Rate Mode - Armed";
+                    flight_mode_label.Text = "Flight Mode: Auto Level";
                     break;
                 case 3:
-                    flight_mode_label.Text = "Flight Mode: Auto Level - Armed";
-                    break;
-                case 4:
-                    flight_mode_label.Text = "Flight Mode: Altitude Hold - Ultrasonic";
-                    break;
-                case 5:
-                    flight_mode_label.Text = "Flight Mode: Altitude Hold - Barometer";
-                    break;
-                case 6:
-                    flight_mode_label.Text = "Flight Mode: Auto Takeoff";
-                    break;
-                case 7:
-                    flight_mode_label.Text = "Flight Mode: Auto Landing";
-                    break;
-                case 8:
-                    flight_mode_label.Text = "Flight Mode: GPS Hold";
+                    flight_mode_label.Text = "Flight Mode: Altitude Hold";
                     break;
             }
         }
