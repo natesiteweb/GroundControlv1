@@ -341,6 +341,8 @@ namespace GroundControlv1
                             graphScales[10] = 0.001;
                             graphScales[11] = -0.001;
 
+                            UpdateGraph(5, 0, (double)loopTime);
+
                             UpdateGraph(0, 0, ((double)gyroX) / 65.5f);
                             UpdateGraph(0, 1, ((double)gyroY) / 65.5f);
                             UpdateGraph(0, 2, ((double)gyroZ) / 65.5f);
@@ -383,9 +385,9 @@ namespace GroundControlv1
                             i_gain_altitude_downloaded = SerialHelper.ReadFloat();
                             d_gain_altitude_downloaded = SerialHelper.ReadFloat();
 
-                            //p_gain_gps_downloaded = SerialHelper.ReadFloat();
-                            //d_gain_gps_downloaded = SerialHelper.ReadFloat();
-                            //i_gain_gps_downloaded = SerialHelper.ReadFloat();
+                            p_gain_gps_downloaded = SerialHelper.ReadFloat();
+                            i_gain_gps_downloaded = SerialHelper.ReadFloat();
+                            d_gain_gps_downloaded = SerialHelper.ReadFloat();
 
                             updatePIDTextbox = true;
 
@@ -458,7 +460,7 @@ namespace GroundControlv1
 
                             if (craftToUpdate == 0x00) //Update craft position
                             {
-                                satelliteCount = SerialHelper.ReadInt16();
+                                satelliteCount = (byte)SerialHelper.serialPort.ReadByte();
                                 markerPoints[3].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
                                 markerPoints[3].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
                             }
@@ -1204,11 +1206,11 @@ namespace GroundControlv1
                 }
                 else if (updatepid2 && waitingsecondPIDTimer.IsRunning && waitingsecondPIDTimer.ElapsedMilliseconds > 200)
                 {
-                    float[] gains = new float[3] { p_gain_altitude_captured, i_gain_altitude_captured, d_gain_altitude_captured/*, p_gain_gps_captured, d_gain_gps_captured, i_gain_gps_captured*/ };
-                    byte[] p = new byte[13];
+                    float[] gains = new float[6] { p_gain_altitude_captured, i_gain_altitude_captured, d_gain_altitude_captured, p_gain_gps_captured, i_gain_gps_captured, d_gain_gps_captured };
+                    byte[] p = new byte[25];
                     p[0] = (byte)SerialHelper.CommandFromSerial.PID_GAIN_SECOND_UPDATE_REQUEST;
-                    System.Buffer.BlockCopy(gains, 0, p, 1, 12);
-                    SerialHelper.serialPort.Write(p, 0, 13);
+                    System.Buffer.BlockCopy(gains, 0, p, 1, 24);
+                    SerialHelper.serialPort.Write(p, 0, 25);
 
                     waitingsecondPIDTimer.Stop();
                     updatepid2 = false;
