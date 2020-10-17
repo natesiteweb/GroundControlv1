@@ -440,13 +440,23 @@ namespace GroundControlv1
                             //ultrasonicDistance = SerialHelper.ReadFloat();
                             flight_mode = (byte)SerialHelper.serialPort.ReadByte();
 
+                            roll_output_downloaded = SerialHelper.ReadInt32();
+                            pitch_output_downloaded = SerialHelper.ReadInt32();
+
                             graphScales[8] = 0.001;
                             graphScales[9] = -0.001;
+
+                            graphScales[6] = 0.001;
+                            graphScales[7] = -0.001;
+
+                            UpdateGraph(2, 0, (double)roll_output_downloaded);
+                            UpdateGraph(2, 1, (double)pitch_output_downloaded);
 
                             //UpdateGraph(4, 0, (double)ultrasonicDistance);
                             UpdateGraph(4, 1, (double)barometerDistance);
                             //UpdateGraph(4, 2, (double)0.500);
 
+                            markedToUpdateGraphs[2] = true;
                             markedToUpdateGraphs[4] = true;
                             break;
                         case (byte)SerialHelper.CommandFromSerial.ALTITUDE_SET_PACKET:
