@@ -1342,7 +1342,7 @@ namespace GroundControlv1
             switch (flight_mode)
             {
                 case 0:
-                    flight_mode_label.Text = "Flight Mode: Ready - Unarmed";
+                    //flight_mode_label.Text = "Flight Mode: Ready - Unarmed";
                     break;
                 case 1:
                     flight_mode_label.Text = "Flight Mode: Disarmed";
