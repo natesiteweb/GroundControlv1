@@ -1353,6 +1353,9 @@ namespace GroundControlv1
                 case 3:
                     flight_mode_label.Text = "Flight Mode: Altitude Hold";
                     break;
+                case 4:
+                    flight_mode_label.Text = "Flight Mode: GPS Hold";
+                    break;
             }
         }
 
