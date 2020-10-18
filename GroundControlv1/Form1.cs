@@ -443,6 +443,8 @@ namespace GroundControlv1
                             roll_output_downloaded = SerialHelper.ReadInt32();
                             pitch_output_downloaded = SerialHelper.ReadInt32();
 
+                            compass_heading = SerialHelper.ReadFloat();
+
                             graphScales[8] = 0.001;
                             graphScales[9] = -0.001;
 
@@ -476,19 +478,29 @@ namespace GroundControlv1
                             }
                             else if (craftToUpdate == 0x01) //Update home position
                             {
+                                satelliteCount = (byte)SerialHelper.serialPort.ReadByte();
                                 markerPoints[0].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
                                 markerPoints[0].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
 
                                 markerVisibleArray[0] = 1;
                             }
-                            else if (craftToUpdate == 0x02) //Update gps hold position
+                            else if(craftToUpdate == 0x02)//Interpolated Setpoint test
                             {
+                                satelliteCount = (byte)SerialHelper.serialPort.ReadByte();
+                                markerPoints[2].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
+                                markerPoints[2].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
+                                markerVisibleArray[2] = 1;
+                            }
+                            else if (craftToUpdate == 0x05) //Update gps hold position
+                            {
+                                satelliteCount = (byte)SerialHelper.serialPort.ReadByte();
                                 markerPoints[1].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
                                 markerPoints[1].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
                                 markerVisibleArray[1] = 1;
                             }
-                            else if (craftToUpdate >= 0x05) //Update waypoints
+                            else if (craftToUpdate >= 0x06) //Update waypoints
                             {
+                                satelliteCount = (byte)SerialHelper.serialPort.ReadByte();
                                 markerPoints[2].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
                                 markerPoints[2].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
                                 markerVisibleArray[2] = 1;
@@ -1227,13 +1239,13 @@ namespace GroundControlv1
                 }
                 else if(calibrateGyro)
                 {
-                    //statusWriteBuffer.Add("Calibrating Gyro...");
+                    statusWriteBuffer.Add("Calibrating Gyro...\n");
                     SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.CALIBRATE_REQUEST);
                     calibrateGyro = false;
                 }
                 else if (calibrateCompass)
                 {
-                    //statusWriteBuffer.Add("Calibrating Compass...");
+                    statusWriteBuffer.Add("Calibrating Compass...\n");
                     SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.CALIBRATE_COMPASS_REQUEST);
                     calibrateCompass = false;
                 }
@@ -1267,7 +1279,7 @@ namespace GroundControlv1
                     Int32[] gains = new Int32[2] { (markerPoints[1].Y / 10), (markerPoints[1].X / 10) };
                     byte[] p = new byte[10];
                     p[0] = (byte)SerialHelper.CommandFromSerial.GPS_PACKET_UPDATE_REQUEST;
-                    p[1] = (byte)0x01;
+                    p[1] = (byte)0x05;
                     System.Buffer.BlockCopy(gains, 0, p, 2, 8);
                     SerialHelper.serialPort.Write(p, 0, 10);
 
@@ -1275,7 +1287,7 @@ namespace GroundControlv1
                 }
                 else if (holdpos)
                 {
-                    SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.GPS_COPY_BUFFER_REQUEST);
+                    SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.GPS_HOLD_COPY_BUFFER_REQUEST);
                     holdpos = false;
                 }
             }
