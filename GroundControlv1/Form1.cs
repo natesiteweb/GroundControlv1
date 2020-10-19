@@ -445,6 +445,8 @@ namespace GroundControlv1
 
                             compass_heading = SerialHelper.ReadFloat();
 
+                            battery_voltage = SerialHelper.ReadFloat();
+
                             graphScales[8] = 0.001;
                             graphScales[9] = -0.001;
 
