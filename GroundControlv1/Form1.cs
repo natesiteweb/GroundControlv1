@@ -1071,7 +1071,7 @@ namespace GroundControlv1
 
                 pgaingps_textbox.Text = p_gain_gps_downloaded.ToString();
                 dgaingps_textbox.Text = d_gain_gps_downloaded.ToString();
-                igaingps_textbox.Text = i_gain_gps_downloaded.ToString();
+                d2gaingps_textbox.Text = i_gain_gps_downloaded.ToString();
 
                 sonaralt_textbox.Text = sonaralt_downloaded.ToString();
                 baroalt_textbox.Text = baroalt_downloaded.ToString();
@@ -1205,7 +1205,7 @@ namespace GroundControlv1
 
                     p_gain_gps_captured = float.Parse(pgaingps_textbox.Text.ToString());
                     d_gain_gps_captured = float.Parse(dgaingps_textbox.Text.ToString());
-                    i_gain_gps_captured = float.Parse(igaingps_textbox.Text.ToString());
+                    i_gain_gps_captured = float.Parse(d2gaingps_textbox.Text.ToString());
 
                     pgain_textbox.Text = "~";
                     igain_textbox.Text = "~";
@@ -1221,7 +1221,7 @@ namespace GroundControlv1
 
                     pgaingps_textbox.Text = "~";
                     dgaingps_textbox.Text = "~";
-                    igaingps_textbox.Text = "~";
+                    d2gaingps_textbox.Text = "~";
 
 
                     waitingsecondPIDTimer.Reset();
@@ -1230,7 +1230,7 @@ namespace GroundControlv1
                 }
                 else if (updatepid2 && waitingsecondPIDTimer.IsRunning && waitingsecondPIDTimer.ElapsedMilliseconds > 200)
                 {
-                    float[] gains = new float[6] { p_gain_altitude_captured, i_gain_altitude_captured, d_gain_altitude_captured, p_gain_gps_captured, i_gain_gps_captured, d_gain_gps_captured };
+                    float[] gains = new float[6] { p_gain_altitude_captured, i_gain_altitude_captured, d_gain_altitude_captured, p_gain_gps_captured, d_gain_gps_captured, i_gain_gps_captured/*, i_gain_gps_captured, d_gain_gps_captured*/ };
                     byte[] p = new byte[25];
                     p[0] = (byte)SerialHelper.CommandFromSerial.PID_GAIN_SECOND_UPDATE_REQUEST;
                     System.Buffer.BlockCopy(gains, 0, p, 1, 24);
@@ -1399,7 +1399,7 @@ namespace GroundControlv1
             dgainaltitude_textbox.Text = "~";
 
             pgaingps_textbox.Text = "~";
-            igaingps_textbox.Text = "~";
+            d2gaingps_textbox.Text = "~";
             dgaingps_textbox.Text = "~";
         }
 

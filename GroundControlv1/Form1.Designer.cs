@@ -60,7 +60,7 @@
             this.orientationGraphControl = new ZedGraph.ZedGraphControl();
             this.pidoutputGraphControl = new ZedGraph.ZedGraphControl();
             this.tuning_groupBox = new System.Windows.Forms.GroupBox();
-            this.igaingps_textbox = new System.Windows.Forms.TextBox();
+            this.d2gaingps_textbox = new System.Windows.Forms.TextBox();
             this.label38 = new System.Windows.Forms.Label();
             this.dgaingps_textbox = new System.Windows.Forms.TextBox();
             this.label33 = new System.Windows.Forms.Label();
@@ -530,7 +530,7 @@
             // 
             // tuning_groupBox
             // 
-            this.tuning_groupBox.Controls.Add(this.igaingps_textbox);
+            this.tuning_groupBox.Controls.Add(this.d2gaingps_textbox);
             this.tuning_groupBox.Controls.Add(this.label38);
             this.tuning_groupBox.Controls.Add(this.dgaingps_textbox);
             this.tuning_groupBox.Controls.Add(this.label33);
@@ -563,25 +563,25 @@
             this.tuning_groupBox.TabStop = false;
             this.tuning_groupBox.Text = "Tuning";
             // 
-            // igaingps_textbox
+            // d2gaingps_textbox
             // 
-            this.igaingps_textbox.Location = new System.Drawing.Point(115, 119);
-            this.igaingps_textbox.Name = "igaingps_textbox";
-            this.igaingps_textbox.Size = new System.Drawing.Size(59, 20);
-            this.igaingps_textbox.TabIndex = 37;
+            this.d2gaingps_textbox.Location = new System.Drawing.Point(130, 145);
+            this.d2gaingps_textbox.Name = "d2gaingps_textbox";
+            this.d2gaingps_textbox.Size = new System.Drawing.Size(44, 20);
+            this.d2gaingps_textbox.TabIndex = 37;
             // 
             // label38
             // 
             this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(92, 122);
+            this.label38.Location = new System.Drawing.Point(92, 149);
             this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(21, 13);
+            this.label38.Size = new System.Drawing.Size(32, 13);
             this.label38.TabIndex = 36;
-            this.label38.Text = "IG:";
+            this.label38.Text = "DG2:";
             // 
             // dgaingps_textbox
             // 
-            this.dgaingps_textbox.Location = new System.Drawing.Point(115, 146);
+            this.dgaingps_textbox.Location = new System.Drawing.Point(115, 119);
             this.dgaingps_textbox.Name = "dgaingps_textbox";
             this.dgaingps_textbox.Size = new System.Drawing.Size(59, 20);
             this.dgaingps_textbox.TabIndex = 35;
@@ -589,7 +589,7 @@
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(92, 149);
+            this.label33.Location = new System.Drawing.Point(91, 122);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(26, 13);
             this.label33.TabIndex = 34;
@@ -1789,7 +1789,7 @@
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.TextBox pgaingps_textbox;
         private System.Windows.Forms.Label label37;
-        private System.Windows.Forms.TextBox igaingps_textbox;
+        private System.Windows.Forms.TextBox d2gaingps_textbox;
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.Button compass_callibrate_btn;
         private System.Windows.Forms.Button esc_callibrate_btn;
