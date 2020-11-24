@@ -108,13 +108,93 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.waypointGroupBox = new System.Windows.Forms.GroupBox();
+            this.uploadmarkers_btn = new System.Windows.Forms.Button();
+            this.pointXlistmove = new System.Windows.Forms.Button();
+            this.point15listmove = new System.Windows.Forms.Button();
+            this.point14listmove = new System.Windows.Forms.Button();
+            this.point13listmove = new System.Windows.Forms.Button();
+            this.point12listmove = new System.Windows.Forms.Button();
+            this.point11listmove = new System.Windows.Forms.Button();
+            this.point10listmove = new System.Windows.Forms.Button();
+            this.point9listmove = new System.Windows.Forms.Button();
+            this.point8listmove = new System.Windows.Forms.Button();
+            this.point7listmove = new System.Windows.Forms.Button();
+            this.point6listmove = new System.Windows.Forms.Button();
+            this.point5listmove = new System.Windows.Forms.Button();
+            this.point4listmove = new System.Windows.Forms.Button();
+            this.point3listmove = new System.Windows.Forms.Button();
+            this.point2listmove = new System.Windows.Forms.Button();
+            this.point1listmove = new System.Windows.Forms.Button();
+            this.setmarkers_btn = new System.Windows.Forms.Button();
+            this.point15listdel = new System.Windows.Forms.Button();
+            this.point15listaltbutton = new System.Windows.Forms.Button();
+            this.point15listalttxtbox = new System.Windows.Forms.TextBox();
+            this.point15listlabel = new System.Windows.Forms.Label();
+            this.point14listdel = new System.Windows.Forms.Button();
+            this.point14listaltbutton = new System.Windows.Forms.Button();
+            this.point14listalttxtbox = new System.Windows.Forms.TextBox();
+            this.point14listlabel = new System.Windows.Forms.Label();
+            this.point13listdel = new System.Windows.Forms.Button();
+            this.point13listaltbutton = new System.Windows.Forms.Button();
+            this.point13listalttxtbox = new System.Windows.Forms.TextBox();
+            this.point13listlabel = new System.Windows.Forms.Label();
+            this.point12listdel = new System.Windows.Forms.Button();
+            this.point12listaltbutton = new System.Windows.Forms.Button();
+            this.point12listalttxtbox = new System.Windows.Forms.TextBox();
+            this.point12listlabel = new System.Windows.Forms.Label();
+            this.point11listdel = new System.Windows.Forms.Button();
+            this.point11listaltbutton = new System.Windows.Forms.Button();
+            this.point11listalttxtbox = new System.Windows.Forms.TextBox();
+            this.point11listlabel = new System.Windows.Forms.Label();
+            this.point10listdel = new System.Windows.Forms.Button();
+            this.point2listaltbutton = new System.Windows.Forms.Button();
+            this.point10listaltbutton = new System.Windows.Forms.Button();
+            this.point10listalttxtbox = new System.Windows.Forms.TextBox();
+            this.point10listlabel = new System.Windows.Forms.Label();
+            this.point9listdel = new System.Windows.Forms.Button();
+            this.point9listaltbutton = new System.Windows.Forms.Button();
+            this.point9listalttxtbox = new System.Windows.Forms.TextBox();
+            this.point9listlabel = new System.Windows.Forms.Label();
+            this.point8listdel = new System.Windows.Forms.Button();
+            this.point8listaltbutton = new System.Windows.Forms.Button();
+            this.point8listalttxtbox = new System.Windows.Forms.TextBox();
+            this.point8listlabel = new System.Windows.Forms.Label();
+            this.point7listdel = new System.Windows.Forms.Button();
+            this.point7listaltbutton = new System.Windows.Forms.Button();
+            this.point7listalttxtbox = new System.Windows.Forms.TextBox();
+            this.point7listlabel = new System.Windows.Forms.Label();
+            this.point6listdel = new System.Windows.Forms.Button();
+            this.point6listaltbutton = new System.Windows.Forms.Button();
+            this.point6listalttxtbox = new System.Windows.Forms.TextBox();
+            this.point6listlabel = new System.Windows.Forms.Label();
+            this.point5listdel = new System.Windows.Forms.Button();
+            this.point5listaltbutton = new System.Windows.Forms.Button();
+            this.point5listalttxtbox = new System.Windows.Forms.TextBox();
+            this.point5listlabel = new System.Windows.Forms.Label();
+            this.point4listdel = new System.Windows.Forms.Button();
+            this.point4listaltbutton = new System.Windows.Forms.Button();
+            this.point4listalttxtbox = new System.Windows.Forms.TextBox();
+            this.point4listlabel = new System.Windows.Forms.Label();
+            this.point3listdel = new System.Windows.Forms.Button();
+            this.point3listaltbutton = new System.Windows.Forms.Button();
+            this.point3listalttxtbox = new System.Windows.Forms.TextBox();
+            this.point3listlabel = new System.Windows.Forms.Label();
+            this.pointXlistalttxtbox = new System.Windows.Forms.TextBox();
+            this.pointXlistaltbutton = new System.Windows.Forms.Button();
+            this.point2listdel = new System.Windows.Forms.Button();
+            this.point2listalttxtbox = new System.Windows.Forms.TextBox();
+            this.point2listlabel = new System.Windows.Forms.Label();
+            this.point1listalttxtbox = new System.Windows.Forms.TextBox();
+            this.point1listaltbutton = new System.Windows.Forms.Button();
+            this.point1listlabel = new System.Windows.Forms.Label();
+            this.point1listdel = new System.Windows.Forms.Button();
+            this.resetmarkers_btn = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.zoomControls = new System.Windows.Forms.GroupBox();
             this.zoomin_btn = new System.Windows.Forms.Button();
             this.zoomout_btn = new System.Windows.Forms.Button();
-            this.waypointGroupBox = new System.Windows.Forms.GroupBox();
-            this.resetmarkers_btn = new System.Windows.Forms.Button();
             this.mapInput = new System.Windows.Forms.GroupBox();
             this.long_label = new System.Windows.Forms.Label();
             this.lati_label = new System.Windows.Forms.Label();
@@ -135,7 +215,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.sethome_btn = new System.Windows.Forms.Button();
             this.home_marker = new System.Windows.Forms.Label();
-            this.marker2 = new System.Windows.Forms.Label();
+            this.waypoint1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.positionhold_marker = new System.Windows.Forms.Label();
             this.telemraw_groupBox = new System.Windows.Forms.GroupBox();
@@ -168,16 +248,33 @@
             this.saveFileDialogLogging = new System.Windows.Forms.SaveFileDialog();
             this.craft_marker = new System.Windows.Forms.Label();
             this.PPS_timer = new System.Windows.Forms.Timer(this.components);
+            this.waypoint5 = new System.Windows.Forms.Label();
+            this.waypoint4 = new System.Windows.Forms.Label();
+            this.waypoint7 = new System.Windows.Forms.Label();
+            this.waypoint9 = new System.Windows.Forms.Label();
+            this.waypoint2 = new System.Windows.Forms.Label();
+            this.waypoint10 = new System.Windows.Forms.Label();
+            this.waypoint3 = new System.Windows.Forms.Label();
+            this.waypoint8 = new System.Windows.Forms.Label();
+            this.waypoint6 = new System.Windows.Forms.Label();
+            this.waypoint14 = new System.Windows.Forms.Label();
+            this.waypoint12 = new System.Windows.Forms.Label();
+            this.waypoint15 = new System.Windows.Forms.Label();
+            this.waypoint13 = new System.Windows.Forms.Label();
+            this.waypoint11 = new System.Windows.Forms.Label();
+            this.chromiumBrowserPanel = new System.Windows.Forms.Panel();
+            this.transparentPanel1 = new GroundControlv1.TransparentPanel();
             this.panel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
             this.statusterminal_groupBox.SuspendLayout();
             this.sendcmd_groupBox.SuspendLayout();
             this.gpstelem_groupBox.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.waypointGroupBox.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
             this.zoomControls.SuspendLayout();
-            this.waypointGroupBox.SuspendLayout();
             this.mapInput.SuspendLayout();
             this.markerGroupBox.SuspendLayout();
             this.telemraw_groupBox.SuspendLayout();
@@ -248,6 +345,7 @@
             this.webBrowser1.TabIndex = 6;
             this.webBrowser1.Url = new System.Uri("https://www.openstreetmap.org/?mlat=40.92372&mlon=-91.39403#map=19/40.92372/-91.3" +
         "9403&layers=N", System.UriKind.Absolute);
+            this.webBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.webBrowser1_Navigated);
             // 
             // label1
             // 
@@ -291,6 +389,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.chromiumBrowserPanel);
             this.panel3.Controls.Add(this.pps_label);
             this.panel3.Controls.Add(this.groupBox1);
             this.panel3.Controls.Add(this.pauserecording_btn);
@@ -864,7 +963,7 @@
             this.gpshold_btn.Name = "gpshold_btn";
             this.gpshold_btn.Size = new System.Drawing.Size(94, 23);
             this.gpshold_btn.TabIndex = 8;
-            this.gpshold_btn.Text = "GPS Hold";
+            this.gpshold_btn.Text = "Fly Waypoints";
             this.gpshold_btn.UseVisualStyleBackColor = true;
             this.gpshold_btn.Click += new System.EventHandler(this.gpshold_btn_Click);
             // 
@@ -1002,10 +1101,1004 @@
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.waypointGroupBox);
             this.panel4.Location = new System.Drawing.Point(902, 798);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(1048, 246);
             this.panel4.TabIndex = 13;
+            // 
+            // waypointGroupBox
+            // 
+            this.waypointGroupBox.Controls.Add(this.uploadmarkers_btn);
+            this.waypointGroupBox.Controls.Add(this.pointXlistmove);
+            this.waypointGroupBox.Controls.Add(this.point15listmove);
+            this.waypointGroupBox.Controls.Add(this.point14listmove);
+            this.waypointGroupBox.Controls.Add(this.point13listmove);
+            this.waypointGroupBox.Controls.Add(this.point12listmove);
+            this.waypointGroupBox.Controls.Add(this.point11listmove);
+            this.waypointGroupBox.Controls.Add(this.point10listmove);
+            this.waypointGroupBox.Controls.Add(this.point9listmove);
+            this.waypointGroupBox.Controls.Add(this.point8listmove);
+            this.waypointGroupBox.Controls.Add(this.point7listmove);
+            this.waypointGroupBox.Controls.Add(this.point6listmove);
+            this.waypointGroupBox.Controls.Add(this.point5listmove);
+            this.waypointGroupBox.Controls.Add(this.point4listmove);
+            this.waypointGroupBox.Controls.Add(this.point3listmove);
+            this.waypointGroupBox.Controls.Add(this.point2listmove);
+            this.waypointGroupBox.Controls.Add(this.point1listmove);
+            this.waypointGroupBox.Controls.Add(this.setmarkers_btn);
+            this.waypointGroupBox.Controls.Add(this.point15listdel);
+            this.waypointGroupBox.Controls.Add(this.point15listaltbutton);
+            this.waypointGroupBox.Controls.Add(this.point15listalttxtbox);
+            this.waypointGroupBox.Controls.Add(this.point15listlabel);
+            this.waypointGroupBox.Controls.Add(this.point14listdel);
+            this.waypointGroupBox.Controls.Add(this.point14listaltbutton);
+            this.waypointGroupBox.Controls.Add(this.point14listalttxtbox);
+            this.waypointGroupBox.Controls.Add(this.point14listlabel);
+            this.waypointGroupBox.Controls.Add(this.point13listdel);
+            this.waypointGroupBox.Controls.Add(this.point13listaltbutton);
+            this.waypointGroupBox.Controls.Add(this.point13listalttxtbox);
+            this.waypointGroupBox.Controls.Add(this.point13listlabel);
+            this.waypointGroupBox.Controls.Add(this.point12listdel);
+            this.waypointGroupBox.Controls.Add(this.point12listaltbutton);
+            this.waypointGroupBox.Controls.Add(this.point12listalttxtbox);
+            this.waypointGroupBox.Controls.Add(this.point12listlabel);
+            this.waypointGroupBox.Controls.Add(this.point11listdel);
+            this.waypointGroupBox.Controls.Add(this.point11listaltbutton);
+            this.waypointGroupBox.Controls.Add(this.point11listalttxtbox);
+            this.waypointGroupBox.Controls.Add(this.point11listlabel);
+            this.waypointGroupBox.Controls.Add(this.point10listdel);
+            this.waypointGroupBox.Controls.Add(this.point2listaltbutton);
+            this.waypointGroupBox.Controls.Add(this.point10listaltbutton);
+            this.waypointGroupBox.Controls.Add(this.point10listalttxtbox);
+            this.waypointGroupBox.Controls.Add(this.point10listlabel);
+            this.waypointGroupBox.Controls.Add(this.point9listdel);
+            this.waypointGroupBox.Controls.Add(this.point9listaltbutton);
+            this.waypointGroupBox.Controls.Add(this.point9listalttxtbox);
+            this.waypointGroupBox.Controls.Add(this.point9listlabel);
+            this.waypointGroupBox.Controls.Add(this.point8listdel);
+            this.waypointGroupBox.Controls.Add(this.point8listaltbutton);
+            this.waypointGroupBox.Controls.Add(this.point8listalttxtbox);
+            this.waypointGroupBox.Controls.Add(this.point8listlabel);
+            this.waypointGroupBox.Controls.Add(this.point7listdel);
+            this.waypointGroupBox.Controls.Add(this.point7listaltbutton);
+            this.waypointGroupBox.Controls.Add(this.point7listalttxtbox);
+            this.waypointGroupBox.Controls.Add(this.point7listlabel);
+            this.waypointGroupBox.Controls.Add(this.point6listdel);
+            this.waypointGroupBox.Controls.Add(this.point6listaltbutton);
+            this.waypointGroupBox.Controls.Add(this.point6listalttxtbox);
+            this.waypointGroupBox.Controls.Add(this.point6listlabel);
+            this.waypointGroupBox.Controls.Add(this.point5listdel);
+            this.waypointGroupBox.Controls.Add(this.point5listaltbutton);
+            this.waypointGroupBox.Controls.Add(this.point5listalttxtbox);
+            this.waypointGroupBox.Controls.Add(this.point5listlabel);
+            this.waypointGroupBox.Controls.Add(this.point4listdel);
+            this.waypointGroupBox.Controls.Add(this.point4listaltbutton);
+            this.waypointGroupBox.Controls.Add(this.point4listalttxtbox);
+            this.waypointGroupBox.Controls.Add(this.point4listlabel);
+            this.waypointGroupBox.Controls.Add(this.point3listdel);
+            this.waypointGroupBox.Controls.Add(this.point3listaltbutton);
+            this.waypointGroupBox.Controls.Add(this.point3listalttxtbox);
+            this.waypointGroupBox.Controls.Add(this.point3listlabel);
+            this.waypointGroupBox.Controls.Add(this.pointXlistalttxtbox);
+            this.waypointGroupBox.Controls.Add(this.pointXlistaltbutton);
+            this.waypointGroupBox.Controls.Add(this.point2listdel);
+            this.waypointGroupBox.Controls.Add(this.point2listalttxtbox);
+            this.waypointGroupBox.Controls.Add(this.point2listlabel);
+            this.waypointGroupBox.Controls.Add(this.point1listalttxtbox);
+            this.waypointGroupBox.Controls.Add(this.point1listaltbutton);
+            this.waypointGroupBox.Controls.Add(this.point1listlabel);
+            this.waypointGroupBox.Controls.Add(this.point1listdel);
+            this.waypointGroupBox.Controls.Add(this.resetmarkers_btn);
+            this.waypointGroupBox.Location = new System.Drawing.Point(11, 12);
+            this.waypointGroupBox.Name = "waypointGroupBox";
+            this.waypointGroupBox.Size = new System.Drawing.Size(929, 199);
+            this.waypointGroupBox.TabIndex = 14;
+            this.waypointGroupBox.TabStop = false;
+            this.waypointGroupBox.Text = "Waypoints";
+            // 
+            // uploadmarkers_btn
+            // 
+            this.uploadmarkers_btn.Enabled = false;
+            this.uploadmarkers_btn.Location = new System.Drawing.Point(204, 170);
+            this.uploadmarkers_btn.Name = "uploadmarkers_btn";
+            this.uploadmarkers_btn.Size = new System.Drawing.Size(116, 23);
+            this.uploadmarkers_btn.TabIndex = 115;
+            this.uploadmarkers_btn.Text = "Upload Waypoints";
+            this.uploadmarkers_btn.UseVisualStyleBackColor = true;
+            this.uploadmarkers_btn.Click += new System.EventHandler(this.uploadmarkers_btn_Click);
+            // 
+            // pointXlistmove
+            // 
+            this.pointXlistmove.Enabled = false;
+            this.pointXlistmove.Location = new System.Drawing.Point(803, 99);
+            this.pointXlistmove.Name = "pointXlistmove";
+            this.pointXlistmove.Size = new System.Drawing.Size(23, 23);
+            this.pointXlistmove.TabIndex = 114;
+            this.pointXlistmove.Text = "M";
+            this.pointXlistmove.UseVisualStyleBackColor = true;
+            this.pointXlistmove.Visible = false;
+            // 
+            // point15listmove
+            // 
+            this.point15listmove.Enabled = false;
+            this.point15listmove.Location = new System.Drawing.Point(429, 131);
+            this.point15listmove.Name = "point15listmove";
+            this.point15listmove.Size = new System.Drawing.Size(23, 23);
+            this.point15listmove.TabIndex = 113;
+            this.point15listmove.Text = "M";
+            this.point15listmove.UseVisualStyleBackColor = true;
+            this.point15listmove.Visible = false;
+            // 
+            // point14listmove
+            // 
+            this.point14listmove.Enabled = false;
+            this.point14listmove.Location = new System.Drawing.Point(429, 104);
+            this.point14listmove.Name = "point14listmove";
+            this.point14listmove.Size = new System.Drawing.Size(23, 23);
+            this.point14listmove.TabIndex = 112;
+            this.point14listmove.Text = "M";
+            this.point14listmove.UseVisualStyleBackColor = true;
+            this.point14listmove.Visible = false;
+            // 
+            // point13listmove
+            // 
+            this.point13listmove.Enabled = false;
+            this.point13listmove.Location = new System.Drawing.Point(429, 77);
+            this.point13listmove.Name = "point13listmove";
+            this.point13listmove.Size = new System.Drawing.Size(23, 23);
+            this.point13listmove.TabIndex = 111;
+            this.point13listmove.Text = "M";
+            this.point13listmove.UseVisualStyleBackColor = true;
+            this.point13listmove.Visible = false;
+            // 
+            // point12listmove
+            // 
+            this.point12listmove.Enabled = false;
+            this.point12listmove.Location = new System.Drawing.Point(429, 49);
+            this.point12listmove.Name = "point12listmove";
+            this.point12listmove.Size = new System.Drawing.Size(23, 23);
+            this.point12listmove.TabIndex = 110;
+            this.point12listmove.Text = "M";
+            this.point12listmove.UseVisualStyleBackColor = true;
+            this.point12listmove.Visible = false;
+            // 
+            // point11listmove
+            // 
+            this.point11listmove.Enabled = false;
+            this.point11listmove.Location = new System.Drawing.Point(429, 21);
+            this.point11listmove.Name = "point11listmove";
+            this.point11listmove.Size = new System.Drawing.Size(23, 23);
+            this.point11listmove.TabIndex = 109;
+            this.point11listmove.Text = "M";
+            this.point11listmove.UseVisualStyleBackColor = true;
+            this.point11listmove.Visible = false;
+            // 
+            // point10listmove
+            // 
+            this.point10listmove.Enabled = false;
+            this.point10listmove.Location = new System.Drawing.Point(265, 130);
+            this.point10listmove.Name = "point10listmove";
+            this.point10listmove.Size = new System.Drawing.Size(23, 23);
+            this.point10listmove.TabIndex = 108;
+            this.point10listmove.Text = "M";
+            this.point10listmove.UseVisualStyleBackColor = true;
+            this.point10listmove.Visible = false;
+            // 
+            // point9listmove
+            // 
+            this.point9listmove.Enabled = false;
+            this.point9listmove.Location = new System.Drawing.Point(265, 103);
+            this.point9listmove.Name = "point9listmove";
+            this.point9listmove.Size = new System.Drawing.Size(23, 23);
+            this.point9listmove.TabIndex = 107;
+            this.point9listmove.Text = "M";
+            this.point9listmove.UseVisualStyleBackColor = true;
+            this.point9listmove.Visible = false;
+            // 
+            // point8listmove
+            // 
+            this.point8listmove.Enabled = false;
+            this.point8listmove.Location = new System.Drawing.Point(265, 76);
+            this.point8listmove.Name = "point8listmove";
+            this.point8listmove.Size = new System.Drawing.Size(23, 23);
+            this.point8listmove.TabIndex = 106;
+            this.point8listmove.Text = "M";
+            this.point8listmove.UseVisualStyleBackColor = true;
+            this.point8listmove.Visible = false;
+            // 
+            // point7listmove
+            // 
+            this.point7listmove.Enabled = false;
+            this.point7listmove.Location = new System.Drawing.Point(265, 49);
+            this.point7listmove.Name = "point7listmove";
+            this.point7listmove.Size = new System.Drawing.Size(23, 23);
+            this.point7listmove.TabIndex = 105;
+            this.point7listmove.Text = "M";
+            this.point7listmove.UseVisualStyleBackColor = true;
+            this.point7listmove.Visible = false;
+            // 
+            // point6listmove
+            // 
+            this.point6listmove.Enabled = false;
+            this.point6listmove.Location = new System.Drawing.Point(265, 22);
+            this.point6listmove.Name = "point6listmove";
+            this.point6listmove.Size = new System.Drawing.Size(23, 23);
+            this.point6listmove.TabIndex = 104;
+            this.point6listmove.Text = "M";
+            this.point6listmove.UseVisualStyleBackColor = true;
+            this.point6listmove.Visible = false;
+            // 
+            // point5listmove
+            // 
+            this.point5listmove.Enabled = false;
+            this.point5listmove.Location = new System.Drawing.Point(105, 129);
+            this.point5listmove.Name = "point5listmove";
+            this.point5listmove.Size = new System.Drawing.Size(23, 23);
+            this.point5listmove.TabIndex = 103;
+            this.point5listmove.Text = "M";
+            this.point5listmove.UseVisualStyleBackColor = true;
+            this.point5listmove.Visible = false;
+            // 
+            // point4listmove
+            // 
+            this.point4listmove.Enabled = false;
+            this.point4listmove.Location = new System.Drawing.Point(105, 102);
+            this.point4listmove.Name = "point4listmove";
+            this.point4listmove.Size = new System.Drawing.Size(23, 23);
+            this.point4listmove.TabIndex = 102;
+            this.point4listmove.Text = "M";
+            this.point4listmove.UseVisualStyleBackColor = true;
+            this.point4listmove.Visible = false;
+            // 
+            // point3listmove
+            // 
+            this.point3listmove.Enabled = false;
+            this.point3listmove.Location = new System.Drawing.Point(105, 75);
+            this.point3listmove.Name = "point3listmove";
+            this.point3listmove.Size = new System.Drawing.Size(23, 23);
+            this.point3listmove.TabIndex = 101;
+            this.point3listmove.Text = "M";
+            this.point3listmove.UseVisualStyleBackColor = true;
+            this.point3listmove.Visible = false;
+            // 
+            // point2listmove
+            // 
+            this.point2listmove.Enabled = false;
+            this.point2listmove.Location = new System.Drawing.Point(105, 48);
+            this.point2listmove.Name = "point2listmove";
+            this.point2listmove.Size = new System.Drawing.Size(23, 23);
+            this.point2listmove.TabIndex = 100;
+            this.point2listmove.Text = "M";
+            this.point2listmove.UseVisualStyleBackColor = true;
+            this.point2listmove.Visible = false;
+            // 
+            // point1listmove
+            // 
+            this.point1listmove.Enabled = false;
+            this.point1listmove.Location = new System.Drawing.Point(105, 22);
+            this.point1listmove.Name = "point1listmove";
+            this.point1listmove.Size = new System.Drawing.Size(23, 23);
+            this.point1listmove.TabIndex = 99;
+            this.point1listmove.Text = "M";
+            this.point1listmove.UseVisualStyleBackColor = true;
+            this.point1listmove.Visible = false;
+            // 
+            // setmarkers_btn
+            // 
+            this.setmarkers_btn.Location = new System.Drawing.Point(105, 170);
+            this.setmarkers_btn.Name = "setmarkers_btn";
+            this.setmarkers_btn.Size = new System.Drawing.Size(93, 23);
+            this.setmarkers_btn.TabIndex = 98;
+            this.setmarkers_btn.Text = "Set Waypoints";
+            this.setmarkers_btn.UseVisualStyleBackColor = true;
+            this.setmarkers_btn.Click += new System.EventHandler(this.setmarkers_btn_Click);
+            // 
+            // point15listdel
+            // 
+            this.point15listdel.Enabled = false;
+            this.point15listdel.Location = new System.Drawing.Point(456, 131);
+            this.point15listdel.Name = "point15listdel";
+            this.point15listdel.Size = new System.Drawing.Size(23, 23);
+            this.point15listdel.TabIndex = 97;
+            this.point15listdel.Text = "X";
+            this.point15listdel.UseVisualStyleBackColor = true;
+            this.point15listdel.Visible = false;
+            // 
+            // point15listaltbutton
+            // 
+            this.point15listaltbutton.Enabled = false;
+            this.point15listaltbutton.Location = new System.Drawing.Point(358, 131);
+            this.point15listaltbutton.Name = "point15listaltbutton";
+            this.point15listaltbutton.Size = new System.Drawing.Size(68, 23);
+            this.point15listaltbutton.TabIndex = 96;
+            this.point15listaltbutton.Text = "Set Alt";
+            this.point15listaltbutton.UseVisualStyleBackColor = true;
+            this.point15listaltbutton.Visible = false;
+            // 
+            // point15listalttxtbox
+            // 
+            this.point15listalttxtbox.Enabled = false;
+            this.point15listalttxtbox.Location = new System.Drawing.Point(359, 132);
+            this.point15listalttxtbox.Name = "point15listalttxtbox";
+            this.point15listalttxtbox.Size = new System.Drawing.Size(67, 20);
+            this.point15listalttxtbox.TabIndex = 95;
+            this.point15listalttxtbox.Visible = false;
+            // 
+            // point15listlabel
+            // 
+            this.point15listlabel.AutoSize = true;
+            this.point15listlabel.BackColor = System.Drawing.Color.DarkRed;
+            this.point15listlabel.Enabled = false;
+            this.point15listlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.point15listlabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.point15listlabel.Location = new System.Drawing.Point(328, 134);
+            this.point15listlabel.Name = "point15listlabel";
+            this.point15listlabel.Size = new System.Drawing.Size(28, 16);
+            this.point15listlabel.TabIndex = 94;
+            this.point15listlabel.Text = "15:";
+            this.point15listlabel.Visible = false;
+            // 
+            // point14listdel
+            // 
+            this.point14listdel.Enabled = false;
+            this.point14listdel.Location = new System.Drawing.Point(456, 104);
+            this.point14listdel.Name = "point14listdel";
+            this.point14listdel.Size = new System.Drawing.Size(23, 23);
+            this.point14listdel.TabIndex = 93;
+            this.point14listdel.Text = "X";
+            this.point14listdel.UseVisualStyleBackColor = true;
+            this.point14listdel.Visible = false;
+            // 
+            // point14listaltbutton
+            // 
+            this.point14listaltbutton.Enabled = false;
+            this.point14listaltbutton.Location = new System.Drawing.Point(358, 104);
+            this.point14listaltbutton.Name = "point14listaltbutton";
+            this.point14listaltbutton.Size = new System.Drawing.Size(68, 23);
+            this.point14listaltbutton.TabIndex = 92;
+            this.point14listaltbutton.Text = "Set Alt";
+            this.point14listaltbutton.UseVisualStyleBackColor = true;
+            this.point14listaltbutton.Visible = false;
+            // 
+            // point14listalttxtbox
+            // 
+            this.point14listalttxtbox.Enabled = false;
+            this.point14listalttxtbox.Location = new System.Drawing.Point(359, 105);
+            this.point14listalttxtbox.Name = "point14listalttxtbox";
+            this.point14listalttxtbox.Size = new System.Drawing.Size(67, 20);
+            this.point14listalttxtbox.TabIndex = 91;
+            this.point14listalttxtbox.Visible = false;
+            // 
+            // point14listlabel
+            // 
+            this.point14listlabel.AutoSize = true;
+            this.point14listlabel.BackColor = System.Drawing.Color.DarkRed;
+            this.point14listlabel.Enabled = false;
+            this.point14listlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.point14listlabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.point14listlabel.Location = new System.Drawing.Point(328, 107);
+            this.point14listlabel.Name = "point14listlabel";
+            this.point14listlabel.Size = new System.Drawing.Size(28, 16);
+            this.point14listlabel.TabIndex = 90;
+            this.point14listlabel.Text = "14:";
+            this.point14listlabel.Visible = false;
+            // 
+            // point13listdel
+            // 
+            this.point13listdel.Enabled = false;
+            this.point13listdel.Location = new System.Drawing.Point(456, 77);
+            this.point13listdel.Name = "point13listdel";
+            this.point13listdel.Size = new System.Drawing.Size(23, 23);
+            this.point13listdel.TabIndex = 89;
+            this.point13listdel.Text = "X";
+            this.point13listdel.UseVisualStyleBackColor = true;
+            this.point13listdel.Visible = false;
+            // 
+            // point13listaltbutton
+            // 
+            this.point13listaltbutton.Enabled = false;
+            this.point13listaltbutton.Location = new System.Drawing.Point(358, 77);
+            this.point13listaltbutton.Name = "point13listaltbutton";
+            this.point13listaltbutton.Size = new System.Drawing.Size(68, 23);
+            this.point13listaltbutton.TabIndex = 88;
+            this.point13listaltbutton.Text = "Set Alt";
+            this.point13listaltbutton.UseVisualStyleBackColor = true;
+            this.point13listaltbutton.Visible = false;
+            // 
+            // point13listalttxtbox
+            // 
+            this.point13listalttxtbox.Enabled = false;
+            this.point13listalttxtbox.Location = new System.Drawing.Point(359, 78);
+            this.point13listalttxtbox.Name = "point13listalttxtbox";
+            this.point13listalttxtbox.Size = new System.Drawing.Size(67, 20);
+            this.point13listalttxtbox.TabIndex = 87;
+            this.point13listalttxtbox.Visible = false;
+            // 
+            // point13listlabel
+            // 
+            this.point13listlabel.AutoSize = true;
+            this.point13listlabel.BackColor = System.Drawing.Color.DarkRed;
+            this.point13listlabel.Enabled = false;
+            this.point13listlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.point13listlabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.point13listlabel.Location = new System.Drawing.Point(328, 80);
+            this.point13listlabel.Name = "point13listlabel";
+            this.point13listlabel.Size = new System.Drawing.Size(28, 16);
+            this.point13listlabel.TabIndex = 86;
+            this.point13listlabel.Text = "13:";
+            this.point13listlabel.Visible = false;
+            // 
+            // point12listdel
+            // 
+            this.point12listdel.Enabled = false;
+            this.point12listdel.Location = new System.Drawing.Point(456, 49);
+            this.point12listdel.Name = "point12listdel";
+            this.point12listdel.Size = new System.Drawing.Size(23, 23);
+            this.point12listdel.TabIndex = 85;
+            this.point12listdel.Text = "X";
+            this.point12listdel.UseVisualStyleBackColor = true;
+            this.point12listdel.Visible = false;
+            // 
+            // point12listaltbutton
+            // 
+            this.point12listaltbutton.Enabled = false;
+            this.point12listaltbutton.Location = new System.Drawing.Point(358, 49);
+            this.point12listaltbutton.Name = "point12listaltbutton";
+            this.point12listaltbutton.Size = new System.Drawing.Size(68, 23);
+            this.point12listaltbutton.TabIndex = 84;
+            this.point12listaltbutton.Text = "Set Alt";
+            this.point12listaltbutton.UseVisualStyleBackColor = true;
+            this.point12listaltbutton.Visible = false;
+            // 
+            // point12listalttxtbox
+            // 
+            this.point12listalttxtbox.Enabled = false;
+            this.point12listalttxtbox.Location = new System.Drawing.Point(359, 50);
+            this.point12listalttxtbox.Name = "point12listalttxtbox";
+            this.point12listalttxtbox.Size = new System.Drawing.Size(67, 20);
+            this.point12listalttxtbox.TabIndex = 83;
+            this.point12listalttxtbox.Visible = false;
+            // 
+            // point12listlabel
+            // 
+            this.point12listlabel.AutoSize = true;
+            this.point12listlabel.BackColor = System.Drawing.Color.DarkRed;
+            this.point12listlabel.Enabled = false;
+            this.point12listlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.point12listlabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.point12listlabel.Location = new System.Drawing.Point(328, 52);
+            this.point12listlabel.Name = "point12listlabel";
+            this.point12listlabel.Size = new System.Drawing.Size(28, 16);
+            this.point12listlabel.TabIndex = 82;
+            this.point12listlabel.Text = "12:";
+            this.point12listlabel.Visible = false;
+            // 
+            // point11listdel
+            // 
+            this.point11listdel.Enabled = false;
+            this.point11listdel.Location = new System.Drawing.Point(456, 21);
+            this.point11listdel.Name = "point11listdel";
+            this.point11listdel.Size = new System.Drawing.Size(23, 23);
+            this.point11listdel.TabIndex = 81;
+            this.point11listdel.Text = "X";
+            this.point11listdel.UseVisualStyleBackColor = true;
+            this.point11listdel.Visible = false;
+            // 
+            // point11listaltbutton
+            // 
+            this.point11listaltbutton.Enabled = false;
+            this.point11listaltbutton.Location = new System.Drawing.Point(358, 21);
+            this.point11listaltbutton.Name = "point11listaltbutton";
+            this.point11listaltbutton.Size = new System.Drawing.Size(68, 23);
+            this.point11listaltbutton.TabIndex = 80;
+            this.point11listaltbutton.Text = "Set Alt";
+            this.point11listaltbutton.UseVisualStyleBackColor = true;
+            this.point11listaltbutton.Visible = false;
+            // 
+            // point11listalttxtbox
+            // 
+            this.point11listalttxtbox.Enabled = false;
+            this.point11listalttxtbox.Location = new System.Drawing.Point(359, 22);
+            this.point11listalttxtbox.Name = "point11listalttxtbox";
+            this.point11listalttxtbox.Size = new System.Drawing.Size(67, 20);
+            this.point11listalttxtbox.TabIndex = 79;
+            this.point11listalttxtbox.Visible = false;
+            // 
+            // point11listlabel
+            // 
+            this.point11listlabel.AutoSize = true;
+            this.point11listlabel.BackColor = System.Drawing.Color.DarkRed;
+            this.point11listlabel.Enabled = false;
+            this.point11listlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.point11listlabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.point11listlabel.Location = new System.Drawing.Point(328, 24);
+            this.point11listlabel.Name = "point11listlabel";
+            this.point11listlabel.Size = new System.Drawing.Size(28, 16);
+            this.point11listlabel.TabIndex = 78;
+            this.point11listlabel.Text = "11:";
+            this.point11listlabel.Visible = false;
+            // 
+            // point10listdel
+            // 
+            this.point10listdel.Enabled = false;
+            this.point10listdel.Location = new System.Drawing.Point(292, 130);
+            this.point10listdel.Name = "point10listdel";
+            this.point10listdel.Size = new System.Drawing.Size(23, 23);
+            this.point10listdel.TabIndex = 77;
+            this.point10listdel.Text = "X";
+            this.point10listdel.UseVisualStyleBackColor = true;
+            this.point10listdel.Visible = false;
+            // 
+            // point2listaltbutton
+            // 
+            this.point2listaltbutton.Enabled = false;
+            this.point2listaltbutton.Location = new System.Drawing.Point(33, 48);
+            this.point2listaltbutton.Name = "point2listaltbutton";
+            this.point2listaltbutton.Size = new System.Drawing.Size(68, 23);
+            this.point2listaltbutton.TabIndex = 42;
+            this.point2listaltbutton.Text = "Set Alt";
+            this.point2listaltbutton.UseVisualStyleBackColor = true;
+            this.point2listaltbutton.Visible = false;
+            // 
+            // point10listaltbutton
+            // 
+            this.point10listaltbutton.Enabled = false;
+            this.point10listaltbutton.Location = new System.Drawing.Point(194, 130);
+            this.point10listaltbutton.Name = "point10listaltbutton";
+            this.point10listaltbutton.Size = new System.Drawing.Size(68, 23);
+            this.point10listaltbutton.TabIndex = 76;
+            this.point10listaltbutton.Text = "Set Alt";
+            this.point10listaltbutton.UseVisualStyleBackColor = true;
+            this.point10listaltbutton.Visible = false;
+            // 
+            // point10listalttxtbox
+            // 
+            this.point10listalttxtbox.Enabled = false;
+            this.point10listalttxtbox.Location = new System.Drawing.Point(195, 131);
+            this.point10listalttxtbox.Name = "point10listalttxtbox";
+            this.point10listalttxtbox.Size = new System.Drawing.Size(67, 20);
+            this.point10listalttxtbox.TabIndex = 75;
+            this.point10listalttxtbox.Visible = false;
+            // 
+            // point10listlabel
+            // 
+            this.point10listlabel.AutoSize = true;
+            this.point10listlabel.BackColor = System.Drawing.Color.DarkRed;
+            this.point10listlabel.Enabled = false;
+            this.point10listlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.point10listlabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.point10listlabel.Location = new System.Drawing.Point(164, 133);
+            this.point10listlabel.Name = "point10listlabel";
+            this.point10listlabel.Size = new System.Drawing.Size(28, 16);
+            this.point10listlabel.TabIndex = 74;
+            this.point10listlabel.Text = "10:";
+            this.point10listlabel.Visible = false;
+            // 
+            // point9listdel
+            // 
+            this.point9listdel.Enabled = false;
+            this.point9listdel.Location = new System.Drawing.Point(292, 103);
+            this.point9listdel.Name = "point9listdel";
+            this.point9listdel.Size = new System.Drawing.Size(23, 23);
+            this.point9listdel.TabIndex = 73;
+            this.point9listdel.Text = "X";
+            this.point9listdel.UseVisualStyleBackColor = true;
+            this.point9listdel.Visible = false;
+            // 
+            // point9listaltbutton
+            // 
+            this.point9listaltbutton.Enabled = false;
+            this.point9listaltbutton.Location = new System.Drawing.Point(194, 103);
+            this.point9listaltbutton.Name = "point9listaltbutton";
+            this.point9listaltbutton.Size = new System.Drawing.Size(68, 23);
+            this.point9listaltbutton.TabIndex = 72;
+            this.point9listaltbutton.Text = "Set Alt";
+            this.point9listaltbutton.UseVisualStyleBackColor = true;
+            this.point9listaltbutton.Visible = false;
+            // 
+            // point9listalttxtbox
+            // 
+            this.point9listalttxtbox.Enabled = false;
+            this.point9listalttxtbox.Location = new System.Drawing.Point(195, 104);
+            this.point9listalttxtbox.Name = "point9listalttxtbox";
+            this.point9listalttxtbox.Size = new System.Drawing.Size(67, 20);
+            this.point9listalttxtbox.TabIndex = 71;
+            this.point9listalttxtbox.Visible = false;
+            // 
+            // point9listlabel
+            // 
+            this.point9listlabel.AutoSize = true;
+            this.point9listlabel.BackColor = System.Drawing.Color.DarkRed;
+            this.point9listlabel.Enabled = false;
+            this.point9listlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.point9listlabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.point9listlabel.Location = new System.Drawing.Point(168, 106);
+            this.point9listlabel.Name = "point9listlabel";
+            this.point9listlabel.Size = new System.Drawing.Size(20, 16);
+            this.point9listlabel.TabIndex = 70;
+            this.point9listlabel.Text = "9:";
+            this.point9listlabel.Visible = false;
+            // 
+            // point8listdel
+            // 
+            this.point8listdel.Enabled = false;
+            this.point8listdel.Location = new System.Drawing.Point(292, 76);
+            this.point8listdel.Name = "point8listdel";
+            this.point8listdel.Size = new System.Drawing.Size(23, 23);
+            this.point8listdel.TabIndex = 69;
+            this.point8listdel.Text = "X";
+            this.point8listdel.UseVisualStyleBackColor = true;
+            this.point8listdel.Visible = false;
+            // 
+            // point8listaltbutton
+            // 
+            this.point8listaltbutton.Enabled = false;
+            this.point8listaltbutton.Location = new System.Drawing.Point(194, 76);
+            this.point8listaltbutton.Name = "point8listaltbutton";
+            this.point8listaltbutton.Size = new System.Drawing.Size(68, 23);
+            this.point8listaltbutton.TabIndex = 68;
+            this.point8listaltbutton.Text = "Set Alt";
+            this.point8listaltbutton.UseVisualStyleBackColor = true;
+            this.point8listaltbutton.Visible = false;
+            // 
+            // point8listalttxtbox
+            // 
+            this.point8listalttxtbox.Enabled = false;
+            this.point8listalttxtbox.Location = new System.Drawing.Point(195, 77);
+            this.point8listalttxtbox.Name = "point8listalttxtbox";
+            this.point8listalttxtbox.Size = new System.Drawing.Size(67, 20);
+            this.point8listalttxtbox.TabIndex = 67;
+            this.point8listalttxtbox.Visible = false;
+            // 
+            // point8listlabel
+            // 
+            this.point8listlabel.AutoSize = true;
+            this.point8listlabel.BackColor = System.Drawing.Color.DarkRed;
+            this.point8listlabel.Enabled = false;
+            this.point8listlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.point8listlabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.point8listlabel.Location = new System.Drawing.Point(168, 79);
+            this.point8listlabel.Name = "point8listlabel";
+            this.point8listlabel.Size = new System.Drawing.Size(20, 16);
+            this.point8listlabel.TabIndex = 66;
+            this.point8listlabel.Text = "8:";
+            this.point8listlabel.Visible = false;
+            // 
+            // point7listdel
+            // 
+            this.point7listdel.Enabled = false;
+            this.point7listdel.Location = new System.Drawing.Point(292, 49);
+            this.point7listdel.Name = "point7listdel";
+            this.point7listdel.Size = new System.Drawing.Size(23, 23);
+            this.point7listdel.TabIndex = 65;
+            this.point7listdel.Text = "X";
+            this.point7listdel.UseVisualStyleBackColor = true;
+            this.point7listdel.Visible = false;
+            // 
+            // point7listaltbutton
+            // 
+            this.point7listaltbutton.Enabled = false;
+            this.point7listaltbutton.Location = new System.Drawing.Point(194, 49);
+            this.point7listaltbutton.Name = "point7listaltbutton";
+            this.point7listaltbutton.Size = new System.Drawing.Size(68, 23);
+            this.point7listaltbutton.TabIndex = 64;
+            this.point7listaltbutton.Text = "Set Alt";
+            this.point7listaltbutton.UseVisualStyleBackColor = true;
+            this.point7listaltbutton.Visible = false;
+            // 
+            // point7listalttxtbox
+            // 
+            this.point7listalttxtbox.Enabled = false;
+            this.point7listalttxtbox.Location = new System.Drawing.Point(195, 50);
+            this.point7listalttxtbox.Name = "point7listalttxtbox";
+            this.point7listalttxtbox.Size = new System.Drawing.Size(67, 20);
+            this.point7listalttxtbox.TabIndex = 63;
+            this.point7listalttxtbox.Visible = false;
+            // 
+            // point7listlabel
+            // 
+            this.point7listlabel.AutoSize = true;
+            this.point7listlabel.BackColor = System.Drawing.Color.DarkRed;
+            this.point7listlabel.Enabled = false;
+            this.point7listlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.point7listlabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.point7listlabel.Location = new System.Drawing.Point(168, 52);
+            this.point7listlabel.Name = "point7listlabel";
+            this.point7listlabel.Size = new System.Drawing.Size(20, 16);
+            this.point7listlabel.TabIndex = 62;
+            this.point7listlabel.Text = "7:";
+            this.point7listlabel.Visible = false;
+            // 
+            // point6listdel
+            // 
+            this.point6listdel.Enabled = false;
+            this.point6listdel.Location = new System.Drawing.Point(292, 22);
+            this.point6listdel.Name = "point6listdel";
+            this.point6listdel.Size = new System.Drawing.Size(23, 23);
+            this.point6listdel.TabIndex = 61;
+            this.point6listdel.Text = "X";
+            this.point6listdel.UseVisualStyleBackColor = true;
+            this.point6listdel.Visible = false;
+            // 
+            // point6listaltbutton
+            // 
+            this.point6listaltbutton.Enabled = false;
+            this.point6listaltbutton.Location = new System.Drawing.Point(194, 22);
+            this.point6listaltbutton.Name = "point6listaltbutton";
+            this.point6listaltbutton.Size = new System.Drawing.Size(68, 23);
+            this.point6listaltbutton.TabIndex = 60;
+            this.point6listaltbutton.Text = "Set Alt";
+            this.point6listaltbutton.UseVisualStyleBackColor = true;
+            this.point6listaltbutton.Visible = false;
+            // 
+            // point6listalttxtbox
+            // 
+            this.point6listalttxtbox.Enabled = false;
+            this.point6listalttxtbox.Location = new System.Drawing.Point(195, 23);
+            this.point6listalttxtbox.Name = "point6listalttxtbox";
+            this.point6listalttxtbox.Size = new System.Drawing.Size(67, 20);
+            this.point6listalttxtbox.TabIndex = 59;
+            this.point6listalttxtbox.Visible = false;
+            // 
+            // point6listlabel
+            // 
+            this.point6listlabel.AutoSize = true;
+            this.point6listlabel.BackColor = System.Drawing.Color.DarkRed;
+            this.point6listlabel.Enabled = false;
+            this.point6listlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.point6listlabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.point6listlabel.Location = new System.Drawing.Point(168, 25);
+            this.point6listlabel.Name = "point6listlabel";
+            this.point6listlabel.Size = new System.Drawing.Size(20, 16);
+            this.point6listlabel.TabIndex = 58;
+            this.point6listlabel.Text = "6:";
+            this.point6listlabel.Visible = false;
+            // 
+            // point5listdel
+            // 
+            this.point5listdel.Enabled = false;
+            this.point5listdel.Location = new System.Drawing.Point(132, 129);
+            this.point5listdel.Name = "point5listdel";
+            this.point5listdel.Size = new System.Drawing.Size(23, 23);
+            this.point5listdel.TabIndex = 57;
+            this.point5listdel.Text = "X";
+            this.point5listdel.UseVisualStyleBackColor = true;
+            this.point5listdel.Visible = false;
+            // 
+            // point5listaltbutton
+            // 
+            this.point5listaltbutton.Enabled = false;
+            this.point5listaltbutton.Location = new System.Drawing.Point(32, 129);
+            this.point5listaltbutton.Name = "point5listaltbutton";
+            this.point5listaltbutton.Size = new System.Drawing.Size(68, 23);
+            this.point5listaltbutton.TabIndex = 56;
+            this.point5listaltbutton.Text = "Set Alt";
+            this.point5listaltbutton.UseVisualStyleBackColor = true;
+            this.point5listaltbutton.Visible = false;
+            // 
+            // point5listalttxtbox
+            // 
+            this.point5listalttxtbox.Enabled = false;
+            this.point5listalttxtbox.Location = new System.Drawing.Point(33, 130);
+            this.point5listalttxtbox.Name = "point5listalttxtbox";
+            this.point5listalttxtbox.Size = new System.Drawing.Size(67, 20);
+            this.point5listalttxtbox.TabIndex = 55;
+            this.point5listalttxtbox.Visible = false;
+            // 
+            // point5listlabel
+            // 
+            this.point5listlabel.AutoSize = true;
+            this.point5listlabel.BackColor = System.Drawing.Color.DarkRed;
+            this.point5listlabel.Enabled = false;
+            this.point5listlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.point5listlabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.point5listlabel.Location = new System.Drawing.Point(6, 132);
+            this.point5listlabel.Name = "point5listlabel";
+            this.point5listlabel.Size = new System.Drawing.Size(20, 16);
+            this.point5listlabel.TabIndex = 54;
+            this.point5listlabel.Text = "5:";
+            this.point5listlabel.Visible = false;
+            // 
+            // point4listdel
+            // 
+            this.point4listdel.Enabled = false;
+            this.point4listdel.Location = new System.Drawing.Point(132, 102);
+            this.point4listdel.Name = "point4listdel";
+            this.point4listdel.Size = new System.Drawing.Size(23, 23);
+            this.point4listdel.TabIndex = 53;
+            this.point4listdel.Text = "X";
+            this.point4listdel.UseVisualStyleBackColor = true;
+            this.point4listdel.Visible = false;
+            // 
+            // point4listaltbutton
+            // 
+            this.point4listaltbutton.Enabled = false;
+            this.point4listaltbutton.Location = new System.Drawing.Point(32, 102);
+            this.point4listaltbutton.Name = "point4listaltbutton";
+            this.point4listaltbutton.Size = new System.Drawing.Size(68, 23);
+            this.point4listaltbutton.TabIndex = 52;
+            this.point4listaltbutton.Text = "Set Alt";
+            this.point4listaltbutton.UseVisualStyleBackColor = true;
+            this.point4listaltbutton.Visible = false;
+            // 
+            // point4listalttxtbox
+            // 
+            this.point4listalttxtbox.Enabled = false;
+            this.point4listalttxtbox.Location = new System.Drawing.Point(33, 103);
+            this.point4listalttxtbox.Name = "point4listalttxtbox";
+            this.point4listalttxtbox.Size = new System.Drawing.Size(67, 20);
+            this.point4listalttxtbox.TabIndex = 51;
+            this.point4listalttxtbox.Visible = false;
+            // 
+            // point4listlabel
+            // 
+            this.point4listlabel.AutoSize = true;
+            this.point4listlabel.BackColor = System.Drawing.Color.DarkRed;
+            this.point4listlabel.Enabled = false;
+            this.point4listlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.point4listlabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.point4listlabel.Location = new System.Drawing.Point(6, 105);
+            this.point4listlabel.Name = "point4listlabel";
+            this.point4listlabel.Size = new System.Drawing.Size(20, 16);
+            this.point4listlabel.TabIndex = 50;
+            this.point4listlabel.Text = "4:";
+            this.point4listlabel.Visible = false;
+            // 
+            // point3listdel
+            // 
+            this.point3listdel.Enabled = false;
+            this.point3listdel.Location = new System.Drawing.Point(132, 75);
+            this.point3listdel.Name = "point3listdel";
+            this.point3listdel.Size = new System.Drawing.Size(23, 23);
+            this.point3listdel.TabIndex = 49;
+            this.point3listdel.Text = "X";
+            this.point3listdel.UseVisualStyleBackColor = true;
+            this.point3listdel.Visible = false;
+            // 
+            // point3listaltbutton
+            // 
+            this.point3listaltbutton.Enabled = false;
+            this.point3listaltbutton.Location = new System.Drawing.Point(32, 75);
+            this.point3listaltbutton.Name = "point3listaltbutton";
+            this.point3listaltbutton.Size = new System.Drawing.Size(68, 23);
+            this.point3listaltbutton.TabIndex = 48;
+            this.point3listaltbutton.Text = "Set Alt";
+            this.point3listaltbutton.UseVisualStyleBackColor = true;
+            this.point3listaltbutton.Visible = false;
+            // 
+            // point3listalttxtbox
+            // 
+            this.point3listalttxtbox.Enabled = false;
+            this.point3listalttxtbox.Location = new System.Drawing.Point(33, 76);
+            this.point3listalttxtbox.Name = "point3listalttxtbox";
+            this.point3listalttxtbox.Size = new System.Drawing.Size(67, 20);
+            this.point3listalttxtbox.TabIndex = 47;
+            this.point3listalttxtbox.Visible = false;
+            // 
+            // point3listlabel
+            // 
+            this.point3listlabel.AutoSize = true;
+            this.point3listlabel.BackColor = System.Drawing.Color.DarkRed;
+            this.point3listlabel.Enabled = false;
+            this.point3listlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.point3listlabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.point3listlabel.Location = new System.Drawing.Point(6, 78);
+            this.point3listlabel.Name = "point3listlabel";
+            this.point3listlabel.Size = new System.Drawing.Size(20, 16);
+            this.point3listlabel.TabIndex = 46;
+            this.point3listlabel.Text = "3:";
+            this.point3listlabel.Visible = false;
+            // 
+            // pointXlistalttxtbox
+            // 
+            this.pointXlistalttxtbox.Enabled = false;
+            this.pointXlistalttxtbox.Location = new System.Drawing.Point(771, 57);
+            this.pointXlistalttxtbox.Name = "pointXlistalttxtbox";
+            this.pointXlistalttxtbox.Size = new System.Drawing.Size(67, 20);
+            this.pointXlistalttxtbox.TabIndex = 45;
+            this.pointXlistalttxtbox.Visible = false;
+            // 
+            // pointXlistaltbutton
+            // 
+            this.pointXlistaltbutton.Enabled = false;
+            this.pointXlistaltbutton.Location = new System.Drawing.Point(770, 35);
+            this.pointXlistaltbutton.Name = "pointXlistaltbutton";
+            this.pointXlistaltbutton.Size = new System.Drawing.Size(68, 23);
+            this.pointXlistaltbutton.TabIndex = 44;
+            this.pointXlistaltbutton.Text = "Set Alt";
+            this.pointXlistaltbutton.UseVisualStyleBackColor = true;
+            this.pointXlistaltbutton.Visible = false;
+            // 
+            // point2listdel
+            // 
+            this.point2listdel.Enabled = false;
+            this.point2listdel.Location = new System.Drawing.Point(132, 48);
+            this.point2listdel.Name = "point2listdel";
+            this.point2listdel.Size = new System.Drawing.Size(23, 23);
+            this.point2listdel.TabIndex = 43;
+            this.point2listdel.Text = "X";
+            this.point2listdel.UseVisualStyleBackColor = true;
+            this.point2listdel.Visible = false;
+            // 
+            // point2listalttxtbox
+            // 
+            this.point2listalttxtbox.Enabled = false;
+            this.point2listalttxtbox.Location = new System.Drawing.Point(33, 49);
+            this.point2listalttxtbox.Name = "point2listalttxtbox";
+            this.point2listalttxtbox.Size = new System.Drawing.Size(67, 20);
+            this.point2listalttxtbox.TabIndex = 41;
+            this.point2listalttxtbox.Visible = false;
+            // 
+            // point2listlabel
+            // 
+            this.point2listlabel.AutoSize = true;
+            this.point2listlabel.BackColor = System.Drawing.Color.DarkRed;
+            this.point2listlabel.Enabled = false;
+            this.point2listlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.point2listlabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.point2listlabel.Location = new System.Drawing.Point(6, 52);
+            this.point2listlabel.Name = "point2listlabel";
+            this.point2listlabel.Size = new System.Drawing.Size(20, 16);
+            this.point2listlabel.TabIndex = 40;
+            this.point2listlabel.Text = "2:";
+            this.point2listlabel.Visible = false;
+            // 
+            // point1listalttxtbox
+            // 
+            this.point1listalttxtbox.Enabled = false;
+            this.point1listalttxtbox.Location = new System.Drawing.Point(33, 24);
+            this.point1listalttxtbox.Name = "point1listalttxtbox";
+            this.point1listalttxtbox.Size = new System.Drawing.Size(67, 20);
+            this.point1listalttxtbox.TabIndex = 39;
+            this.point1listalttxtbox.Visible = false;
+            // 
+            // point1listaltbutton
+            // 
+            this.point1listaltbutton.Enabled = false;
+            this.point1listaltbutton.Location = new System.Drawing.Point(32, 22);
+            this.point1listaltbutton.Name = "point1listaltbutton";
+            this.point1listaltbutton.Size = new System.Drawing.Size(68, 23);
+            this.point1listaltbutton.TabIndex = 38;
+            this.point1listaltbutton.Text = "Set Alt";
+            this.point1listaltbutton.UseVisualStyleBackColor = true;
+            this.point1listaltbutton.Visible = false;
+            // 
+            // point1listlabel
+            // 
+            this.point1listlabel.AutoSize = true;
+            this.point1listlabel.BackColor = System.Drawing.Color.DarkRed;
+            this.point1listlabel.Enabled = false;
+            this.point1listlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.point1listlabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.point1listlabel.Location = new System.Drawing.Point(6, 25);
+            this.point1listlabel.Name = "point1listlabel";
+            this.point1listlabel.Size = new System.Drawing.Size(20, 16);
+            this.point1listlabel.TabIndex = 26;
+            this.point1listlabel.Text = "1:";
+            this.point1listlabel.Visible = false;
+            // 
+            // point1listdel
+            // 
+            this.point1listdel.Enabled = false;
+            this.point1listdel.Location = new System.Drawing.Point(132, 22);
+            this.point1listdel.Name = "point1listdel";
+            this.point1listdel.Size = new System.Drawing.Size(23, 23);
+            this.point1listdel.TabIndex = 38;
+            this.point1listdel.Text = "X";
+            this.point1listdel.UseVisualStyleBackColor = true;
+            this.point1listdel.Visible = false;
+            // 
+            // resetmarkers_btn
+            // 
+            this.resetmarkers_btn.Enabled = false;
+            this.resetmarkers_btn.Location = new System.Drawing.Point(6, 170);
+            this.resetmarkers_btn.Name = "resetmarkers_btn";
+            this.resetmarkers_btn.Size = new System.Drawing.Size(93, 23);
+            this.resetmarkers_btn.TabIndex = 4;
+            this.resetmarkers_btn.Text = "Clear Waypoints";
+            this.resetmarkers_btn.UseVisualStyleBackColor = true;
+            this.resetmarkers_btn.Click += new System.EventHandler(this.resetmarkers_btn_Click);
             // 
             // panel5
             // 
@@ -1021,7 +2114,6 @@
             // panel6
             // 
             this.panel6.Controls.Add(this.zoomControls);
-            this.panel6.Controls.Add(this.waypointGroupBox);
             this.panel6.Controls.Add(this.mapInput);
             this.panel6.Controls.Add(this.markerGroupBox);
             this.panel6.Location = new System.Drawing.Point(0, 51);
@@ -1033,16 +2125,16 @@
             // 
             this.zoomControls.Controls.Add(this.zoomin_btn);
             this.zoomControls.Controls.Add(this.zoomout_btn);
-            this.zoomControls.Location = new System.Drawing.Point(760, 27);
+            this.zoomControls.Location = new System.Drawing.Point(868, 27);
             this.zoomControls.Name = "zoomControls";
-            this.zoomControls.Size = new System.Drawing.Size(184, 115);
+            this.zoomControls.Size = new System.Drawing.Size(87, 115);
             this.zoomControls.TabIndex = 10;
             this.zoomControls.TabStop = false;
-            this.zoomControls.Text = "Map Zoom(This will clear markers!)";
+            this.zoomControls.Text = "Map Zoom";
             // 
             // zoomin_btn
             // 
-            this.zoomin_btn.Location = new System.Drawing.Point(6, 86);
+            this.zoomin_btn.Location = new System.Drawing.Point(6, 56);
             this.zoomin_btn.Name = "zoomin_btn";
             this.zoomin_btn.Size = new System.Drawing.Size(75, 23);
             this.zoomin_btn.TabIndex = 8;
@@ -1052,32 +2144,13 @@
             // 
             // zoomout_btn
             // 
-            this.zoomout_btn.Location = new System.Drawing.Point(103, 86);
+            this.zoomout_btn.Location = new System.Drawing.Point(6, 85);
             this.zoomout_btn.Name = "zoomout_btn";
             this.zoomout_btn.Size = new System.Drawing.Size(75, 23);
             this.zoomout_btn.TabIndex = 9;
             this.zoomout_btn.Text = "Zoom Out";
             this.zoomout_btn.UseVisualStyleBackColor = true;
             this.zoomout_btn.Click += new System.EventHandler(this.zoomout_btn_Click);
-            // 
-            // waypointGroupBox
-            // 
-            this.waypointGroupBox.Controls.Add(this.resetmarkers_btn);
-            this.waypointGroupBox.Location = new System.Drawing.Point(503, 27);
-            this.waypointGroupBox.Name = "waypointGroupBox";
-            this.waypointGroupBox.Size = new System.Drawing.Size(251, 115);
-            this.waypointGroupBox.TabIndex = 14;
-            this.waypointGroupBox.TabStop = false;
-            this.waypointGroupBox.Text = "Waypoints";
-            // 
-            // resetmarkers_btn
-            // 
-            this.resetmarkers_btn.Location = new System.Drawing.Point(6, 86);
-            this.resetmarkers_btn.Name = "resetmarkers_btn";
-            this.resetmarkers_btn.Size = new System.Drawing.Size(93, 23);
-            this.resetmarkers_btn.TabIndex = 4;
-            this.resetmarkers_btn.Text = "Clear Waypoints";
-            this.resetmarkers_btn.UseVisualStyleBackColor = true;
             // 
             // mapInput
             // 
@@ -1291,19 +2364,19 @@
             this.home_marker.Text = "H";
             this.home_marker.Visible = false;
             // 
-            // marker2
+            // waypoint1
             // 
-            this.marker2.AutoSize = true;
-            this.marker2.BackColor = System.Drawing.Color.DarkRed;
-            this.marker2.Enabled = false;
-            this.marker2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.marker2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.marker2.Location = new System.Drawing.Point(960, 767);
-            this.marker2.Name = "marker2";
-            this.marker2.Size = new System.Drawing.Size(16, 16);
-            this.marker2.TabIndex = 14;
-            this.marker2.Text = "1";
-            this.marker2.Visible = false;
+            this.waypoint1.AutoSize = true;
+            this.waypoint1.BackColor = System.Drawing.Color.DarkRed;
+            this.waypoint1.Enabled = false;
+            this.waypoint1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waypoint1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.waypoint1.Location = new System.Drawing.Point(960, 767);
+            this.waypoint1.Name = "waypoint1";
+            this.waypoint1.Size = new System.Drawing.Size(16, 16);
+            this.waypoint1.TabIndex = 14;
+            this.waypoint1.Text = "1";
+            this.waypoint1.Visible = false;
             // 
             // panel2
             // 
@@ -1604,17 +2677,243 @@
             this.PPS_timer.Interval = 1000;
             this.PPS_timer.Tick += new System.EventHandler(this.PPS_timer_Tick);
             // 
+            // waypoint5
+            // 
+            this.waypoint5.AutoSize = true;
+            this.waypoint5.BackColor = System.Drawing.Color.DarkRed;
+            this.waypoint5.Enabled = false;
+            this.waypoint5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waypoint5.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.waypoint5.Location = new System.Drawing.Point(1083, 740);
+            this.waypoint5.Name = "waypoint5";
+            this.waypoint5.Size = new System.Drawing.Size(16, 16);
+            this.waypoint5.TabIndex = 17;
+            this.waypoint5.Text = "5";
+            this.waypoint5.Visible = false;
+            // 
+            // waypoint4
+            // 
+            this.waypoint4.AutoSize = true;
+            this.waypoint4.BackColor = System.Drawing.Color.DarkRed;
+            this.waypoint4.Enabled = false;
+            this.waypoint4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waypoint4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.waypoint4.Location = new System.Drawing.Point(1066, 708);
+            this.waypoint4.Name = "waypoint4";
+            this.waypoint4.Size = new System.Drawing.Size(16, 16);
+            this.waypoint4.TabIndex = 18;
+            this.waypoint4.Text = "4";
+            this.waypoint4.Visible = false;
+            // 
+            // waypoint7
+            // 
+            this.waypoint7.AutoSize = true;
+            this.waypoint7.BackColor = System.Drawing.Color.DarkRed;
+            this.waypoint7.Enabled = false;
+            this.waypoint7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waypoint7.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.waypoint7.Location = new System.Drawing.Point(1125, 718);
+            this.waypoint7.Name = "waypoint7";
+            this.waypoint7.Size = new System.Drawing.Size(16, 16);
+            this.waypoint7.TabIndex = 19;
+            this.waypoint7.Text = "7";
+            this.waypoint7.Visible = false;
+            // 
+            // waypoint9
+            // 
+            this.waypoint9.AutoSize = true;
+            this.waypoint9.BackColor = System.Drawing.Color.DarkRed;
+            this.waypoint9.Enabled = false;
+            this.waypoint9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waypoint9.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.waypoint9.Location = new System.Drawing.Point(1165, 708);
+            this.waypoint9.Name = "waypoint9";
+            this.waypoint9.Size = new System.Drawing.Size(16, 16);
+            this.waypoint9.TabIndex = 20;
+            this.waypoint9.Text = "9";
+            this.waypoint9.Visible = false;
+            // 
+            // waypoint2
+            // 
+            this.waypoint2.AutoSize = true;
+            this.waypoint2.BackColor = System.Drawing.Color.DarkRed;
+            this.waypoint2.Enabled = false;
+            this.waypoint2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waypoint2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.waypoint2.Location = new System.Drawing.Point(1028, 718);
+            this.waypoint2.Name = "waypoint2";
+            this.waypoint2.Size = new System.Drawing.Size(16, 16);
+            this.waypoint2.TabIndex = 21;
+            this.waypoint2.Text = "2";
+            this.waypoint2.Visible = false;
+            // 
+            // waypoint10
+            // 
+            this.waypoint10.AutoSize = true;
+            this.waypoint10.BackColor = System.Drawing.Color.DarkRed;
+            this.waypoint10.Enabled = false;
+            this.waypoint10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waypoint10.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.waypoint10.Location = new System.Drawing.Point(1209, 718);
+            this.waypoint10.Name = "waypoint10";
+            this.waypoint10.Size = new System.Drawing.Size(24, 16);
+            this.waypoint10.TabIndex = 22;
+            this.waypoint10.Text = "10";
+            this.waypoint10.Visible = false;
+            // 
+            // waypoint3
+            // 
+            this.waypoint3.AutoSize = true;
+            this.waypoint3.BackColor = System.Drawing.Color.DarkRed;
+            this.waypoint3.Enabled = false;
+            this.waypoint3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waypoint3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.waypoint3.Location = new System.Drawing.Point(1028, 680);
+            this.waypoint3.Name = "waypoint3";
+            this.waypoint3.Size = new System.Drawing.Size(16, 16);
+            this.waypoint3.TabIndex = 23;
+            this.waypoint3.Text = "3";
+            this.waypoint3.Visible = false;
+            // 
+            // waypoint8
+            // 
+            this.waypoint8.AutoSize = true;
+            this.waypoint8.BackColor = System.Drawing.Color.DarkRed;
+            this.waypoint8.Enabled = false;
+            this.waypoint8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waypoint8.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.waypoint8.Location = new System.Drawing.Point(1151, 669);
+            this.waypoint8.Name = "waypoint8";
+            this.waypoint8.Size = new System.Drawing.Size(16, 16);
+            this.waypoint8.TabIndex = 24;
+            this.waypoint8.Text = "8";
+            this.waypoint8.Visible = false;
+            // 
+            // waypoint6
+            // 
+            this.waypoint6.AutoSize = true;
+            this.waypoint6.BackColor = System.Drawing.Color.DarkRed;
+            this.waypoint6.Enabled = false;
+            this.waypoint6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waypoint6.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.waypoint6.Location = new System.Drawing.Point(1103, 680);
+            this.waypoint6.Name = "waypoint6";
+            this.waypoint6.Size = new System.Drawing.Size(16, 16);
+            this.waypoint6.TabIndex = 25;
+            this.waypoint6.Text = "6";
+            this.waypoint6.Visible = false;
+            // 
+            // waypoint14
+            // 
+            this.waypoint14.AutoSize = true;
+            this.waypoint14.BackColor = System.Drawing.Color.DarkRed;
+            this.waypoint14.Enabled = false;
+            this.waypoint14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waypoint14.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.waypoint14.Location = new System.Drawing.Point(1327, 755);
+            this.waypoint14.Name = "waypoint14";
+            this.waypoint14.Size = new System.Drawing.Size(24, 16);
+            this.waypoint14.TabIndex = 26;
+            this.waypoint14.Text = "14";
+            this.waypoint14.Visible = false;
+            // 
+            // waypoint12
+            // 
+            this.waypoint12.AutoSize = true;
+            this.waypoint12.BackColor = System.Drawing.Color.DarkRed;
+            this.waypoint12.Enabled = false;
+            this.waypoint12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waypoint12.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.waypoint12.Location = new System.Drawing.Point(1269, 697);
+            this.waypoint12.Name = "waypoint12";
+            this.waypoint12.Size = new System.Drawing.Size(24, 16);
+            this.waypoint12.TabIndex = 27;
+            this.waypoint12.Text = "12";
+            this.waypoint12.Visible = false;
+            // 
+            // waypoint15
+            // 
+            this.waypoint15.AutoSize = true;
+            this.waypoint15.BackColor = System.Drawing.Color.DarkRed;
+            this.waypoint15.Enabled = false;
+            this.waypoint15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waypoint15.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.waypoint15.Location = new System.Drawing.Point(1450, 755);
+            this.waypoint15.Name = "waypoint15";
+            this.waypoint15.Size = new System.Drawing.Size(24, 16);
+            this.waypoint15.TabIndex = 28;
+            this.waypoint15.Text = "15";
+            this.waypoint15.Visible = false;
+            // 
+            // waypoint13
+            // 
+            this.waypoint13.AutoSize = true;
+            this.waypoint13.BackColor = System.Drawing.Color.DarkRed;
+            this.waypoint13.Enabled = false;
+            this.waypoint13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waypoint13.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.waypoint13.Location = new System.Drawing.Point(1341, 718);
+            this.waypoint13.Name = "waypoint13";
+            this.waypoint13.Size = new System.Drawing.Size(24, 16);
+            this.waypoint13.TabIndex = 29;
+            this.waypoint13.Text = "13";
+            this.waypoint13.Visible = false;
+            // 
+            // waypoint11
+            // 
+            this.waypoint11.AutoSize = true;
+            this.waypoint11.BackColor = System.Drawing.Color.DarkRed;
+            this.waypoint11.Enabled = false;
+            this.waypoint11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waypoint11.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.waypoint11.Location = new System.Drawing.Point(1268, 740);
+            this.waypoint11.Name = "waypoint11";
+            this.waypoint11.Size = new System.Drawing.Size(24, 16);
+            this.waypoint11.TabIndex = 30;
+            this.waypoint11.Text = "11";
+            this.waypoint11.Visible = false;
+            // 
+            // chromiumBrowserPanel
+            // 
+            this.chromiumBrowserPanel.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.chromiumBrowserPanel.Location = new System.Drawing.Point(494, 561);
+            this.chromiumBrowserPanel.Name = "chromiumBrowserPanel";
+            this.chromiumBrowserPanel.Size = new System.Drawing.Size(393, 298);
+            this.chromiumBrowserPanel.TabIndex = 38;
+            // 
+            // transparentPanel1
+            // 
+            this.transparentPanel1.Location = new System.Drawing.Point(908, 216);
+            this.transparentPanel1.Name = "transparentPanel1";
+            this.transparentPanel1.Size = new System.Drawing.Size(934, 576);
+            this.transparentPanel1.TabIndex = 38;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1904, 1041);
+            this.Controls.Add(this.transparentPanel1);
+            this.Controls.Add(this.waypoint11);
+            this.Controls.Add(this.waypoint13);
+            this.Controls.Add(this.waypoint15);
+            this.Controls.Add(this.waypoint12);
+            this.Controls.Add(this.waypoint14);
+            this.Controls.Add(this.waypoint6);
+            this.Controls.Add(this.waypoint8);
+            this.Controls.Add(this.waypoint3);
+            this.Controls.Add(this.waypoint10);
+            this.Controls.Add(this.waypoint2);
+            this.Controls.Add(this.waypoint9);
+            this.Controls.Add(this.waypoint7);
+            this.Controls.Add(this.waypoint4);
+            this.Controls.Add(this.waypoint5);
             this.Controls.Add(this.craft_marker);
             this.Controls.Add(this.positionhold_marker);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.telemraw_groupBox);
-            this.Controls.Add(this.marker2);
+            this.Controls.Add(this.waypoint1);
             this.Controls.Add(this.home_marker);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
@@ -1628,6 +2927,7 @@
             this.Name = "Form1";
             this.Text = "Ground Control v1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
@@ -1640,11 +2940,13 @@
             this.sendcmd_groupBox.ResumeLayout(false);
             this.gpstelem_groupBox.ResumeLayout(false);
             this.gpstelem_groupBox.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.waypointGroupBox.ResumeLayout(false);
+            this.waypointGroupBox.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.zoomControls.ResumeLayout(false);
-            this.waypointGroupBox.ResumeLayout(false);
             this.mapInput.ResumeLayout(false);
             this.mapInput.PerformLayout();
             this.markerGroupBox.ResumeLayout(false);
@@ -1676,7 +2978,7 @@
         private System.Windows.Forms.Label long_label;
         private System.Windows.Forms.Button loadMap_btn;
         private System.Windows.Forms.Label home_marker;
-        private System.Windows.Forms.Label marker2;
+        private System.Windows.Forms.Label waypoint1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button zoomout_btn;
         private System.Windows.Forms.Button zoomin_btn;
@@ -1796,6 +3098,102 @@
         private System.Windows.Forms.Button downloadpos_btn;
         private System.Windows.Forms.Timer PPS_timer;
         private System.Windows.Forms.Label pps_label;
+        private System.Windows.Forms.Label waypoint5;
+        private System.Windows.Forms.Label waypoint4;
+        private System.Windows.Forms.Label waypoint7;
+        private System.Windows.Forms.Label waypoint9;
+        private System.Windows.Forms.Label waypoint2;
+        private System.Windows.Forms.Label waypoint10;
+        private System.Windows.Forms.Label waypoint3;
+        private System.Windows.Forms.Label waypoint8;
+        private System.Windows.Forms.Label waypoint6;
+        private System.Windows.Forms.Button point2listdel;
+        private System.Windows.Forms.Button point2listaltbutton;
+        private System.Windows.Forms.TextBox point2listalttxtbox;
+        private System.Windows.Forms.Label point2listlabel;
+        private System.Windows.Forms.TextBox point1listalttxtbox;
+        private System.Windows.Forms.Button point1listaltbutton;
+        private System.Windows.Forms.Label point1listlabel;
+        private System.Windows.Forms.Button point1listdel;
+        private System.Windows.Forms.TextBox pointXlistalttxtbox;
+        private System.Windows.Forms.Button pointXlistaltbutton;
+        private System.Windows.Forms.Button point15listdel;
+        private System.Windows.Forms.Button point15listaltbutton;
+        private System.Windows.Forms.TextBox point15listalttxtbox;
+        private System.Windows.Forms.Label point15listlabel;
+        private System.Windows.Forms.Button point14listdel;
+        private System.Windows.Forms.Button point14listaltbutton;
+        private System.Windows.Forms.TextBox point14listalttxtbox;
+        private System.Windows.Forms.Label point14listlabel;
+        private System.Windows.Forms.Button point13listdel;
+        private System.Windows.Forms.Button point13listaltbutton;
+        private System.Windows.Forms.TextBox point13listalttxtbox;
+        private System.Windows.Forms.Label point13listlabel;
+        private System.Windows.Forms.Button point12listdel;
+        private System.Windows.Forms.Button point12listaltbutton;
+        private System.Windows.Forms.TextBox point12listalttxtbox;
+        private System.Windows.Forms.Label point12listlabel;
+        private System.Windows.Forms.Button point11listdel;
+        private System.Windows.Forms.Button point11listaltbutton;
+        private System.Windows.Forms.TextBox point11listalttxtbox;
+        private System.Windows.Forms.Label point11listlabel;
+        private System.Windows.Forms.Button point10listdel;
+        private System.Windows.Forms.Button point10listaltbutton;
+        private System.Windows.Forms.TextBox point10listalttxtbox;
+        private System.Windows.Forms.Label point10listlabel;
+        private System.Windows.Forms.Button point9listdel;
+        private System.Windows.Forms.Button point9listaltbutton;
+        private System.Windows.Forms.TextBox point9listalttxtbox;
+        private System.Windows.Forms.Label point9listlabel;
+        private System.Windows.Forms.Button point8listdel;
+        private System.Windows.Forms.Button point8listaltbutton;
+        private System.Windows.Forms.TextBox point8listalttxtbox;
+        private System.Windows.Forms.Label point8listlabel;
+        private System.Windows.Forms.Button point7listdel;
+        private System.Windows.Forms.Button point7listaltbutton;
+        private System.Windows.Forms.TextBox point7listalttxtbox;
+        private System.Windows.Forms.Label point7listlabel;
+        private System.Windows.Forms.Button point6listdel;
+        private System.Windows.Forms.Button point6listaltbutton;
+        private System.Windows.Forms.TextBox point6listalttxtbox;
+        private System.Windows.Forms.Label point6listlabel;
+        private System.Windows.Forms.Button point5listdel;
+        private System.Windows.Forms.Button point5listaltbutton;
+        private System.Windows.Forms.TextBox point5listalttxtbox;
+        private System.Windows.Forms.Label point5listlabel;
+        private System.Windows.Forms.Button point4listdel;
+        private System.Windows.Forms.Button point4listaltbutton;
+        private System.Windows.Forms.TextBox point4listalttxtbox;
+        private System.Windows.Forms.Label point4listlabel;
+        private System.Windows.Forms.Button point3listdel;
+        private System.Windows.Forms.Button point3listaltbutton;
+        private System.Windows.Forms.TextBox point3listalttxtbox;
+        private System.Windows.Forms.Label point3listlabel;
+        private System.Windows.Forms.Button setmarkers_btn;
+        private System.Windows.Forms.Button pointXlistmove;
+        private System.Windows.Forms.Button point15listmove;
+        private System.Windows.Forms.Button point14listmove;
+        private System.Windows.Forms.Button point13listmove;
+        private System.Windows.Forms.Button point12listmove;
+        private System.Windows.Forms.Button point11listmove;
+        private System.Windows.Forms.Button point10listmove;
+        private System.Windows.Forms.Button point9listmove;
+        private System.Windows.Forms.Button point8listmove;
+        private System.Windows.Forms.Button point7listmove;
+        private System.Windows.Forms.Button point6listmove;
+        private System.Windows.Forms.Button point5listmove;
+        private System.Windows.Forms.Button point4listmove;
+        private System.Windows.Forms.Button point3listmove;
+        private System.Windows.Forms.Button point2listmove;
+        private System.Windows.Forms.Button point1listmove;
+        private System.Windows.Forms.Label waypoint14;
+        private System.Windows.Forms.Label waypoint12;
+        private System.Windows.Forms.Label waypoint15;
+        private System.Windows.Forms.Label waypoint13;
+        private System.Windows.Forms.Label waypoint11;
+        private System.Windows.Forms.Button uploadmarkers_btn;
+        private TransparentPanel transparentPanel1;
+        private System.Windows.Forms.Panel chromiumBrowserPanel;
     }
 }
 

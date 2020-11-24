@@ -11,6 +11,9 @@ using System.IO.Ports;
 using ZedGraph;
 using System.Diagnostics;
 using System.IO;
+using System.Drawing.Drawing2D;
+using CefSharp;
+using CefSharp.WinForms;
 
 namespace GroundControlv1
 {
@@ -41,11 +44,17 @@ namespace GroundControlv1
         bool recordingPaused = false;
         double dataTimeCounter = 0;
 
-        System.Windows.Forms.Label[] allMarkers = new System.Windows.Forms.Label[4];
+        System.Windows.Forms.Label[] allMarkers = new System.Windows.Forms.Label[20];
 
-        Point[] markerPoints = new Point[4];
-        int[] markerSetArray = new int[4];
-        int[] markerVisibleArray = new int[4];
+        Point[] markerPoints = new Point[20];
+        int[] markerSetArray = new int[20];
+        int[] markerVisibleArray = new int[20];
+
+        System.Windows.Forms.Label[] waypoint_label_array = new System.Windows.Forms.Label[20];
+        Button[] set_alt_btn_array = new Button[20];
+        TextBox[] set_alt_array = new TextBox[20];
+        Button[] waypoint_del_array = new Button[20];
+        Button[] waypoint_move_array = new Button[20];
 
         int satelliteCount = 0;
         
@@ -144,24 +153,141 @@ namespace GroundControlv1
         Stopwatch waitingsecondPIDTimer = new Stopwatch();
         Stopwatch waitingsecondPIDTimer2 = new Stopwatch();
 
+        public ChromiumWebBrowser chromiumBrowser;
+
         public Form1()
         {
             InitializeComponent();
 
+            CefSettings settings = new CefSettings();
+            Cef.Initialize(settings);
+            chromiumBrowser = new ChromiumWebBrowser("https://atomicpolygon.com/gcs/map.html");
+
+            chromiumBrowserPanel.Controls.Add(chromiumBrowser);
+            chromiumBrowser.Dock = DockStyle.Fill;
+
+            transparentPanel1.MouseDown += OverlayMouseDown;
+            //transparentPanel1.MouseMove += OverlayMouseMove;
+            transparentPanel1.MouseUp += OverlayMouseUp;
+            transparentPanel1.Paint += OverlayPaint;
+
             allMarkers[0] = home_marker;
             allMarkers[1] = positionhold_marker;
-            allMarkers[2] = marker2;
+            allMarkers[2] = waypoint1;
             allMarkers[3] = craft_marker;
+
+            allMarkers[4] = waypoint1;
+            allMarkers[5] = waypoint2;
+            allMarkers[6] = waypoint3;
+            allMarkers[7] = waypoint4;
+            allMarkers[8] = waypoint5;
+            allMarkers[9] = waypoint6;
+            allMarkers[10] = waypoint7;
+            allMarkers[11] = waypoint8;
+            allMarkers[12] = waypoint9;
+            allMarkers[13] = waypoint10;
+            allMarkers[14] = waypoint11;
+            allMarkers[15] = waypoint12;
+            allMarkers[16] = waypoint13;
+            allMarkers[17] = waypoint14;
+            allMarkers[18] = waypoint15;
+
+            waypoint_label_array[0] = point1listlabel;
+            waypoint_label_array[1] = point2listlabel;
+            waypoint_label_array[2] = point3listlabel;
+            waypoint_label_array[3] = point4listlabel;
+            waypoint_label_array[4] = point5listlabel;
+            waypoint_label_array[5] = point6listlabel;
+            waypoint_label_array[6] = point7listlabel;
+            waypoint_label_array[7] = point8listlabel;
+            waypoint_label_array[8] = point9listlabel;
+            waypoint_label_array[9] = point10listlabel;
+            waypoint_label_array[10] = point11listlabel;
+            waypoint_label_array[11] = point12listlabel;
+            waypoint_label_array[12] = point13listlabel;
+            waypoint_label_array[13] = point14listlabel;
+            waypoint_label_array[14] = point15listlabel;
+
+            set_alt_btn_array[0] = point1listaltbutton;
+            set_alt_btn_array[1] = point2listaltbutton;
+            set_alt_btn_array[2] = point3listaltbutton;
+            set_alt_btn_array[3] = point4listaltbutton;
+            set_alt_btn_array[4] = point5listaltbutton;
+            set_alt_btn_array[5] = point6listaltbutton;
+            set_alt_btn_array[6] = point7listaltbutton;
+            set_alt_btn_array[7] = point8listaltbutton;
+            set_alt_btn_array[8] = point9listaltbutton;
+            set_alt_btn_array[9] = point10listaltbutton;
+            set_alt_btn_array[10] = point11listaltbutton;
+            set_alt_btn_array[11] = point12listaltbutton;
+            set_alt_btn_array[12] = point13listaltbutton;
+            set_alt_btn_array[13] = point14listaltbutton;
+            set_alt_btn_array[14] = point15listaltbutton;
+
+            set_alt_array[0] = point1listalttxtbox;
+            set_alt_array[1] = point2listalttxtbox;
+            set_alt_array[2] = point3listalttxtbox;
+            set_alt_array[3] = point4listalttxtbox;
+            set_alt_array[4] = point5listalttxtbox;
+            set_alt_array[5] = point6listalttxtbox;
+            set_alt_array[6] = point7listalttxtbox;
+            set_alt_array[7] = point8listalttxtbox;
+            set_alt_array[8] = point9listalttxtbox;
+            set_alt_array[9] = point10listalttxtbox;
+            set_alt_array[10] = point11listalttxtbox;
+            set_alt_array[11] = point12listalttxtbox;
+            set_alt_array[12] = point13listalttxtbox;
+            set_alt_array[13] = point14listalttxtbox;
+            set_alt_array[14] = point15listalttxtbox;
+
+            waypoint_del_array[0] = point1listdel;
+            waypoint_del_array[1] = point2listdel;
+            waypoint_del_array[2] = point3listdel;
+            waypoint_del_array[3] = point4listdel;
+            waypoint_del_array[4] = point5listdel;
+            waypoint_del_array[5] = point6listdel;
+            waypoint_del_array[6] = point7listdel;
+            waypoint_del_array[7] = point8listdel;
+            waypoint_del_array[8] = point9listdel;
+            waypoint_del_array[9] = point10listdel;
+            waypoint_del_array[10] = point11listdel;
+            waypoint_del_array[11] = point12listdel;
+            waypoint_del_array[12] = point13listdel;
+            waypoint_del_array[13] = point14listdel;
+            waypoint_del_array[14] = point15listdel;
+
+            waypoint_move_array[0] = point1listmove;
+            waypoint_move_array[1] = point2listmove;
+            waypoint_move_array[2] = point3listmove;
+            waypoint_move_array[3] = point4listmove;
+            waypoint_move_array[4] = point5listmove;
+            waypoint_move_array[5] = point6listmove;
+            waypoint_move_array[6] = point7listmove;
+            waypoint_move_array[7] = point8listmove;
+            waypoint_move_array[8] = point9listmove;
+            waypoint_move_array[9] = point10listmove;
+            waypoint_move_array[10] = point11listmove;
+            waypoint_move_array[11] = point12listmove;
+            waypoint_move_array[12] = point13listmove;
+            waypoint_move_array[13] = point14listmove;
+            waypoint_move_array[14] = point15listmove;
 
             markerPoints[0] = new Point(0, 0);
             markerPoints[1] = new Point(0, 0);
             markerPoints[2] = new Point(0, 0);
             markerPoints[3] = new Point(-913936400, 409237500);
 
+            for(int i = 4; i < allMarkers.Length; i++)
+            {
+                markerPoints[i] = new Point(0, 0);
+                markerVisibleArray[i] = 0;
+                markerSetArray[i] = 0;
+            }
+
             markerVisibleArray[0] = 0;
             markerVisibleArray[1] = 0;
             markerVisibleArray[2] = 0;
-            markerVisibleArray[3] = 1;
+            markerVisibleArray[3] = 0;
 
             graphPaneArray[0] = gyroGraphControl.GraphPane;
             graphPaneArray[1] = throttleGraphControl.GraphPane;
@@ -470,42 +596,46 @@ namespace GroundControlv1
                             break;
                         case (byte)SerialHelper.CommandFromSerial.GPS_PACKET:
 
-                            byte craftToUpdate = (byte)SerialHelper.serialPort.ReadByte();
+                            satelliteCount = (byte)SerialHelper.serialPort.ReadByte();
+                            
+                            byte batch_count = (byte)SerialHelper.serialPort.ReadByte();
 
-                            if (craftToUpdate == 0x00) //Update craft position
+                            for(int i = 0; i < batch_count; i++)
                             {
-                                satelliteCount = (byte)SerialHelper.serialPort.ReadByte();
-                                markerPoints[3].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
-                                markerPoints[3].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
-                            }
-                            else if (craftToUpdate == 0x01) //Update home position
-                            {
-                                satelliteCount = (byte)SerialHelper.serialPort.ReadByte();
-                                markerPoints[0].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
-                                markerPoints[0].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
+                                byte craftToUpdate = (byte)SerialHelper.serialPort.ReadByte();
 
-                                markerVisibleArray[0] = 1;
-                            }
-                            else if(craftToUpdate == 0x02)//Interpolated Setpoint test
-                            {
-                                satelliteCount = (byte)SerialHelper.serialPort.ReadByte();
-                                markerPoints[2].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
-                                markerPoints[2].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
-                                markerVisibleArray[2] = 1;
-                            }
-                            else if (craftToUpdate == 0x05) //Update gps hold position
-                            {
-                                satelliteCount = (byte)SerialHelper.serialPort.ReadByte();
-                                markerPoints[1].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
-                                markerPoints[1].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
-                                markerVisibleArray[1] = 1;
-                            }
-                            else if (craftToUpdate >= 0x06) //Update waypoints
-                            {
-                                satelliteCount = (byte)SerialHelper.serialPort.ReadByte();
-                                markerPoints[2].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
-                                markerPoints[2].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
-                                markerVisibleArray[2] = 1;
+                                if (craftToUpdate == 0x00) //Update craft position
+                                {
+                                    markerPoints[3].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
+                                    markerPoints[3].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
+
+                                    markerVisibleArray[3] = 1;
+                                }
+                                else if (craftToUpdate == 0x01) //Update home position
+                                {
+                                    markerPoints[0].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
+                                    markerPoints[0].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
+
+                                    markerVisibleArray[0] = 1;
+                                }
+                                else if (craftToUpdate == 0x02)//Interpolated Setpoint test
+                                {
+                                    markerPoints[2].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
+                                    markerPoints[2].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
+                                    markerVisibleArray[2] = 1;
+                                }
+                                else if (craftToUpdate == 0x05) //Update gps hold position
+                                {
+                                    markerPoints[1].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
+                                    markerPoints[1].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
+                                    markerVisibleArray[1] = 1;
+                                }
+                                else if (craftToUpdate >= 0x06) //Update waypoints
+                                {
+                                    markerPoints[craftToUpdate - 2].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
+                                    markerPoints[craftToUpdate - 2].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
+                                    markerVisibleArray[craftToUpdate - 2] = 1;
+                                }
                             }
 
                             newCraftPos = true;
@@ -722,7 +852,11 @@ namespace GroundControlv1
             click_lat = e.Y;
             click_lon = e.X;
 
-            if(e.Button == MouseButtons.Left)
+            Graphics g = this.CreateGraphics();
+            Rectangle shape = new Rectangle(200, 200, 400, 400);
+            g.DrawRectangle(test_pen, shape);
+
+            if (e.Button == MouseButtons.Left)
             {
                 if (click_lat > webBrowser1.Location.Y && click_lat < webBrowser1.Location.Y + webBrowser1.Size.Height && click_lon > webBrowser1.Location.X && click_lon < webBrowser1.Location.X + webBrowser1.Size.Width)
                 {
@@ -731,6 +865,35 @@ namespace GroundControlv1
                     //string[] splits2 = splits[2].Split('m');
 
                     //loaded_scale = int.Parse(splits2[0]);
+
+                    if (is_placing_markers)
+                    {
+                        if (current_marker_count < 15)
+                            current_marker_count++;
+
+                        current_marker_movement_index = current_marker_count;
+
+                        for (int i = 0; i < allMarkers.Length; i++)
+                        {
+                            if (i == current_marker_count + 3)
+                            {
+                                markerSetArray[i] = 1;
+
+                                waypoint_label_array[i - 4].Visible = true;
+                                waypoint_label_array[i - 4].Enabled = true;
+                                set_alt_btn_array[i - 4].Visible = true;
+                                set_alt_btn_array[i - 4].Enabled = false;
+                                set_alt_array[i - 4].Visible = false;
+                                set_alt_array[i - 4].Enabled = false;
+                                waypoint_del_array[i - 4].Visible = true;
+                                waypoint_del_array[i - 4].Enabled = false;
+                                waypoint_move_array[i - 4].Visible = true;
+                                waypoint_move_array[i - 4].Enabled = false;
+                            }
+                            else
+                                markerSetArray[i] = 0;
+                        }
+                    }
 
                     for (int i = 0; i < allMarkers.Length; i++)
                     {
@@ -802,6 +965,8 @@ namespace GroundControlv1
                                 sethome_btn.Text = "Set Home";
                             else if (i == 1)
                             {
+                                resetmarkers_btn.Enabled = true;
+                                setmarkers_btn.Enabled = true;
                                 setholdpos_btn.Text = "Set Hold Position";
                                 //setholdpos_btn.Visible = false;
                                 //clearhold_btn.Visible = true;
@@ -814,6 +979,8 @@ namespace GroundControlv1
                             markerVisibleArray[i] = 1;
                             markerSetArray[i] = 0;
                             allMarkers[i].Visible = true;
+                            if (i >= 4)
+                                allMarkers[i].Enabled = true;
                         }
                     }
                 }
@@ -888,6 +1055,8 @@ namespace GroundControlv1
 
                 RefreshMarkerPositions();
                 LoadMap();
+
+                //transparentPanel1.Invalidate();
             }
         }
 
@@ -899,6 +1068,8 @@ namespace GroundControlv1
 
                 RefreshMarkerPositions();
                 LoadMap();
+
+                //transparentPanel1.Invalidate();
             }
         }
 
@@ -969,14 +1140,20 @@ namespace GroundControlv1
                     {
                         Debug.WriteLine("TOO FAR");
                         allMarkers[i].Visible = false;
+                        if(i >= 4)
+                            allMarkers[i].Enabled = false;
                     }
                     else if (markerVisibleArray[i] == 1)
                     {
                         allMarkers[i].Visible = true;
+                        if (i >= 4)
+                            allMarkers[i].Enabled = true;
                     }
                     else
                     {
                         allMarkers[i].Visible = false;
+                        if (i >= 4)
+                            allMarkers[i].Enabled = false;
                     }
                 }
             }
@@ -997,6 +1174,9 @@ namespace GroundControlv1
 
         private void setholdpos_btn_Click(object sender, EventArgs e)
         {
+            resetmarkers_btn.Enabled = false;
+            setmarkers_btn.Enabled = false;
+
             for (int i = 0; i < allMarkers.Length; i++)
             {
                 if (i == 1)
@@ -1038,6 +1218,17 @@ namespace GroundControlv1
         {
             //gps_lon_label.Text = timeSinceLastTelem.ToString();
             lasttelem_label.Text = "Last Packet: " + timeSinceLastTelem.ToString() + "ms";
+
+            transparentPanel1.Invalidate();
+
+            if (current_marker_count > 0 && !is_placing_markers)
+            {
+                uploadmarkers_btn.Enabled = true;
+            }
+            else
+            {
+                uploadmarkers_btn.Enabled = false;
+            }
 
             UpdateRawTelem();
 
@@ -1292,6 +1483,46 @@ namespace GroundControlv1
                     SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.GPS_HOLD_COPY_BUFFER_REQUEST);
                     holdpos = false;
                 }
+                else if(uploadgpscoords)
+                {
+                    Int32[] coords = new Int32[6];
+                    byte[] p = new byte[32];
+                    int coords_in_packet = 0;
+                    p[0] = (byte)SerialHelper.CommandFromSerial.GPS_PACKET_UPDATE_REQUEST;
+                    p[1] = (byte)current_marker_count;
+
+                    for (int i = 0; i < current_marker_count; i++)
+                    {
+                        if ((i + 3) % 3 == 0)
+                        {
+                            p[2] = (byte)(current_marker_count - i + 1);
+
+                            coords[0] = (markerPoints[i + 4].Y / 10);
+                            coords[1] = (markerPoints[i + 4].X / 10);
+
+                            coords_in_packet = 1;
+
+                            if (i + 1 < current_marker_count)
+                            {
+                                coords[2] = (markerPoints[i + 5].Y / 10);
+                                coords[3] = (markerPoints[i + 5].X / 10);
+                                coords_in_packet++;
+                            }
+
+                            if (i + 2 < current_marker_count)
+                            {
+                                coords[4] = (markerPoints[i + 6].Y / 10);
+                                coords[5] = (markerPoints[i + 6].X / 10);
+                                coords_in_packet++;
+                            }
+
+                            System.Buffer.BlockCopy(coords, 0, p, 2, coords_in_packet * 8);
+                            SerialHelper.serialPort.Write(p, 0, (coords_in_packet * 8) + 2);
+                        }
+                    }
+
+                    uploadgpscoords = false;
+                }
             }
 
             if (markedToClear)
@@ -1411,11 +1642,6 @@ namespace GroundControlv1
         private void gyro_callibrate_btn_Click(object sender, EventArgs e)
         {
             calibrateGyro = true;
-        }
-
-        private void gpshold_btn_Click(object sender, EventArgs e)
-        {
-            flightModeToSend = 8;
         }
 
         private void disarm_btn_Click(object sender, EventArgs e)
@@ -1599,6 +1825,188 @@ namespace GroundControlv1
             pps_label.Text = "PPS: " + packets_received_pps.ToString();
             packets_received_pps = 0;
         }
+
+        private void gpshold_btn_Click(object sender, EventArgs e)
+        {
+            flightModeToSend = 8;
+        }
+
+        bool uploadgpscoords = false;
+
+        private void uploadmarkers_btn_Click(object sender, EventArgs e)
+        {
+            uploadgpscoords = true;
+        }
+
+        bool is_placing_markers = false;
+        int current_marker_count = 0;
+        int current_marker_movement_index = 0;
+
+        Pen test_pen = new Pen(Color.Red, 5);
+
+        private void setmarkers_btn_Click(object sender, EventArgs e)
+        {
+            is_placing_markers = !is_placing_markers;
+
+            if (is_placing_markers)
+            {
+                setmarkers_btn.Text = "Done";
+                setholdpos_btn.Enabled = false;
+                resetmarkers_btn.Enabled = false;
+
+                current_marker_movement_index = current_marker_count;
+
+                for (int i = 4; i < current_marker_count + 4; i++)
+                {
+                    set_alt_btn_array[i - 4].Enabled = false;
+                    //set_alt_array[i - 4].Visible = false;
+                    //set_alt_array[i - 4].Enabled = false;
+                    waypoint_del_array[i - 4].Enabled = false;
+                    waypoint_move_array[i - 4].Enabled = false;
+                }
+            }
+            else
+            {
+                setmarkers_btn.Text = "Set Waypoints";
+                setholdpos_btn.Enabled = true;
+                resetmarkers_btn.Enabled = true;
+
+                current_marker_movement_index = current_marker_count;
+
+                for (int i = 4; i < current_marker_count + 4; i++)
+                {
+                    set_alt_btn_array[i - 4].Enabled = true;
+                    //set_alt_array[i - 4].Visible = false;
+                    //set_alt_array[i - 4].Enabled = false;
+                    waypoint_del_array[i - 4].Enabled = true;
+                    waypoint_move_array[i - 4].Enabled = true;
+                }
+            }
+        }
+
+        private void resetmarkers_btn_Click(object sender, EventArgs e)
+        {
+            current_marker_count = 0;
+            current_marker_movement_index = 0;
+
+            for(int i = 4; i < (4 + 15); i++)
+            {
+                markerSetArray[i] = 0;
+                markerVisibleArray[i] = 0;
+
+                waypoint_label_array[i - 4].Visible = false;
+                waypoint_label_array[i - 4].Enabled = false;
+                set_alt_btn_array[i - 4].Visible = false;
+                set_alt_btn_array[i - 4].Enabled = false;
+                set_alt_array[i - 4].Visible = false;
+                set_alt_array[i - 4].Enabled = false;
+                waypoint_del_array[i - 4].Visible = false;
+                waypoint_del_array[i - 4].Enabled = false;
+                waypoint_move_array[i - 4].Visible = false;
+                waypoint_move_array[i - 4].Enabled = false;
+            }
+
+            RefreshMarkerPositions();
+        }
+
+        List<Point> points = new List<Point>();
+        List<String> keys = new List<string>();
+
+        /*void OverlayMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                ProccessPoint(e.Location);
+        }*/
+
+        Pen p = new Pen(Color.Red, 3);
+
+        bool refresh_points = false;
+
+        Point[] test_points = new Point[20];
+        int test_points_count = 0;
+
+        int x, y;
+
+        void OverlayMouseDown(object sender, MouseEventArgs e)
+        {
+            //refresh_points = true;
+            x = e.X;
+            y = e.Y;
+
+            test_points[test_points_count].X = x;
+            test_points[test_points_count].Y = y;
+
+            test_points_count++;
+
+            //this.Invalidate();
+            //this.Update();
+            //webBrowser1.Invalidate();
+            //webBrowser1.Update();
+            //this.Update();
+            this.Refresh();
+            //transparentPanel1.Invalidate();
+            //transparentPanel1.BringToFront();
+
+            //transparentPanel1.Invalidate();
+            //transparentPanel1.Refresh();
+            //Clear();
+            //ProccessPoint(e.Location);
+        }
+        
+        void OverlayMouseUp(object sender, MouseEventArgs e)
+        {
+            //transparentPanel1.Invalidate();
+            //transparentPanel1.Refresh();
+            /*if (points.Count > 0)
+                MessageBox.Show(string.Join(",", keys));
+            Clear();*/
+        }
+
+        private void webBrowser1_Navigated(object sender, WebBrowserNavigatedEventArgs e)
+        {
+            //transparentPanel1.Invalidate();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Cef.Shutdown();
+        }
+
+        void OverlayPaint(object sender, PaintEventArgs e)
+        {
+            //if (points.Count >= 3)
+            //    e.Graphics.DrawCurve(Pens.Red, points.ToArray());
+
+            //e.Graphics.Clear(Color.Transparent);
+
+            if (test_points_count >= 1)
+            {
+                //place_rectangle = false;
+                for (int i = 0; i < test_points_count; i++)
+                {
+                    Rectangle shape = new Rectangle(test_points[i].X, test_points[i].Y, 20 + test_points_count, 20);
+                    e.Graphics.DrawRectangle(p, shape);
+                }
+
+                //this.Refresh();
+            }
+        }
+        /*void ProccessPoint(Point p)
+        {
+            points.Add(p);
+            var c = table.Controls.Cast<Control>()
+                .Where(x => table.RectangleToScreen(x.Bounds)
+                .Contains(transparentPanel1.PointToScreen(p))).FirstOrDefault();
+            if ((c != null) && (keys.Count == 0 || keys[keys.Count - 1] != c.Text))
+                keys.Add(c.Text);
+            transparentPanel1.Invalidate();
+        }
+        void Clear()
+        {
+            keys.Clear();
+            points.Clear();
+            this.Refresh();
+        }*/
 
         private void LoadMap()
         {
