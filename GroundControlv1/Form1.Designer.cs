@@ -40,6 +40,7 @@
             this.throttleGraphControl = new ZedGraph.ZedGraphControl();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.testjs_button = new System.Windows.Forms.Button();
             this.pps_label = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label35 = new System.Windows.Forms.Label();
@@ -57,8 +58,8 @@
             this.battery_voltage_label = new System.Windows.Forms.Label();
             this.flight_mode_label = new System.Windows.Forms.Label();
             this.lasttelem_label = new System.Windows.Forms.Label();
-            this.orientationGraphControl = new ZedGraph.ZedGraphControl();
             this.pidoutputGraphControl = new ZedGraph.ZedGraphControl();
+            this.orientationGraphControl = new ZedGraph.ZedGraphControl();
             this.tuning_groupBox = new System.Windows.Forms.GroupBox();
             this.d2gaingps_textbox = new System.Windows.Forms.TextBox();
             this.label38 = new System.Windows.Forms.Label();
@@ -107,6 +108,7 @@
             this.gps_lon_label = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.chromiumBrowserPanel = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.waypointGroupBox = new System.Windows.Forms.GroupBox();
             this.uploadmarkers_btn = new System.Windows.Forms.Button();
@@ -192,9 +194,6 @@
             this.resetmarkers_btn = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.zoomControls = new System.Windows.Forms.GroupBox();
-            this.zoomin_btn = new System.Windows.Forms.Button();
-            this.zoomout_btn = new System.Windows.Forms.Button();
             this.mapInput = new System.Windows.Forms.GroupBox();
             this.long_label = new System.Windows.Forms.Label();
             this.lati_label = new System.Windows.Forms.Label();
@@ -214,10 +213,7 @@
             this.clearhold_btn = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.sethome_btn = new System.Windows.Forms.Button();
-            this.home_marker = new System.Windows.Forms.Label();
-            this.waypoint1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.positionhold_marker = new System.Windows.Forms.Label();
             this.telemraw_groupBox = new System.Windows.Forms.GroupBox();
             this.looptime_label = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
@@ -246,24 +242,7 @@
             this.mainLoopTimer = new System.Windows.Forms.Timer(this.components);
             this.logging_timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialogLogging = new System.Windows.Forms.SaveFileDialog();
-            this.craft_marker = new System.Windows.Forms.Label();
             this.PPS_timer = new System.Windows.Forms.Timer(this.components);
-            this.waypoint5 = new System.Windows.Forms.Label();
-            this.waypoint4 = new System.Windows.Forms.Label();
-            this.waypoint7 = new System.Windows.Forms.Label();
-            this.waypoint9 = new System.Windows.Forms.Label();
-            this.waypoint2 = new System.Windows.Forms.Label();
-            this.waypoint10 = new System.Windows.Forms.Label();
-            this.waypoint3 = new System.Windows.Forms.Label();
-            this.waypoint8 = new System.Windows.Forms.Label();
-            this.waypoint6 = new System.Windows.Forms.Label();
-            this.waypoint14 = new System.Windows.Forms.Label();
-            this.waypoint12 = new System.Windows.Forms.Label();
-            this.waypoint15 = new System.Windows.Forms.Label();
-            this.waypoint13 = new System.Windows.Forms.Label();
-            this.waypoint11 = new System.Windows.Forms.Label();
-            this.chromiumBrowserPanel = new System.Windows.Forms.Panel();
-            this.transparentPanel1 = new GroundControlv1.TransparentPanel();
             this.panel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tuning_groupBox.SuspendLayout();
@@ -274,7 +253,6 @@
             this.waypointGroupBox.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
-            this.zoomControls.SuspendLayout();
             this.mapInput.SuspendLayout();
             this.markerGroupBox.SuspendLayout();
             this.telemraw_groupBox.SuspendLayout();
@@ -337,11 +315,11 @@
             // 
             // webBrowser1
             // 
-            this.webBrowser1.Location = new System.Drawing.Point(503, 81);
+            this.webBrowser1.Location = new System.Drawing.Point(551, -47);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.ScrollBarsEnabled = false;
-            this.webBrowser1.Size = new System.Drawing.Size(1474, 830);
+            this.webBrowser1.Size = new System.Drawing.Size(279, 193);
             this.webBrowser1.TabIndex = 6;
             this.webBrowser1.Url = new System.Uri("https://www.openstreetmap.org/?mlat=40.92372&mlon=-91.39403#map=19/40.92372/-91.3" +
         "9403&layers=N", System.UriKind.Absolute);
@@ -389,7 +367,7 @@
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.chromiumBrowserPanel);
+            this.panel3.Controls.Add(this.testjs_button);
             this.panel3.Controls.Add(this.pps_label);
             this.panel3.Controls.Add(this.groupBox1);
             this.panel3.Controls.Add(this.pauserecording_btn);
@@ -401,8 +379,8 @@
             this.panel3.Controls.Add(this.battery_voltage_label);
             this.panel3.Controls.Add(this.flight_mode_label);
             this.panel3.Controls.Add(this.lasttelem_label);
-            this.panel3.Controls.Add(this.orientationGraphControl);
             this.panel3.Controls.Add(this.pidoutputGraphControl);
+            this.panel3.Controls.Add(this.orientationGraphControl);
             this.panel3.Controls.Add(this.tuning_groupBox);
             this.panel3.Controls.Add(this.statusterminal_groupBox);
             this.panel3.Controls.Add(this.sendcmd_groupBox);
@@ -415,6 +393,16 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(898, 1064);
             this.panel3.TabIndex = 12;
+            // 
+            // testjs_button
+            // 
+            this.testjs_button.Location = new System.Drawing.Point(704, 659);
+            this.testjs_button.Name = "testjs_button";
+            this.testjs_button.Size = new System.Drawing.Size(75, 23);
+            this.testjs_button.TabIndex = 38;
+            this.testjs_button.Text = "button1";
+            this.testjs_button.UseVisualStyleBackColor = true;
+            this.testjs_button.Click += new System.EventHandler(this.testjs_button_Click);
             // 
             // pps_label
             // 
@@ -597,24 +585,9 @@
             this.lasttelem_label.TabIndex = 12;
             this.lasttelem_label.Text = "Last Packet: 0ms";
             // 
-            // orientationGraphControl
-            // 
-            this.orientationGraphControl.Location = new System.Drawing.Point(0, 659);
-            this.orientationGraphControl.Name = "orientationGraphControl";
-            this.orientationGraphControl.ScrollGrace = 0D;
-            this.orientationGraphControl.ScrollMaxX = 0D;
-            this.orientationGraphControl.ScrollMaxY = 0D;
-            this.orientationGraphControl.ScrollMaxY2 = 0D;
-            this.orientationGraphControl.ScrollMinX = 0D;
-            this.orientationGraphControl.ScrollMinY = 0D;
-            this.orientationGraphControl.ScrollMinY2 = 0D;
-            this.orientationGraphControl.Size = new System.Drawing.Size(340, 200);
-            this.orientationGraphControl.TabIndex = 14;
-            this.orientationGraphControl.UseExtendedPrintDialog = true;
-            // 
             // pidoutputGraphControl
             // 
-            this.pidoutputGraphControl.Location = new System.Drawing.Point(0, 453);
+            this.pidoutputGraphControl.Location = new System.Drawing.Point(0, 659);
             this.pidoutputGraphControl.Name = "pidoutputGraphControl";
             this.pidoutputGraphControl.ScrollGrace = 0D;
             this.pidoutputGraphControl.ScrollMaxX = 0D;
@@ -624,8 +597,23 @@
             this.pidoutputGraphControl.ScrollMinY = 0D;
             this.pidoutputGraphControl.ScrollMinY2 = 0D;
             this.pidoutputGraphControl.Size = new System.Drawing.Size(340, 200);
-            this.pidoutputGraphControl.TabIndex = 13;
+            this.pidoutputGraphControl.TabIndex = 14;
             this.pidoutputGraphControl.UseExtendedPrintDialog = true;
+            // 
+            // orientationGraphControl
+            // 
+            this.orientationGraphControl.Location = new System.Drawing.Point(0, 453);
+            this.orientationGraphControl.Name = "orientationGraphControl";
+            this.orientationGraphControl.ScrollGrace = 0D;
+            this.orientationGraphControl.ScrollMaxX = 0D;
+            this.orientationGraphControl.ScrollMaxY = 0D;
+            this.orientationGraphControl.ScrollMaxY2 = 0D;
+            this.orientationGraphControl.ScrollMinX = 0D;
+            this.orientationGraphControl.ScrollMinY = 0D;
+            this.orientationGraphControl.ScrollMinY2 = 0D;
+            this.orientationGraphControl.Size = new System.Drawing.Size(340, 200);
+            this.orientationGraphControl.TabIndex = 13;
+            this.orientationGraphControl.UseExtendedPrintDialog = true;
             // 
             // tuning_groupBox
             // 
@@ -1098,6 +1086,14 @@
             this.label10.Size = new System.Drawing.Size(28, 13);
             this.label10.TabIndex = 0;
             this.label10.Text = "Lon:";
+            // 
+            // chromiumBrowserPanel
+            // 
+            this.chromiumBrowserPanel.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.chromiumBrowserPanel.Location = new System.Drawing.Point(913, 207);
+            this.chromiumBrowserPanel.Name = "chromiumBrowserPanel";
+            this.chromiumBrowserPanel.Size = new System.Drawing.Size(929, 585);
+            this.chromiumBrowserPanel.TabIndex = 38;
             // 
             // panel4
             // 
@@ -2113,44 +2109,13 @@
             // 
             // panel6
             // 
-            this.panel6.Controls.Add(this.zoomControls);
             this.panel6.Controls.Add(this.mapInput);
             this.panel6.Controls.Add(this.markerGroupBox);
+            this.panel6.Controls.Add(this.webBrowser1);
             this.panel6.Location = new System.Drawing.Point(0, 51);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(958, 153);
             this.panel6.TabIndex = 12;
-            // 
-            // zoomControls
-            // 
-            this.zoomControls.Controls.Add(this.zoomin_btn);
-            this.zoomControls.Controls.Add(this.zoomout_btn);
-            this.zoomControls.Location = new System.Drawing.Point(868, 27);
-            this.zoomControls.Name = "zoomControls";
-            this.zoomControls.Size = new System.Drawing.Size(87, 115);
-            this.zoomControls.TabIndex = 10;
-            this.zoomControls.TabStop = false;
-            this.zoomControls.Text = "Map Zoom";
-            // 
-            // zoomin_btn
-            // 
-            this.zoomin_btn.Location = new System.Drawing.Point(6, 56);
-            this.zoomin_btn.Name = "zoomin_btn";
-            this.zoomin_btn.Size = new System.Drawing.Size(75, 23);
-            this.zoomin_btn.TabIndex = 8;
-            this.zoomin_btn.Text = "Zoom In";
-            this.zoomin_btn.UseVisualStyleBackColor = true;
-            this.zoomin_btn.Click += new System.EventHandler(this.zoomin_btn_Click);
-            // 
-            // zoomout_btn
-            // 
-            this.zoomout_btn.Location = new System.Drawing.Point(6, 85);
-            this.zoomout_btn.Name = "zoomout_btn";
-            this.zoomout_btn.Size = new System.Drawing.Size(75, 23);
-            this.zoomout_btn.TabIndex = 9;
-            this.zoomout_btn.Text = "Zoom Out";
-            this.zoomout_btn.UseVisualStyleBackColor = true;
-            this.zoomout_btn.Click += new System.EventHandler(this.zoomout_btn_Click);
             // 
             // mapInput
             // 
@@ -2350,53 +2315,12 @@
             this.sethome_btn.Visible = false;
             this.sethome_btn.Click += new System.EventHandler(this.sethome_btn_Click);
             // 
-            // home_marker
-            // 
-            this.home_marker.AutoSize = true;
-            this.home_marker.BackColor = System.Drawing.Color.Black;
-            this.home_marker.Enabled = false;
-            this.home_marker.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.home_marker.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.home_marker.Location = new System.Drawing.Point(913, 767);
-            this.home_marker.Name = "home_marker";
-            this.home_marker.Size = new System.Drawing.Size(19, 16);
-            this.home_marker.TabIndex = 0;
-            this.home_marker.Text = "H";
-            this.home_marker.Visible = false;
-            // 
-            // waypoint1
-            // 
-            this.waypoint1.AutoSize = true;
-            this.waypoint1.BackColor = System.Drawing.Color.DarkRed;
-            this.waypoint1.Enabled = false;
-            this.waypoint1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.waypoint1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.waypoint1.Location = new System.Drawing.Point(960, 767);
-            this.waypoint1.Name = "waypoint1";
-            this.waypoint1.Size = new System.Drawing.Size(16, 16);
-            this.waypoint1.TabIndex = 14;
-            this.waypoint1.Text = "1";
-            this.waypoint1.Visible = false;
-            // 
             // panel2
             // 
             this.panel2.Location = new System.Drawing.Point(1846, 194);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(104, 612);
             this.panel2.TabIndex = 15;
-            // 
-            // positionhold_marker
-            // 
-            this.positionhold_marker.AutoSize = true;
-            this.positionhold_marker.BackColor = System.Drawing.Color.Red;
-            this.positionhold_marker.Enabled = false;
-            this.positionhold_marker.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.positionhold_marker.Location = new System.Drawing.Point(1001, 755);
-            this.positionhold_marker.Name = "positionhold_marker";
-            this.positionhold_marker.Size = new System.Drawing.Size(18, 16);
-            this.positionhold_marker.TabIndex = 16;
-            this.positionhold_marker.Text = "P";
-            this.positionhold_marker.Visible = false;
             // 
             // telemraw_groupBox
             // 
@@ -2658,235 +2582,11 @@
             this.logging_timer.Enabled = true;
             this.logging_timer.Tick += new System.EventHandler(this.logging_timer_Tick);
             // 
-            // craft_marker
-            // 
-            this.craft_marker.AutoSize = true;
-            this.craft_marker.BackColor = System.Drawing.Color.Lime;
-            this.craft_marker.Enabled = false;
-            this.craft_marker.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.craft_marker.Location = new System.Drawing.Point(1046, 776);
-            this.craft_marker.Name = "craft_marker";
-            this.craft_marker.Size = new System.Drawing.Size(18, 16);
-            this.craft_marker.TabIndex = 12;
-            this.craft_marker.Text = "C";
-            this.craft_marker.Visible = false;
-            // 
             // PPS_timer
             // 
             this.PPS_timer.Enabled = true;
             this.PPS_timer.Interval = 1000;
             this.PPS_timer.Tick += new System.EventHandler(this.PPS_timer_Tick);
-            // 
-            // waypoint5
-            // 
-            this.waypoint5.AutoSize = true;
-            this.waypoint5.BackColor = System.Drawing.Color.DarkRed;
-            this.waypoint5.Enabled = false;
-            this.waypoint5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.waypoint5.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.waypoint5.Location = new System.Drawing.Point(1083, 740);
-            this.waypoint5.Name = "waypoint5";
-            this.waypoint5.Size = new System.Drawing.Size(16, 16);
-            this.waypoint5.TabIndex = 17;
-            this.waypoint5.Text = "5";
-            this.waypoint5.Visible = false;
-            // 
-            // waypoint4
-            // 
-            this.waypoint4.AutoSize = true;
-            this.waypoint4.BackColor = System.Drawing.Color.DarkRed;
-            this.waypoint4.Enabled = false;
-            this.waypoint4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.waypoint4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.waypoint4.Location = new System.Drawing.Point(1066, 708);
-            this.waypoint4.Name = "waypoint4";
-            this.waypoint4.Size = new System.Drawing.Size(16, 16);
-            this.waypoint4.TabIndex = 18;
-            this.waypoint4.Text = "4";
-            this.waypoint4.Visible = false;
-            // 
-            // waypoint7
-            // 
-            this.waypoint7.AutoSize = true;
-            this.waypoint7.BackColor = System.Drawing.Color.DarkRed;
-            this.waypoint7.Enabled = false;
-            this.waypoint7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.waypoint7.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.waypoint7.Location = new System.Drawing.Point(1125, 718);
-            this.waypoint7.Name = "waypoint7";
-            this.waypoint7.Size = new System.Drawing.Size(16, 16);
-            this.waypoint7.TabIndex = 19;
-            this.waypoint7.Text = "7";
-            this.waypoint7.Visible = false;
-            // 
-            // waypoint9
-            // 
-            this.waypoint9.AutoSize = true;
-            this.waypoint9.BackColor = System.Drawing.Color.DarkRed;
-            this.waypoint9.Enabled = false;
-            this.waypoint9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.waypoint9.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.waypoint9.Location = new System.Drawing.Point(1165, 708);
-            this.waypoint9.Name = "waypoint9";
-            this.waypoint9.Size = new System.Drawing.Size(16, 16);
-            this.waypoint9.TabIndex = 20;
-            this.waypoint9.Text = "9";
-            this.waypoint9.Visible = false;
-            // 
-            // waypoint2
-            // 
-            this.waypoint2.AutoSize = true;
-            this.waypoint2.BackColor = System.Drawing.Color.DarkRed;
-            this.waypoint2.Enabled = false;
-            this.waypoint2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.waypoint2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.waypoint2.Location = new System.Drawing.Point(1028, 718);
-            this.waypoint2.Name = "waypoint2";
-            this.waypoint2.Size = new System.Drawing.Size(16, 16);
-            this.waypoint2.TabIndex = 21;
-            this.waypoint2.Text = "2";
-            this.waypoint2.Visible = false;
-            // 
-            // waypoint10
-            // 
-            this.waypoint10.AutoSize = true;
-            this.waypoint10.BackColor = System.Drawing.Color.DarkRed;
-            this.waypoint10.Enabled = false;
-            this.waypoint10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.waypoint10.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.waypoint10.Location = new System.Drawing.Point(1209, 718);
-            this.waypoint10.Name = "waypoint10";
-            this.waypoint10.Size = new System.Drawing.Size(24, 16);
-            this.waypoint10.TabIndex = 22;
-            this.waypoint10.Text = "10";
-            this.waypoint10.Visible = false;
-            // 
-            // waypoint3
-            // 
-            this.waypoint3.AutoSize = true;
-            this.waypoint3.BackColor = System.Drawing.Color.DarkRed;
-            this.waypoint3.Enabled = false;
-            this.waypoint3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.waypoint3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.waypoint3.Location = new System.Drawing.Point(1028, 680);
-            this.waypoint3.Name = "waypoint3";
-            this.waypoint3.Size = new System.Drawing.Size(16, 16);
-            this.waypoint3.TabIndex = 23;
-            this.waypoint3.Text = "3";
-            this.waypoint3.Visible = false;
-            // 
-            // waypoint8
-            // 
-            this.waypoint8.AutoSize = true;
-            this.waypoint8.BackColor = System.Drawing.Color.DarkRed;
-            this.waypoint8.Enabled = false;
-            this.waypoint8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.waypoint8.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.waypoint8.Location = new System.Drawing.Point(1151, 669);
-            this.waypoint8.Name = "waypoint8";
-            this.waypoint8.Size = new System.Drawing.Size(16, 16);
-            this.waypoint8.TabIndex = 24;
-            this.waypoint8.Text = "8";
-            this.waypoint8.Visible = false;
-            // 
-            // waypoint6
-            // 
-            this.waypoint6.AutoSize = true;
-            this.waypoint6.BackColor = System.Drawing.Color.DarkRed;
-            this.waypoint6.Enabled = false;
-            this.waypoint6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.waypoint6.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.waypoint6.Location = new System.Drawing.Point(1103, 680);
-            this.waypoint6.Name = "waypoint6";
-            this.waypoint6.Size = new System.Drawing.Size(16, 16);
-            this.waypoint6.TabIndex = 25;
-            this.waypoint6.Text = "6";
-            this.waypoint6.Visible = false;
-            // 
-            // waypoint14
-            // 
-            this.waypoint14.AutoSize = true;
-            this.waypoint14.BackColor = System.Drawing.Color.DarkRed;
-            this.waypoint14.Enabled = false;
-            this.waypoint14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.waypoint14.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.waypoint14.Location = new System.Drawing.Point(1327, 755);
-            this.waypoint14.Name = "waypoint14";
-            this.waypoint14.Size = new System.Drawing.Size(24, 16);
-            this.waypoint14.TabIndex = 26;
-            this.waypoint14.Text = "14";
-            this.waypoint14.Visible = false;
-            // 
-            // waypoint12
-            // 
-            this.waypoint12.AutoSize = true;
-            this.waypoint12.BackColor = System.Drawing.Color.DarkRed;
-            this.waypoint12.Enabled = false;
-            this.waypoint12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.waypoint12.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.waypoint12.Location = new System.Drawing.Point(1269, 697);
-            this.waypoint12.Name = "waypoint12";
-            this.waypoint12.Size = new System.Drawing.Size(24, 16);
-            this.waypoint12.TabIndex = 27;
-            this.waypoint12.Text = "12";
-            this.waypoint12.Visible = false;
-            // 
-            // waypoint15
-            // 
-            this.waypoint15.AutoSize = true;
-            this.waypoint15.BackColor = System.Drawing.Color.DarkRed;
-            this.waypoint15.Enabled = false;
-            this.waypoint15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.waypoint15.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.waypoint15.Location = new System.Drawing.Point(1450, 755);
-            this.waypoint15.Name = "waypoint15";
-            this.waypoint15.Size = new System.Drawing.Size(24, 16);
-            this.waypoint15.TabIndex = 28;
-            this.waypoint15.Text = "15";
-            this.waypoint15.Visible = false;
-            // 
-            // waypoint13
-            // 
-            this.waypoint13.AutoSize = true;
-            this.waypoint13.BackColor = System.Drawing.Color.DarkRed;
-            this.waypoint13.Enabled = false;
-            this.waypoint13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.waypoint13.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.waypoint13.Location = new System.Drawing.Point(1341, 718);
-            this.waypoint13.Name = "waypoint13";
-            this.waypoint13.Size = new System.Drawing.Size(24, 16);
-            this.waypoint13.TabIndex = 29;
-            this.waypoint13.Text = "13";
-            this.waypoint13.Visible = false;
-            // 
-            // waypoint11
-            // 
-            this.waypoint11.AutoSize = true;
-            this.waypoint11.BackColor = System.Drawing.Color.DarkRed;
-            this.waypoint11.Enabled = false;
-            this.waypoint11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.waypoint11.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.waypoint11.Location = new System.Drawing.Point(1268, 740);
-            this.waypoint11.Name = "waypoint11";
-            this.waypoint11.Size = new System.Drawing.Size(24, 16);
-            this.waypoint11.TabIndex = 30;
-            this.waypoint11.Text = "11";
-            this.waypoint11.Visible = false;
-            // 
-            // chromiumBrowserPanel
-            // 
-            this.chromiumBrowserPanel.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.chromiumBrowserPanel.Location = new System.Drawing.Point(494, 561);
-            this.chromiumBrowserPanel.Name = "chromiumBrowserPanel";
-            this.chromiumBrowserPanel.Size = new System.Drawing.Size(393, 298);
-            this.chromiumBrowserPanel.TabIndex = 38;
-            // 
-            // transparentPanel1
-            // 
-            this.transparentPanel1.Location = new System.Drawing.Point(908, 216);
-            this.transparentPanel1.Name = "transparentPanel1";
-            this.transparentPanel1.Size = new System.Drawing.Size(934, 576);
-            this.transparentPanel1.TabIndex = 38;
             // 
             // Form1
             // 
@@ -2894,27 +2594,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1904, 1041);
-            this.Controls.Add(this.transparentPanel1);
-            this.Controls.Add(this.waypoint11);
-            this.Controls.Add(this.waypoint13);
-            this.Controls.Add(this.waypoint15);
-            this.Controls.Add(this.waypoint12);
-            this.Controls.Add(this.waypoint14);
-            this.Controls.Add(this.waypoint6);
-            this.Controls.Add(this.waypoint8);
-            this.Controls.Add(this.waypoint3);
-            this.Controls.Add(this.waypoint10);
-            this.Controls.Add(this.waypoint2);
-            this.Controls.Add(this.waypoint9);
-            this.Controls.Add(this.waypoint7);
-            this.Controls.Add(this.waypoint4);
-            this.Controls.Add(this.waypoint5);
-            this.Controls.Add(this.craft_marker);
-            this.Controls.Add(this.positionhold_marker);
+            this.Controls.Add(this.chromiumBrowserPanel);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.telemraw_groupBox);
-            this.Controls.Add(this.waypoint1);
-            this.Controls.Add(this.home_marker);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.gyroGraphControl);
@@ -2923,7 +2605,6 @@
             this.Controls.Add(this.baud_list);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.webBrowser1);
             this.Name = "Form1";
             this.Text = "Ground Control v1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -2946,7 +2627,6 @@
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             this.panel6.ResumeLayout(false);
-            this.zoomControls.ResumeLayout(false);
             this.mapInput.ResumeLayout(false);
             this.mapInput.PerformLayout();
             this.markerGroupBox.ResumeLayout(false);
@@ -2977,12 +2657,7 @@
         private System.Windows.Forms.Label lati_label;
         private System.Windows.Forms.Label long_label;
         private System.Windows.Forms.Button loadMap_btn;
-        private System.Windows.Forms.Label home_marker;
-        private System.Windows.Forms.Label waypoint1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button zoomout_btn;
-        private System.Windows.Forms.Button zoomin_btn;
-        private System.Windows.Forms.GroupBox zoomControls;
         private System.Windows.Forms.GroupBox mapInput;
         private System.Windows.Forms.GroupBox markerGroupBox;
         private System.Windows.Forms.Label label3;
@@ -2999,7 +2674,6 @@
         private System.Windows.Forms.Button setholdpos_btn;
         private System.Windows.Forms.Button sethome_btn;
         private System.Windows.Forms.Button clearhold_btn;
-        private System.Windows.Forms.Label positionhold_marker;
         private System.Windows.Forms.GroupBox gpstelem_groupBox;
         private System.Windows.Forms.GroupBox telemraw_groupBox;
         private System.Windows.Forms.GroupBox statusterminal_groupBox;
@@ -3017,8 +2691,8 @@
         private System.Windows.Forms.GroupBox tuning_groupBox;
         private System.Windows.Forms.Button uploadtuning_btn;
         private System.Windows.Forms.Button uploadpos_btn;
-        private ZedGraph.ZedGraphControl orientationGraphControl;
         private ZedGraph.ZedGraphControl pidoutputGraphControl;
+        private ZedGraph.ZedGraphControl orientationGraphControl;
         private System.Windows.Forms.Label gyrozraw_label;
         private System.Windows.Forms.Label gyroyraw_label;
         private System.Windows.Forms.Label gyroxraw_label;
@@ -3084,7 +2758,6 @@
         private System.Windows.Forms.TextBox sonaralt_textbox;
         private System.Windows.Forms.Button downloadaltsetpoint_btn;
         private System.Windows.Forms.Button uploadaltsetpoint_btn;
-        private System.Windows.Forms.Label craft_marker;
         private System.Windows.Forms.Label compassheading_label;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.TextBox dgaingps_textbox;
@@ -3098,15 +2771,6 @@
         private System.Windows.Forms.Button downloadpos_btn;
         private System.Windows.Forms.Timer PPS_timer;
         private System.Windows.Forms.Label pps_label;
-        private System.Windows.Forms.Label waypoint5;
-        private System.Windows.Forms.Label waypoint4;
-        private System.Windows.Forms.Label waypoint7;
-        private System.Windows.Forms.Label waypoint9;
-        private System.Windows.Forms.Label waypoint2;
-        private System.Windows.Forms.Label waypoint10;
-        private System.Windows.Forms.Label waypoint3;
-        private System.Windows.Forms.Label waypoint8;
-        private System.Windows.Forms.Label waypoint6;
         private System.Windows.Forms.Button point2listdel;
         private System.Windows.Forms.Button point2listaltbutton;
         private System.Windows.Forms.TextBox point2listalttxtbox;
@@ -3186,14 +2850,9 @@
         private System.Windows.Forms.Button point3listmove;
         private System.Windows.Forms.Button point2listmove;
         private System.Windows.Forms.Button point1listmove;
-        private System.Windows.Forms.Label waypoint14;
-        private System.Windows.Forms.Label waypoint12;
-        private System.Windows.Forms.Label waypoint15;
-        private System.Windows.Forms.Label waypoint13;
-        private System.Windows.Forms.Label waypoint11;
         private System.Windows.Forms.Button uploadmarkers_btn;
-        private TransparentPanel transparentPanel1;
         private System.Windows.Forms.Panel chromiumBrowserPanel;
+        private System.Windows.Forms.Button testjs_button;
     }
 }
 

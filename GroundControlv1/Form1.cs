@@ -46,7 +46,11 @@ namespace GroundControlv1
 
         System.Windows.Forms.Label[] allMarkers = new System.Windows.Forms.Label[20];
 
-        Point[] markerPoints = new Point[20];
+        public Point[] markerPoints = new Point[200];
+        public float[] markerAltitudes = new float[200];
+
+        public int total_marker_count = 0;
+
         int[] markerSetArray = new int[20];
         int[] markerVisibleArray = new int[20];
 
@@ -58,7 +62,7 @@ namespace GroundControlv1
 
         int satelliteCount = 0;
         
-        List<string> statusWriteBuffer = new List<string>();
+        public List<string> statusWriteBuffer = new List<string>();
         bool markedToClear = false;
 
         const int graphCount = 6;
@@ -155,6 +159,8 @@ namespace GroundControlv1
 
         public ChromiumWebBrowser chromiumBrowser;
 
+        MessageFromMap mfp = new MessageFromMap();
+
         public Form1()
         {
             InitializeComponent();
@@ -162,35 +168,13 @@ namespace GroundControlv1
             CefSettings settings = new CefSettings();
             Cef.Initialize(settings);
             chromiumBrowser = new ChromiumWebBrowser("https://atomicpolygon.com/gcs/map.html");
+            //chromiumBrowser.RegisterResourceHandler("https://atomicpolygon.com/gcs/map.html", File.OpenRead("map.html"));
 
             chromiumBrowserPanel.Controls.Add(chromiumBrowser);
             chromiumBrowser.Dock = DockStyle.Fill;
 
-            transparentPanel1.MouseDown += OverlayMouseDown;
-            //transparentPanel1.MouseMove += OverlayMouseMove;
-            transparentPanel1.MouseUp += OverlayMouseUp;
-            transparentPanel1.Paint += OverlayPaint;
-
-            allMarkers[0] = home_marker;
-            allMarkers[1] = positionhold_marker;
-            allMarkers[2] = waypoint1;
-            allMarkers[3] = craft_marker;
-
-            allMarkers[4] = waypoint1;
-            allMarkers[5] = waypoint2;
-            allMarkers[6] = waypoint3;
-            allMarkers[7] = waypoint4;
-            allMarkers[8] = waypoint5;
-            allMarkers[9] = waypoint6;
-            allMarkers[10] = waypoint7;
-            allMarkers[11] = waypoint8;
-            allMarkers[12] = waypoint9;
-            allMarkers[13] = waypoint10;
-            allMarkers[14] = waypoint11;
-            allMarkers[15] = waypoint12;
-            allMarkers[16] = waypoint13;
-            allMarkers[17] = waypoint14;
-            allMarkers[18] = waypoint15;
+            mfp.form1 = this;
+            chromiumBrowser.JavascriptObjectRepository.Register("messageFromMap", mfp, true, BindingOptions.DefaultBinder);
 
             waypoint_label_array[0] = point1listlabel;
             waypoint_label_array[1] = point2listlabel;
@@ -291,14 +275,14 @@ namespace GroundControlv1
 
             graphPaneArray[0] = gyroGraphControl.GraphPane;
             graphPaneArray[1] = throttleGraphControl.GraphPane;
-            graphPaneArray[3] = pidoutputGraphControl.GraphPane;
-            graphPaneArray[2] = orientationGraphControl.GraphPane;
+            graphPaneArray[3] = orientationGraphControl.GraphPane;
+            graphPaneArray[2] = pidoutputGraphControl.GraphPane;
             graphPaneArray[4] = altitudegraphControl.GraphPane;
             graphPaneArray[5] = loopfrequencyGraphControl.GraphPane;
             graphControlArray[0] = gyroGraphControl;
             graphControlArray[1] = throttleGraphControl;
-            graphControlArray[3] = pidoutputGraphControl;
-            graphControlArray[2] = orientationGraphControl;
+            graphControlArray[3] = orientationGraphControl;
+            graphControlArray[2] = pidoutputGraphControl;
             graphControlArray[4] = altitudegraphControl;
             graphControlArray[5] = loopfrequencyGraphControl;
 
@@ -473,11 +457,11 @@ namespace GroundControlv1
                             UpdateGraph(0, 1, ((double)gyroY) / 65.5f);
                             UpdateGraph(0, 2, ((double)gyroZ) / 65.5f);
 
-                            /*UpdateGraph(3, 0, (double)roll_angle);
+                            UpdateGraph(3, 0, (double)roll_angle);
                             UpdateGraph(3, 1, (double)pitch_angle);
                             UpdateGraph(3, 2, (double)yaw_angle);
 
-                            UpdateGraph(5, 0, (double)loopTime);*/
+                            UpdateGraph(5, 0, (double)loopTime);
 
                             markedToUpdateGraphs[0] = true;
 
@@ -610,6 +594,8 @@ namespace GroundControlv1
                                     markerPoints[3].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
 
                                     markerVisibleArray[3] = 1;
+
+                                    newCraftPos = true;
                                 }
                                 else if (craftToUpdate == 0x01) //Update home position
                                 {
@@ -637,8 +623,6 @@ namespace GroundControlv1
                                     markerVisibleArray[craftToUpdate - 2] = 1;
                                 }
                             }
-
-                            newCraftPos = true;
 
                             break;
                         case (byte)SerialHelper.CommandFromSerial.PRINT_PACKET:
@@ -1041,35 +1025,9 @@ namespace GroundControlv1
                 long_input.Text = loaded_longitude.ToString();
                 lati_input.Text = loaded_latitude.ToString();
 
-                RefreshMarkerPositions();
+                //RefreshMarkerPositions();
 
                 LoadMap();
-            }
-        }
-
-        private void zoomin_btn_Click(object sender, EventArgs e)
-        {
-            if (loaded_scale < 19)
-            {
-                loaded_scale += 1;
-
-                RefreshMarkerPositions();
-                LoadMap();
-
-                //transparentPanel1.Invalidate();
-            }
-        }
-
-        private void zoomout_btn_Click(object sender, EventArgs e)
-        {
-            if (loaded_scale > 12)
-            {
-                loaded_scale -= 1;
-
-                RefreshMarkerPositions();
-                LoadMap();
-
-                //transparentPanel1.Invalidate();
             }
         }
 
@@ -1079,84 +1037,6 @@ namespace GroundControlv1
             loaded_latitude = float.Parse(lati_input.Text);
 
             LoadMap();
-        }
-
-        private void RefreshMarkerPositions()
-        {
-            for(int i = 0; i < allMarkers.Length; i++)
-            {
-                if (markerPoints[i].X != 0 && markerPoints[i].Y != 0)
-                {
-                    float scale_factor;
-
-                    if (loaded_scale == 19)
-                    {
-                        scale_factor = 0.298f;
-                    }
-                    else if (loaded_scale == 18)
-                    {
-                        scale_factor = 0.596f;
-                    }
-                    else if (loaded_scale == 17)
-                    {
-                        scale_factor = 1.193f;
-                    }
-                    else if (loaded_scale == 16)
-                    {
-                        scale_factor = 2.387f;
-                    }
-                    else if (loaded_scale == 15)
-                    {
-                        scale_factor = 4.773f;
-                    }
-                    else if (loaded_scale == 14)
-                    {
-                        scale_factor = 9.547f;
-                    }
-                    else if (loaded_scale == 13)
-                    {
-                        scale_factor = 19.093f;
-                    }
-                    else if (loaded_scale == 12)
-                    {
-                        scale_factor = 38.187f;
-                    }
-                    else
-                    {
-                        scale_factor = 0.298f;
-                    }
-
-                    scale_factor *= (float)Math.Cos(loaded_latitude * 0.017453f);
-
-                    float homeLon = markerPoints[i].X / 10000000f;
-                    float homeLat = markerPoints[i].Y / 10000000f;
-
-                    Debug.Print(markerPoints[i].X.ToString());
-
-                    allMarkers[i].Location = new Point((int)((homeLon - loaded_longitude) * (111111f * (float)Math.Cos(loaded_latitude * 0.017453f)) / scale_factor) + (webBrowser1.Location.X + (webBrowser1.Width / 2)) - 8, (int)((homeLat - loaded_latitude) * -111111f / scale_factor) + (webBrowser1.Location.Y + (webBrowser1.Height / 2)) - 8 + 24);
-
-                    if (allMarkers[i].Location.X > (webBrowser1.Location.X + (webBrowser1.Width / 2)) + 600 || allMarkers[i].Location.X < (webBrowser1.Location.X + (webBrowser1.Width / 2)) - 300
-                        || allMarkers[i].Location.Y > (webBrowser1.Location.Y + (webBrowser1.Height / 2)) + 300 || allMarkers[i].Location.Y < (webBrowser1.Location.Y + (webBrowser1.Height / 2)) - 250)
-                    {
-                        Debug.WriteLine("TOO FAR");
-                        allMarkers[i].Visible = false;
-                        if(i >= 4)
-                            allMarkers[i].Enabled = false;
-                    }
-                    else if (markerVisibleArray[i] == 1)
-                    {
-                        allMarkers[i].Visible = true;
-                        if (i >= 4)
-                            allMarkers[i].Enabled = true;
-                    }
-                    else
-                    {
-                        allMarkers[i].Visible = false;
-                        if (i >= 4)
-                            allMarkers[i].Enabled = false;
-                    }
-                }
-            }
         }
 
         private void sethome_btn_Click(object sender, EventArgs e)
@@ -1218,8 +1098,6 @@ namespace GroundControlv1
         {
             //gps_lon_label.Text = timeSinceLastTelem.ToString();
             lasttelem_label.Text = "Last Packet: " + timeSinceLastTelem.ToString() + "ms";
-
-            transparentPanel1.Invalidate();
 
             if (current_marker_count > 0 && !is_placing_markers)
             {
@@ -1298,15 +1176,18 @@ namespace GroundControlv1
                 {
                     if(satelliteCount >= 3)
                     {
-                        markerVisibleArray[3] = 1;
+                        SetCraftMarkerVisible(true);
+                        SetCraftMarkerPosition((double)markerPoints[3].Y, (double)markerPoints[3].X);
+                        //markerVisibleArray[3] = 1;
                     }
                     else
                     {
+                        SetCraftMarkerVisible(false);
                         markerVisibleArray[3] = 0;
                     }
 
                     newCraftPos = false;
-                    RefreshMarkerPositions();
+                    //RefreshMarkerPositions();
                 }
             }
 
@@ -1472,8 +1353,10 @@ namespace GroundControlv1
                     Int32[] gains = new Int32[2] { (markerPoints[1].Y / 10), (markerPoints[1].X / 10) };
                     byte[] p = new byte[10];
                     p[0] = (byte)SerialHelper.CommandFromSerial.GPS_PACKET_UPDATE_REQUEST;
-                    p[1] = (byte)0x05;
-                    System.Buffer.BlockCopy(gains, 0, p, 2, 8);
+                    p[1] = (byte)0x01;
+                    p[2] = (byte)0x01;
+                    p[3] = (byte)0x05;
+                    System.Buffer.BlockCopy(gains, 0, p, 4, 8);
                     SerialHelper.serialPort.Write(p, 0, 10);
 
                     updategpshold = false;
@@ -1496,28 +1379,33 @@ namespace GroundControlv1
                         if ((i + 3) % 3 == 0)
                         {
                             p[2] = (byte)(current_marker_count - i + 1);
-
+                            p[3] = (byte)(i + 6);
                             coords[0] = (markerPoints[i + 4].Y / 10);
                             coords[1] = (markerPoints[i + 4].X / 10);
+                            System.Buffer.BlockCopy(coords, 0, p, 4, coords_in_packet * 8);
 
                             coords_in_packet = 1;
 
                             if (i + 1 < current_marker_count)
                             {
+                                p[12] = (byte)(i + 6);
                                 coords[2] = (markerPoints[i + 5].Y / 10);
                                 coords[3] = (markerPoints[i + 5].X / 10);
+                                System.Buffer.BlockCopy(coords, 2, p, 13, coords_in_packet * 8);
                                 coords_in_packet++;
                             }
 
                             if (i + 2 < current_marker_count)
                             {
+                                p[21] = (byte)(i + 6);
                                 coords[4] = (markerPoints[i + 6].Y / 10);
                                 coords[5] = (markerPoints[i + 6].X / 10);
+                                System.Buffer.BlockCopy(coords, 4, p, 22, coords_in_packet * 8);
                                 coords_in_packet++;
                             }
 
-                            System.Buffer.BlockCopy(coords, 0, p, 2, coords_in_packet * 8);
-                            SerialHelper.serialPort.Write(p, 0, (coords_in_packet * 8) + 2);
+                            
+                            SerialHelper.serialPort.Write(p, 0, (coords_in_packet * 9) + 2);
                         }
                     }
 
@@ -1906,7 +1794,7 @@ namespace GroundControlv1
                 waypoint_move_array[i - 4].Enabled = false;
             }
 
-            RefreshMarkerPositions();
+            //RefreshMarkerPositions();
         }
 
         List<Point> points = new List<Point>();
@@ -1927,41 +1815,6 @@ namespace GroundControlv1
 
         int x, y;
 
-        void OverlayMouseDown(object sender, MouseEventArgs e)
-        {
-            //refresh_points = true;
-            x = e.X;
-            y = e.Y;
-
-            test_points[test_points_count].X = x;
-            test_points[test_points_count].Y = y;
-
-            test_points_count++;
-
-            //this.Invalidate();
-            //this.Update();
-            //webBrowser1.Invalidate();
-            //webBrowser1.Update();
-            //this.Update();
-            this.Refresh();
-            //transparentPanel1.Invalidate();
-            //transparentPanel1.BringToFront();
-
-            //transparentPanel1.Invalidate();
-            //transparentPanel1.Refresh();
-            //Clear();
-            //ProccessPoint(e.Location);
-        }
-        
-        void OverlayMouseUp(object sender, MouseEventArgs e)
-        {
-            //transparentPanel1.Invalidate();
-            //transparentPanel1.Refresh();
-            /*if (points.Count > 0)
-                MessageBox.Show(string.Join(",", keys));
-            Clear();*/
-        }
-
         private void webBrowser1_Navigated(object sender, WebBrowserNavigatedEventArgs e)
         {
             //transparentPanel1.Invalidate();
@@ -1972,41 +1825,24 @@ namespace GroundControlv1
             Cef.Shutdown();
         }
 
-        void OverlayPaint(object sender, PaintEventArgs e)
+        private async void testjs_button_Click(object sender, EventArgs e)
         {
-            //if (points.Count >= 3)
-            //    e.Graphics.DrawCurve(Pens.Red, points.ToArray());
-
-            //e.Graphics.Clear(Color.Transparent);
-
-            if (test_points_count >= 1)
-            {
-                //place_rectangle = false;
-                for (int i = 0; i < test_points_count; i++)
-                {
-                    Rectangle shape = new Rectangle(test_points[i].X, test_points[i].Y, 20 + test_points_count, 20);
-                    e.Graphics.DrawRectangle(p, shape);
-                }
-
-                //this.Refresh();
-            }
+            //string script = "testDeleteMarker(1);";
+            string script = "CreateMarker({ lat: 40.92384, lng: -91.39382 }, false, 5);";
+            chromiumBrowser.ExecuteScriptAsync(script);
         }
-        /*void ProccessPoint(Point p)
+
+        private async void SetCraftMarkerVisible(bool isVisible)
         {
-            points.Add(p);
-            var c = table.Controls.Cast<Control>()
-                .Where(x => table.RectangleToScreen(x.Bounds)
-                .Contains(transparentPanel1.PointToScreen(p))).FirstOrDefault();
-            if ((c != null) && (keys.Count == 0 || keys[keys.Count - 1] != c.Text))
-                keys.Add(c.Text);
-            transparentPanel1.Invalidate();
+            string script = "SetCraftVisible(true);";
+            chromiumBrowser.ExecuteScriptAsync(script);
         }
-        void Clear()
+
+        private async void SetCraftMarkerPosition(double lat, double lon)
         {
-            keys.Clear();
-            points.Clear();
-            this.Refresh();
-        }*/
+            string script = "UpdateCraftPosition({lat: " + (lat / 10000000.00d).ToString() + ", lng:" + (lon / 10000000.00d).ToString() + " });";
+            chromiumBrowser.ExecuteScriptAsync(script);
+        }
 
         private void LoadMap()
         {
@@ -2014,6 +1850,11 @@ namespace GroundControlv1
             //webBrowser1.Navigate("https://www.openstreetmap.org/?mlat=" + loaded_latitude + "&mlon=" + loaded_longitude + "#map=" + loaded_scale + "/" + loaded_latitude + "/" + loaded_longitude + "&layers=N");
             //Without Marker
             webBrowser1.Navigate("https://www.openstreetmap.org/#map=" + loaded_scale + "/" + loaded_latitude + "/" + loaded_longitude);
+        }
+
+        public void AccessStatusBuffer(string str)
+        {
+            statusWriteBuffer.Add(str);
         }
     }
 }
