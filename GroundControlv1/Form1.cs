@@ -662,12 +662,16 @@ namespace GroundControlv1
         {
             port_list.Items.Clear();
 
+            int port_count = 0;
+
             foreach (string s in SerialPort.GetPortNames())
             {
                 port_list.Items.Add(s);
+                port_count++;
             }
 
-            port_list.SelectedIndex = 0;
+            if(port_count > 0)
+                port_list.SelectedIndex = 0;
         }
 
         private void connect_btn_Click(object sender, EventArgs e)
