@@ -1426,24 +1426,26 @@ namespace GroundControlv1
 
             for (int i = 0; i < statusWriteBuffer.Count; i++)
             {
-                if(statusWriteBuffer[i].Contains("\n"))
+                if (statusWriteBuffer[i] != null)
                 {
-                    waiting_for_endline = true;
-                }
-                else
-                {
-                    waiting_for_endline = false;
-                }
+                    if (statusWriteBuffer[i].Contains("\n"))
+                    {
+                        waiting_for_endline = true;
+                    }
+                    else
+                    {
+                        waiting_for_endline = false;
+                    }
 
-                if(waiting_for_endline)
-                {
-                    statusterminal_textbox.AppendText(Environment.NewLine + "> " + statusWriteBuffer[i]);
+                    if (waiting_for_endline)
+                    {
+                        statusterminal_textbox.AppendText(Environment.NewLine + "> " + statusWriteBuffer[i]);
+                    }
+                    else
+                    {
+                        statusterminal_textbox.AppendText(statusWriteBuffer[i]);
+                    }
                 }
-                else
-                {
-                    statusterminal_textbox.AppendText(statusWriteBuffer[i]);
-                }
-
                 //StatusWriteLine("> " + statusWriteBuffer[i]);
             }
 
