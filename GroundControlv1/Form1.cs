@@ -28,12 +28,13 @@ namespace GroundControlv1
         short gyroY = 0;
         short gyroZ = 0;
         int throttle = 0;
+        uint acks_per_second = 0; 
         byte flight_mode = 1;
         float roll_angle = 0;
         float pitch_angle = 0;
         float yaw_angle = 0;
         float level_rate = 0;
-        int loopTime;
+        uint loopTime;
         float compass_heading = 0f;
 
         string loggingPath = "";
@@ -422,14 +423,16 @@ namespace GroundControlv1
                             gyroX = SerialHelper.ReadInt16();
                             gyroY = SerialHelper.ReadInt16();
                             gyroZ = SerialHelper.ReadInt16();
+                            //throttle = (int)SerialHelper.ReadUInt32();
+                            //loopTime = SerialHelper.ReadUInt32();
 
                             roll_angle = SerialHelper.ReadFloat();
                             pitch_angle = SerialHelper.ReadFloat();
                             yaw_angle = SerialHelper.ReadFloat();
 
-                            loopTime = (int)SerialHelper.ReadFloat();
+                            loopTime = SerialHelper.ReadUInt32();
 
-                            throttle = SerialHelper.ReadInt32();
+                            throttle = (int)SerialHelper.ReadUInt32();
 
                             /*raw_battery_voltage = SerialHelper.ReadInt16();
                             battery_voltage = (float)Math.Truncate(raw_battery_voltage * 5.6734f) / 100f;
@@ -448,20 +451,22 @@ namespace GroundControlv1
                             graphScales[1] = -0.001;
                             graphScales[4] = 0.001;
                             graphScales[5] = -0.001;
+                            graphScales[6] = 0.001;
+                            graphScales[7] = -0.001;
                             graphScales[10] = 0.001;
                             graphScales[11] = -0.001;
 
                             UpdateGraph(5, 0, (double)loopTime);
 
                             UpdateGraph(0, 0, ((double)gyroX) / 65.5f);
-                            UpdateGraph(0, 1, ((double)gyroY) / 65.5f);
-                            UpdateGraph(0, 2, ((double)gyroZ) / 65.5f);
+                            UpdateGraph(0, 1, ((double)gyroY) / -65.5f);
+                            UpdateGraph(0, 2, ((double)gyroZ) / -65.5f);
 
                             UpdateGraph(3, 0, (double)roll_angle);
                             UpdateGraph(3, 1, (double)pitch_angle);
                             UpdateGraph(3, 2, (double)yaw_angle);
 
-                            UpdateGraph(5, 0, (double)loopTime);
+                            //UpdateGraph(5, 0, (double)loopTime);
 
                             markedToUpdateGraphs[0] = true;
 
@@ -528,7 +533,7 @@ namespace GroundControlv1
                             roll_output_downloaded = SerialHelper.ReadInt32();
                             pitch_output_downloaded = SerialHelper.ReadInt32();
                             yaw_output_downloaded = SerialHelper.ReadInt32();
-                            throttle_output_downloaded = SerialHelper.ReadInt32();
+                            //throttle_output_downloaded = SerialHelper.ReadInt32();
                             //throttle_output_downloaded = System.BitConverter.ToInt32(throttle_output, 0);
 
                             graphScales[6] = 0.001;
@@ -537,7 +542,7 @@ namespace GroundControlv1
                             UpdateGraph(2, 0, (double)roll_output_downloaded);
                             UpdateGraph(2, 1, (double)pitch_output_downloaded);
                             UpdateGraph(2, 2, (double)yaw_output_downloaded);
-                            UpdateGraph(2, 3, (double)throttle_output_downloaded);
+                            //UpdateGraph(2, 3, (double)throttle_output_downloaded);
 
                             markedToUpdateGraphs[2] = true;
 
@@ -810,7 +815,7 @@ namespace GroundControlv1
             {
                 //graphPaneArray[graphIndex].YAxis.Scale.Max = 180;
                 //graphPaneArray[graphIndex].YAxis.Scale.Min = -180;
-                headRoom  = 2f;
+                headRoom  = 4f;
 
                 //graphPaneArray[graphIndex].YAxis.Scale.Max = (graphScales[graphIndex * 2] + graphScales[graphIndex * 2] * headRoom) * bias + graphPaneArray[graphIndex].YAxis.Scale.Max * (1f - bias);
                 //graphPaneArray[graphIndex].YAxis.Scale.Min = (graphScales[graphIndex * 2 + 1] + graphScales[graphIndex * 2 + 1] * headRoom) * bias + graphPaneArray[graphIndex].YAxis.Scale.Min * (1f - bias);
@@ -1247,7 +1252,7 @@ namespace GroundControlv1
 
                     SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.PID_GAIN_FIRST_REQUEST);
                     askforpid = false;
-                    askforpid2 = true;
+                    //askforpid2 = true;
                     //statusWriteBuffer.Add("Downloading PID values...");
 
                     waitingsecondPIDTimer2.Reset();
@@ -1272,7 +1277,7 @@ namespace GroundControlv1
                     SerialHelper.serialPort.Write(p, 0, 25);
 
                     updatepid = false;
-                    updatepid2 = true;
+                    //updatepid2 = true;
                     //statusWriteBuffer.Add("Uploaded PID values.");
 
                     p_gain_altitude_captured = float.Parse(pgainaltitude_textbox.Text.ToString());
