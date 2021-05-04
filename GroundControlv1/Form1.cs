@@ -28,7 +28,7 @@ namespace GroundControlv1
         short gyroY = 0;
         short gyroZ = 0;
         int throttle = 0;
-        uint acks_per_second = 0; 
+        uint acks_per_second = 0;
         byte flight_mode = 1;
         float roll_angle = 0;
         float pitch_angle = 0;
@@ -49,6 +49,11 @@ namespace GroundControlv1
 
         public Point[] markerPoints = new Point[200];
         public float[] markerAltitudes = new float[200];
+        int markersSentIndex = 0;
+        int markersSentCount = 0;
+        bool uploadgpscoords = false;
+        bool waitingforgpscoord = false;
+        bool successfullysentcoords = false;
 
         public int total_marker_count = 0;
 
@@ -62,7 +67,7 @@ namespace GroundControlv1
         Button[] waypoint_move_array = new Button[20];
 
         int satelliteCount = 0;
-        
+
         public List<string> statusWriteBuffer = new List<string>();
         bool markedToClear = false;
 
@@ -88,10 +93,14 @@ namespace GroundControlv1
 
         Stopwatch updateTimerStopwatch = new Stopwatch();
         Stopwatch dataLogStopwatch = new Stopwatch();
+        Stopwatch gpssendTimerStopwatch = new Stopwatch();
 
         float timeSinceLastTelem = 0f;
 
         public int click_lat, click_lon;
+
+        byte launch_state = 0;
+        byte manual_mode = 0;
 
         float p_gain_downloaded = 0f;
         float i_gain_downloaded = 0f;
@@ -149,6 +158,9 @@ namespace GroundControlv1
 
         bool holdpos = false;
 
+        bool test_launch_cmd = false;
+        bool test_land_cmd = false;
+
         short flightModeToSend = 0;
 
         int packets_received_pps = 0;
@@ -177,92 +189,12 @@ namespace GroundControlv1
             mfp.form1 = this;
             chromiumBrowser.JavascriptObjectRepository.Register("messageFromMap", mfp, true, BindingOptions.DefaultBinder);
 
-            waypoint_label_array[0] = point1listlabel;
-            waypoint_label_array[1] = point2listlabel;
-            waypoint_label_array[2] = point3listlabel;
-            waypoint_label_array[3] = point4listlabel;
-            waypoint_label_array[4] = point5listlabel;
-            waypoint_label_array[5] = point6listlabel;
-            waypoint_label_array[6] = point7listlabel;
-            waypoint_label_array[7] = point8listlabel;
-            waypoint_label_array[8] = point9listlabel;
-            waypoint_label_array[9] = point10listlabel;
-            waypoint_label_array[10] = point11listlabel;
-            waypoint_label_array[11] = point12listlabel;
-            waypoint_label_array[12] = point13listlabel;
-            waypoint_label_array[13] = point14listlabel;
-            waypoint_label_array[14] = point15listlabel;
-
-            set_alt_btn_array[0] = point1listaltbutton;
-            set_alt_btn_array[1] = point2listaltbutton;
-            set_alt_btn_array[2] = point3listaltbutton;
-            set_alt_btn_array[3] = point4listaltbutton;
-            set_alt_btn_array[4] = point5listaltbutton;
-            set_alt_btn_array[5] = point6listaltbutton;
-            set_alt_btn_array[6] = point7listaltbutton;
-            set_alt_btn_array[7] = point8listaltbutton;
-            set_alt_btn_array[8] = point9listaltbutton;
-            set_alt_btn_array[9] = point10listaltbutton;
-            set_alt_btn_array[10] = point11listaltbutton;
-            set_alt_btn_array[11] = point12listaltbutton;
-            set_alt_btn_array[12] = point13listaltbutton;
-            set_alt_btn_array[13] = point14listaltbutton;
-            set_alt_btn_array[14] = point15listaltbutton;
-
-            set_alt_array[0] = point1listalttxtbox;
-            set_alt_array[1] = point2listalttxtbox;
-            set_alt_array[2] = point3listalttxtbox;
-            set_alt_array[3] = point4listalttxtbox;
-            set_alt_array[4] = point5listalttxtbox;
-            set_alt_array[5] = point6listalttxtbox;
-            set_alt_array[6] = point7listalttxtbox;
-            set_alt_array[7] = point8listalttxtbox;
-            set_alt_array[8] = point9listalttxtbox;
-            set_alt_array[9] = point10listalttxtbox;
-            set_alt_array[10] = point11listalttxtbox;
-            set_alt_array[11] = point12listalttxtbox;
-            set_alt_array[12] = point13listalttxtbox;
-            set_alt_array[13] = point14listalttxtbox;
-            set_alt_array[14] = point15listalttxtbox;
-
-            waypoint_del_array[0] = point1listdel;
-            waypoint_del_array[1] = point2listdel;
-            waypoint_del_array[2] = point3listdel;
-            waypoint_del_array[3] = point4listdel;
-            waypoint_del_array[4] = point5listdel;
-            waypoint_del_array[5] = point6listdel;
-            waypoint_del_array[6] = point7listdel;
-            waypoint_del_array[7] = point8listdel;
-            waypoint_del_array[8] = point9listdel;
-            waypoint_del_array[9] = point10listdel;
-            waypoint_del_array[10] = point11listdel;
-            waypoint_del_array[11] = point12listdel;
-            waypoint_del_array[12] = point13listdel;
-            waypoint_del_array[13] = point14listdel;
-            waypoint_del_array[14] = point15listdel;
-
-            waypoint_move_array[0] = point1listmove;
-            waypoint_move_array[1] = point2listmove;
-            waypoint_move_array[2] = point3listmove;
-            waypoint_move_array[3] = point4listmove;
-            waypoint_move_array[4] = point5listmove;
-            waypoint_move_array[5] = point6listmove;
-            waypoint_move_array[6] = point7listmove;
-            waypoint_move_array[7] = point8listmove;
-            waypoint_move_array[8] = point9listmove;
-            waypoint_move_array[9] = point10listmove;
-            waypoint_move_array[10] = point11listmove;
-            waypoint_move_array[11] = point12listmove;
-            waypoint_move_array[12] = point13listmove;
-            waypoint_move_array[13] = point14listmove;
-            waypoint_move_array[14] = point15listmove;
-
             markerPoints[0] = new Point(0, 0);
             markerPoints[1] = new Point(0, 0);
             markerPoints[2] = new Point(0, 0);
             markerPoints[3] = new Point(-913936400, 409237500);
 
-            for(int i = 4; i < allMarkers.Length; i++)
+            for (int i = 4; i < allMarkers.Length; i++)
             {
                 markerPoints[i] = new Point(0, 0);
                 markerVisibleArray[i] = 0;
@@ -324,10 +256,7 @@ namespace GroundControlv1
             //graphPane.Title.FontSpec.Size = titleSize;
             //graphPane.Legend.FontSpec.Size = axisFontSize;
 
-            long_input.Text = loaded_longitude.ToString();
-            lati_input.Text = loaded_latitude.ToString();
-
-            for(int i = 0; i < pointPairListArray.Length; i++)
+            for (int i = 0; i < pointPairListArray.Length; i++)
             {
                 pointPairListArray[i] = new PointPairList();
 
@@ -411,7 +340,7 @@ namespace GroundControlv1
             if (SerialHelper.serialPort.IsOpen)
             {
                 try
-                { 
+                {
                     byte cmd = (byte)SerialHelper.serialPort.ReadByte();
 
                     packets_received_pps++;
@@ -433,6 +362,12 @@ namespace GroundControlv1
                             loopTime = SerialHelper.ReadUInt32();
 
                             throttle = (int)SerialHelper.ReadUInt32();
+
+                            byte temp_byte = (byte)SerialHelper.serialPort.ReadByte();
+
+                            launch_state = (byte)(temp_byte & 0x01);
+                            manual_mode = (byte)((temp_byte >> 1) & 0x01);
+
 
                             /*raw_battery_voltage = SerialHelper.ReadInt16();
                             battery_voltage = (float)Math.Truncate(raw_battery_voltage * 5.6734f) / 100f;
@@ -478,7 +413,34 @@ namespace GroundControlv1
                             //markedToUpdateGraphs[5] = true;
 
                             break;
+                        case (byte)SerialHelper.CommandFromSerial.READ_VARIABLE_PACKET:
+                            byte var_count = (byte)SerialHelper.serialPort.ReadByte();
 
+                            for (int i = 0; i < var_count; i++)
+                            {
+                                byte current_var = (byte)SerialHelper.serialPort.ReadByte();
+
+                                switch (current_var)
+                                {
+                                    case 0:
+                                        baroalt_downloaded = SerialHelper.ReadFloat();
+                                        updateAltTextbox = true;
+                                        break;
+                                    case 3:
+                                        satelliteCount = SerialHelper.serialPort.ReadByte();
+                                        break;
+                                    case 4:
+                                        markerPoints[3].Y = (int)(SerialHelper.ReadInt32() * 10);//Latitude
+                                        break;
+                                    case 5:
+                                        markerPoints[3].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
+
+                                        markerVisibleArray[3] = 1;
+                                        newCraftPos = true;
+                                        break;
+                                }
+                            }
+                            break;
                         case (byte)SerialHelper.CommandFromSerial.PID_GAIN_FIRST_PACKET:  //Download PID
 
                             p_gain_downloaded = SerialHelper.ReadFloat();
@@ -503,6 +465,10 @@ namespace GroundControlv1
                             p_gain_gps_downloaded = SerialHelper.ReadFloat();
                             i_gain_gps_downloaded = SerialHelper.ReadFloat();
                             d_gain_gps_downloaded = SerialHelper.ReadFloat();
+
+                            //p_gain_gps_downloaded = SerialHelper.ReadFloat();
+                            //i_gain_gps_downloaded = SerialHelper.ReadFloat();
+                            //d_gain_gps_downloaded = SerialHelper.ReadFloat();
 
                             updatePIDTextbox = true;
 
@@ -553,14 +519,14 @@ namespace GroundControlv1
                         case (byte)SerialHelper.CommandFromSerial.ALTITUDE_PACKET: //Altitudes
                             barometerDistance = SerialHelper.ReadFloat();
                             //ultrasonicDistance = SerialHelper.ReadFloat();
-                            flight_mode = (byte)SerialHelper.serialPort.ReadByte();
+                            //flight_mode = (byte)SerialHelper.serialPort.ReadByte();
 
-                            roll_output_downloaded = SerialHelper.ReadInt32();
-                            pitch_output_downloaded = SerialHelper.ReadInt32();
+                            //roll_output_downloaded = SerialHelper.ReadInt32();
+                            //pitch_output_downloaded = SerialHelper.ReadInt32();
 
-                            compass_heading = SerialHelper.ReadFloat();
+                            //compass_heading = SerialHelper.ReadFloat();
 
-                            battery_voltage = SerialHelper.ReadFloat();
+                            //battery_voltage = SerialHelper.ReadFloat();
 
                             graphScales[8] = 0.001;
                             graphScales[9] = -0.001;
@@ -568,14 +534,14 @@ namespace GroundControlv1
                             graphScales[6] = 0.001;
                             graphScales[7] = -0.001;
 
-                            UpdateGraph(2, 0, (double)roll_output_downloaded);
-                            UpdateGraph(2, 1, (double)pitch_output_downloaded);
+                            //UpdateGraph(2, 0, (double)roll_output_downloaded);
+                            //UpdateGraph(2, 1, (double)pitch_output_downloaded);
 
                             //UpdateGraph(4, 0, (double)ultrasonicDistance);
                             UpdateGraph(4, 1, (double)barometerDistance);
                             //UpdateGraph(4, 2, (double)0.500);
 
-                            markedToUpdateGraphs[2] = true;
+                            //markedToUpdateGraphs[2] = true;
                             markedToUpdateGraphs[4] = true;
                             break;
                         case (byte)SerialHelper.CommandFromSerial.ALTITUDE_SET_PACKET:
@@ -584,12 +550,59 @@ namespace GroundControlv1
                             updateAltTextbox = true;
                             break;
                         case (byte)SerialHelper.CommandFromSerial.GPS_PACKET:
+                            byte firstIndex = (byte)(SerialHelper.serialPort.ReadByte() - 1);   //Offset for home coord in memory
+                            byte coordCount = (byte)SerialHelper.serialPort.ReadByte();
 
-                            satelliteCount = (byte)SerialHelper.serialPort.ReadByte();
-                            
+                            Int32[] coords = new Int32[4];
+                            float[] alts = new float[2];
+
+                            bool goodSend = false;
+
+                            for (int i = 0; i < coordCount; i++)
+                            {
+                                coords[i*2] = SerialHelper.ReadInt32();
+                                coords[i*2 + 1] = SerialHelper.ReadInt32();
+                                alts[i] = SerialHelper.ReadFloat();
+
+                                if (coords[i*2] == (markerPoints[firstIndex + 4 + i].Y) / 10)
+                                {
+                                    if (coords[i*2 + 1] == (markerPoints[firstIndex + 4 + i].X) / 10)
+                                    {
+                                        if (alts[i] == markerAltitudes[firstIndex + 4 + i])
+                                        {
+                                            //Success
+                                            goodSend = true;
+                                        }
+                                    }
+                                }
+                            }
+
+                            //statusWriteBuffer.Add("SENT: " + (coords[0]).ToString() + " : " + (markerPoints[firstIndex + 4].Y).ToString() + "\n");
+
+                            if (goodSend)
+                            {
+                                markersSentIndex += coordCount;
+                                //statusWriteBuffer.Add("Worked\n");
+
+                                if (total_marker_count - markersSentIndex == 0)
+                                {
+                                    uploadgpscoords = false;
+                                    successfullysentcoords = true;
+                                    markersSentIndex = 0;
+                                }
+                                else
+                                    uploadgpscoords = true;
+                            }
+                            else
+                                uploadgpscoords = true;
+
+                            waitingforgpscoord = false;
+
+                            /*satelliteCount = (byte)SerialHelper.serialPort.ReadByte();
+
                             byte batch_count = (byte)SerialHelper.serialPort.ReadByte();
 
-                            for(int i = 0; i < batch_count; i++)
+                            for (int i = 0; i < batch_count; i++)
                             {
                                 byte craftToUpdate = (byte)SerialHelper.serialPort.ReadByte();
 
@@ -627,7 +640,7 @@ namespace GroundControlv1
                                     markerPoints[craftToUpdate - 2].X = (int)(SerialHelper.ReadInt32() * 10);//Longitude
                                     markerVisibleArray[craftToUpdate - 2] = 1;
                                 }
-                            }
+                            }*/
 
                             break;
                         case (byte)SerialHelper.CommandFromSerial.PRINT_PACKET:
@@ -650,7 +663,7 @@ namespace GroundControlv1
                 }
             }
 
-            while(SerialHelper.serialPort.IsOpen && SerialHelper.serialPort.BytesToRead > 0)
+            while (SerialHelper.serialPort.IsOpen && SerialHelper.serialPort.BytesToRead > 0)
             {
                 SerialHelper.serialPort.ReadByte();
             }
@@ -675,7 +688,7 @@ namespace GroundControlv1
                 port_count++;
             }
 
-            if(port_count > 0)
+            if (port_count > 0)
                 port_list.SelectedIndex = 0;
         }
 
@@ -705,7 +718,7 @@ namespace GroundControlv1
                 compass_callibrate_btn.Enabled = true;
                 esc_callibrate_btn.Enabled = true;
                 levelmode_btn.Enabled = true;
-                gpshold_btn.Enabled = true;
+                launch_btn.Enabled = true;
                 disarm_btn.Enabled = true;
             }
             catch (Exception ex)
@@ -735,7 +748,7 @@ namespace GroundControlv1
             compass_callibrate_btn.Enabled = false;
             esc_callibrate_btn.Enabled = false;
             levelmode_btn.Enabled = false;
-            gpshold_btn.Enabled = false;
+            launch_btn.Enabled = false;
             disarm_btn.Enabled = false;
         }
 
@@ -773,7 +786,7 @@ namespace GroundControlv1
 
             double x = 0;
 
-            if(pointPairListArray[localIndex].Count >= graphXLength)
+            if (pointPairListArray[localIndex].Count >= graphXLength)
                 pointPairListArray[localIndex].RemoveAt(pointPairListArray[localIndex].Count - 1);
 
             PointPair pointPair = new PointPair(x, y);
@@ -794,7 +807,7 @@ namespace GroundControlv1
                 //graphPaneArray[graphIndex].YAxis.Scale.Max = (graphScales[graphIndex * 2] + graphScales[graphIndex * 2] * headRoom) * bias + graphPaneArray[graphIndex].YAxis.Scale.Max * (1f - bias);
                 //graphPaneArray[graphIndex].YAxis.Scale.Min = (graphScales[graphIndex * 2 + 1] + graphScales[graphIndex * 2 + 1] * headRoom) * bias + graphPaneArray[graphIndex].YAxis.Scale.Min * (1f - bias);
             }
-            else if(graphIndex == 1)
+            else if (graphIndex == 1)
             {
                 graphPaneArray[graphIndex].YAxis.Scale.Max = 2000;
                 graphPaneArray[graphIndex].YAxis.Scale.Min = 1000;
@@ -806,7 +819,7 @@ namespace GroundControlv1
             {
                 //graphPaneArray[graphIndex].YAxis.Scale.Max = 450;
                 //graphPaneArray[graphIndex].YAxis.Scale.Min = -450;
-                headRoom = 50f;
+                headRoom = 10f;
 
                 //graphPaneArray[graphIndex].YAxis.Scale.Max = (graphScales[graphIndex * 2] + graphScales[graphIndex * 2] * headRoom) * bias + graphPaneArray[graphIndex].YAxis.Scale.Max * (1f - bias);
                 //graphPaneArray[graphIndex].YAxis.Scale.Min = (graphScales[graphIndex * 2 + 1] + graphScales[graphIndex * 2 + 1] * headRoom) * bias + graphPaneArray[graphIndex].YAxis.Scale.Min * (1f - bias);
@@ -815,14 +828,14 @@ namespace GroundControlv1
             {
                 //graphPaneArray[graphIndex].YAxis.Scale.Max = 180;
                 //graphPaneArray[graphIndex].YAxis.Scale.Min = -180;
-                headRoom  = 4f;
+                headRoom = 4f;
 
                 //graphPaneArray[graphIndex].YAxis.Scale.Max = (graphScales[graphIndex * 2] + graphScales[graphIndex * 2] * headRoom) * bias + graphPaneArray[graphIndex].YAxis.Scale.Max * (1f - bias);
                 //graphPaneArray[graphIndex].YAxis.Scale.Min = (graphScales[graphIndex * 2 + 1] + graphScales[graphIndex * 2 + 1] * headRoom) * bias + graphPaneArray[graphIndex].YAxis.Scale.Min * (1f - bias);
             }
-            else if(graphIndex == 4)
+            else if (graphIndex == 4)
             {
-                headRoom  = 0.3f;
+                headRoom = 0.3f;
             }
             else if (graphIndex == 5)
             {
@@ -890,7 +903,7 @@ namespace GroundControlv1
 
                     for (int i = 0; i < allMarkers.Length; i++)
                     {
-                        if(markerSetArray[i] == 1)
+                        if (markerSetArray[i] == 1)
                         {
                             int x = (webBrowser1.Location.X + (webBrowser1.Width / 2)) - click_lon;
                             int y = (webBrowser1.Location.Y + (webBrowser1.Height / 2)) - click_lat + 24;
@@ -959,7 +972,7 @@ namespace GroundControlv1
                             else if (i == 1)
                             {
                                 resetmarkers_btn.Enabled = true;
-                                setmarkers_btn.Enabled = true;
+                                //setmarkers_btn.Enabled = true;
                                 setholdpos_btn.Text = "Set Hold Position";
                                 //setholdpos_btn.Visible = false;
                                 //clearhold_btn.Visible = true;
@@ -985,7 +998,7 @@ namespace GroundControlv1
 
                 float scale_factor;
 
-                if(loaded_scale == 19)
+                if (loaded_scale == 19)
                 {
                     scale_factor = 0.298f;
                 }
@@ -1031,8 +1044,6 @@ namespace GroundControlv1
                 loaded_latitude += ((float)y * scale_factor) / 111111f;
                 loaded_longitude -= ((float)x * scale_factor) / (111111f * (float)Math.Cos(loaded_latitude * 0.017453f));
 
-                long_input.Text = loaded_longitude.ToString();
-                lati_input.Text = loaded_latitude.ToString();
 
                 //RefreshMarkerPositions();
 
@@ -1040,17 +1051,9 @@ namespace GroundControlv1
             }
         }
 
-        private void loadMap_btn_Click(object sender, EventArgs e)
-        {
-            loaded_longitude = float.Parse(long_input.Text);
-            loaded_latitude = float.Parse(lati_input.Text);
-
-            LoadMap();
-        }
-
         private void sethome_btn_Click(object sender, EventArgs e)
         {
-            for(int i = 0; i < allMarkers.Length; i++)
+            for (int i = 0; i < allMarkers.Length; i++)
             {
                 if (i == 0)
                     markerSetArray[0] = 1;
@@ -1064,7 +1067,7 @@ namespace GroundControlv1
         private void setholdpos_btn_Click(object sender, EventArgs e)
         {
             resetmarkers_btn.Enabled = false;
-            setmarkers_btn.Enabled = false;
+            //setmarkers_btn.Enabled = false;
 
             for (int i = 0; i < allMarkers.Length; i++)
             {
@@ -1079,7 +1082,7 @@ namespace GroundControlv1
 
         private void StatusWriteLine(string text)
         {
-            if(statusterminal_textbox.Text == "")
+            if (statusterminal_textbox.Text == "")
                 statusterminal_textbox.AppendText(text);
             else
                 statusterminal_textbox.AppendText(Environment.NewLine + text);
@@ -1114,7 +1117,7 @@ namespace GroundControlv1
             }
             else
             {
-                uploadmarkers_btn.Enabled = false;
+                //uploadmarkers_btn.Enabled = false;
             }
 
             UpdateRawTelem();
@@ -1131,7 +1134,7 @@ namespace GroundControlv1
                 }
             }
 
-            if(updatePIDTextbox)
+            if (updatePIDTextbox)
             {
                 updatePIDTextbox = false;
 
@@ -1155,7 +1158,7 @@ namespace GroundControlv1
                 baroalt_textbox.Text = baroalt_downloaded.ToString();
             }
 
-            if(updateAltTextbox)
+            if (updateAltTextbox)
             {
                 updateAltTextbox = false;
 
@@ -1163,8 +1166,8 @@ namespace GroundControlv1
                 baroalt_textbox.Text = baroalt_downloaded.ToString();
             }
 
-            
-            if(satelliteCount == 0)
+
+            if (satelliteCount == 0)
             {
                 gps_sats_label.Text = "No Fix";
                 gps_lat_label.Text = "~";
@@ -1183,7 +1186,7 @@ namespace GroundControlv1
 
                 if (newCraftPos)
                 {
-                    if(satelliteCount >= 3)
+                    if (satelliteCount >= 3)
                     {
                         SetCraftMarkerVisible(true);
                         SetCraftMarkerPosition((double)markerPoints[3].Y, (double)markerPoints[3].X);
@@ -1200,8 +1203,8 @@ namespace GroundControlv1
                 }
             }
 
-                
-                
+
+
 
             /*if (updatePIDOutputTextbox)
             {
@@ -1221,15 +1224,18 @@ namespace GroundControlv1
                 //askforpid = true;
             }
 
-            if(SerialHelper.serialPort.IsOpen && SerialHelper.serialPort.BytesToRead == 0)
+            if (SerialHelper.serialPort.IsOpen && SerialHelper.serialPort.BytesToRead == 0)
             {
-                if(updatealt)
+                if (updatealt)
                 {
                     float[] gains = new float[1] { float.Parse(baroalt_textbox.Text.ToString()) };
-                    byte[] p = new byte[5];
-                    p[0] = (byte)SerialHelper.CommandFromSerial.ALTITUDE_SET_REQUEST;
-                    System.Buffer.BlockCopy(gains, 0, p, 1, 4);
-                    SerialHelper.serialPort.Write(p, 0, 5);
+                    byte[] p = new byte[8];
+                    p[0] = (byte)SerialHelper.CommandFromSerial.MODIFY_VARIABLE_REQUEST;
+                    p[1] = 0x01;    //var count
+                    p[2] = 0x00;    //var index
+                    p[3] = 0x04;    //var width
+                    System.Buffer.BlockCopy(gains, 0, p, 4, 4);
+                    SerialHelper.serialPort.Write(p, 0, 8);
 
                     updatealt = false;
                     //statusWriteBuffer.Add("Uploaded altitude setpoints.");
@@ -1237,13 +1243,17 @@ namespace GroundControlv1
                     sonaralt_textbox.Text = "~";
                     baroalt_textbox.Text = "~";
                 }
-                else if(askforalt)
+                else if (askforalt)
                 {
-                    SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.ALTITUDE_REQUEST);
+                    byte[] p = new byte[3];
+                    p[0] = (byte)SerialHelper.CommandFromSerial.READ_VARIABLE_REQUEST;
+                    p[1] = 0x01;    //var count
+                    p[2] = 0x00;    //var index
+                    SerialHelper.serialPort.Write(p, 0, 3);
                     askforalt = false;
                     //statusWriteBuffer.Add("Downloading altitude setpoints...");
                 }
-                else if(askforpid)
+                else if (askforpid)
                 {
                     waitingforpidTimer.Stop();
 
@@ -1252,7 +1262,7 @@ namespace GroundControlv1
 
                     SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.PID_GAIN_FIRST_REQUEST);
                     askforpid = false;
-                    //askforpid2 = true;
+                    askforpid2 = true;
                     //statusWriteBuffer.Add("Downloading PID values...");
 
                     waitingsecondPIDTimer2.Reset();
@@ -1266,18 +1276,18 @@ namespace GroundControlv1
                     SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.PID_GAIN_SECOND_REQUEST);
                     askforpid2 = false;
                 }
-                else if(updatepid)
+                else if (updatepid)
                 {
                     //serialPort1.Write(new byte[1] { 0x02 }, 0, 1);
 
-                    float[] gains = new float[6] { float.Parse(pgain_textbox.Text.ToString()), float.Parse(igain_textbox.Text.ToString()), float.Parse(dgain_textbox.Text.ToString()), float.Parse(pgainyaw_textbox.Text.ToString()), float.Parse(igainyaw_textbox.Text.ToString()), float.Parse(dgainyaw_textbox.Text.ToString()) } ;
+                    float[] gains = new float[6] { float.Parse(pgain_textbox.Text.ToString()), float.Parse(igain_textbox.Text.ToString()), float.Parse(dgain_textbox.Text.ToString()), float.Parse(pgainyaw_textbox.Text.ToString()), float.Parse(igainyaw_textbox.Text.ToString()), float.Parse(dgainyaw_textbox.Text.ToString()) };
                     byte[] p = new byte[25];
                     p[0] = (byte)SerialHelper.CommandFromSerial.PID_GAIN_FIRST_UPDATE_REQUEST;
                     System.Buffer.BlockCopy(gains, 0, p, 1, 24);
                     SerialHelper.serialPort.Write(p, 0, 25);
 
                     updatepid = false;
-                    //updatepid2 = true;
+                    updatepid2 = true;
                     //statusWriteBuffer.Add("Uploaded PID values.");
 
                     p_gain_altitude_captured = float.Parse(pgainaltitude_textbox.Text.ToString());
@@ -1311,7 +1321,7 @@ namespace GroundControlv1
                 }
                 else if (updatepid2 && waitingsecondPIDTimer.IsRunning && waitingsecondPIDTimer.ElapsedMilliseconds > 200)
                 {
-                    float[] gains = new float[6] { p_gain_altitude_captured, i_gain_altitude_captured, d_gain_altitude_captured, p_gain_gps_captured, d_gain_gps_captured, i_gain_gps_captured/*, i_gain_gps_captured, d_gain_gps_captured*/ };
+                    float[] gains = new float[6] { p_gain_altitude_captured, i_gain_altitude_captured, d_gain_altitude_captured, p_gain_gps_captured, i_gain_gps_captured, d_gain_gps_captured/*, i_gain_gps_captured, d_gain_gps_captured*/ };
                     byte[] p = new byte[25];
                     p[0] = (byte)SerialHelper.CommandFromSerial.PID_GAIN_SECOND_UPDATE_REQUEST;
                     System.Buffer.BlockCopy(gains, 0, p, 1, 24);
@@ -1320,7 +1330,7 @@ namespace GroundControlv1
                     waitingsecondPIDTimer.Stop();
                     updatepid2 = false;
                 }
-                else if(calibrateGyro)
+                else if (calibrateGyro)
                 {
                     statusWriteBuffer.Add("Calibrating Gyro...\n");
                     SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.CALIBRATE_REQUEST);
@@ -1352,7 +1362,7 @@ namespace GroundControlv1
 
                     flightModeToSend = 0;
                 }
-                else if(askforgps)
+                else if (askforgps)
                 {
                     SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.GPS_PACKET_REQUEST);
                     askforgps = false;
@@ -1361,7 +1371,7 @@ namespace GroundControlv1
                 {
                     Int32[] gains = new Int32[2] { (markerPoints[1].Y / 10), (markerPoints[1].X / 10) };
                     byte[] p = new byte[10];
-                    p[0] = (byte)SerialHelper.CommandFromSerial.GPS_PACKET_UPDATE_REQUEST;
+                    //p[0] = (byte)SerialHelper.CommandFromSerial.GPS_PACKET_UPDATE_REQUEST;
                     p[1] = (byte)0x01;
                     p[2] = (byte)0x01;
                     p[3] = (byte)0x05;
@@ -1372,53 +1382,68 @@ namespace GroundControlv1
                 }
                 else if (holdpos)
                 {
-                    SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.GPS_HOLD_COPY_BUFFER_REQUEST);
+                    //SerialHelper.SetPacketID((byte)SerialHelper.CommandFromSerial.GPS_HOLD_COPY_BUFFER_REQUEST);
                     holdpos = false;
                 }
-                else if(uploadgpscoords)
+                else if (uploadgpscoords && gpssendTimerStopwatch.IsRunning && gpssendTimerStopwatch.ElapsedMilliseconds > 50)
                 {
-                    Int32[] coords = new Int32[6];
+                    gps_success_label.Text = "";
+                    markersSentCount = (total_marker_count - markersSentIndex);
+
+                    if (markersSentCount > 2)
+                        markersSentCount = 2;
+
+                    //statusWriteBuffer.Add("SENT: " + markersSentIndex.ToString() + " : " + markersSentCount.ToString() + "\n");
+
+                    Int32[] coords = new Int32[2];
+                    float[] alt = new float[1];
                     byte[] p = new byte[32];
-                    int coords_in_packet = 0;
-                    p[0] = (byte)SerialHelper.CommandFromSerial.GPS_PACKET_UPDATE_REQUEST;
-                    p[1] = (byte)current_marker_count;
+                    p[0] = (byte)SerialHelper.CommandFromSerial.GPS_MEM_PACKET_UPDATE;
+                    p[1] = (byte)(markersSentIndex + 1);    //Offset for home coord in memory
+                    p[2] = (byte)markersSentCount;
 
-                    for (int i = 0; i < current_marker_count; i++)
+                    for (int i = 0; i < markersSentCount; i++)
                     {
-                        if ((i + 3) % 3 == 0)
-                        {
-                            p[2] = (byte)(current_marker_count - i + 1);
-                            p[3] = (byte)(i + 6);
-                            coords[0] = (markerPoints[i + 4].Y / 10);
-                            coords[1] = (markerPoints[i + 4].X / 10);
-                            System.Buffer.BlockCopy(coords, 0, p, 4, coords_in_packet * 8);
-
-                            coords_in_packet = 1;
-
-                            if (i + 1 < current_marker_count)
-                            {
-                                p[12] = (byte)(i + 6);
-                                coords[2] = (markerPoints[i + 5].Y / 10);
-                                coords[3] = (markerPoints[i + 5].X / 10);
-                                System.Buffer.BlockCopy(coords, 2, p, 13, coords_in_packet * 8);
-                                coords_in_packet++;
-                            }
-
-                            if (i + 2 < current_marker_count)
-                            {
-                                p[21] = (byte)(i + 6);
-                                coords[4] = (markerPoints[i + 6].Y / 10);
-                                coords[5] = (markerPoints[i + 6].X / 10);
-                                System.Buffer.BlockCopy(coords, 4, p, 22, coords_in_packet * 8);
-                                coords_in_packet++;
-                            }
-
-                            
-                            SerialHelper.serialPort.Write(p, 0, (coords_in_packet * 9) + 2);
-                        }
+                        alt[0] = markerAltitudes[i + 4 + markersSentIndex];
+                        coords[0] = (markerPoints[i + 4 + markersSentIndex].Y / 10);
+                        coords[1] = (markerPoints[i + 4 + markersSentIndex].X / 10);
+                        System.Buffer.BlockCopy(coords, 0, p, 3 + (i * 12), 8);
+                        System.Buffer.BlockCopy(alt, 0, p, 3 + (i * 12) + 8, 4);
                     }
 
+                    waitingforgpscoord = true;
                     uploadgpscoords = false;
+
+                    SerialHelper.serialPort.Write(p, 0, 3 + (markersSentCount * 12));
+                    gpssendTimerStopwatch.Reset();
+                    gpssendTimerStopwatch.Stop();
+                    gpssendTimerStopwatch.Start();
+
+                }
+                else if(successfullysentcoords)
+                {
+                    gps_success_label.Text = "Success! - " + total_marker_count.ToString();
+                    successfullysentcoords = false;
+                }
+                else if (test_launch_cmd)
+                {
+                    byte[] p = new byte[10];
+                    p[0] = (byte)SerialHelper.CommandFromSerial.DO_CMD_PACKET;
+                    p[1] = (byte)0x01;
+                    p[2] = (byte)0x04;
+                    SerialHelper.serialPort.Write(p, 0, 3);
+
+                    test_launch_cmd = false;
+                }
+                else if (test_land_cmd)
+                {
+                    byte[] p = new byte[10];
+                    p[0] = (byte)SerialHelper.CommandFromSerial.DO_CMD_PACKET;
+                    p[1] = (byte)0x01;
+                    p[2] = (byte)0x05;
+                    SerialHelper.serialPort.Write(p, 0, 3);
+
+                    test_land_cmd = false;
                 }
             }
 
@@ -1479,9 +1504,18 @@ namespace GroundControlv1
             roll_label.Text = string.Format("{0:N2}", x);
             pitch_label.Text = string.Format("{0:N2}", y);
             yaw_label.Text = string.Format("{0:N2}", z);
-            ultrasonicraw_label.Text = string.Format("{0:N2}", z1);
             barometerraw_label.Text = string.Format("{0:N2}", z2);
             compassheading_label.Text = string.Format("{0:N2}", z3);
+
+            if (launch_state == 0x01)
+                launchstate_txt.Text = "Launched";
+            else
+                launchstate_txt.Text = "Landed";
+
+            if (manual_mode == 0x01)
+                manualmode_txt.Text = "Manual";
+            else
+                manualmode_txt.Text = "Auto";
 
             switch (flight_mode)
             {
@@ -1595,7 +1629,7 @@ namespace GroundControlv1
 
         private void logging_timer_Tick(object sender, EventArgs e)
         {
-            if(isRecording)
+            if (isRecording)
             {
                 dataTimeCounter += dataLogStopwatch.ElapsedMilliseconds;
 
@@ -1701,7 +1735,12 @@ namespace GroundControlv1
 
         private void land_btn_Click(object sender, EventArgs e)
         {
-            flightModeToSend = 7;
+            test_land_cmd = true;
+        }
+
+        private void launch_btn_Click(object sender, EventArgs e)
+        {
+            test_launch_cmd = true;
         }
 
         private void uploadpos_btn_Click(object sender, EventArgs e)
@@ -1725,16 +1764,12 @@ namespace GroundControlv1
             packets_received_pps = 0;
         }
 
-        private void gpshold_btn_Click(object sender, EventArgs e)
-        {
-            flightModeToSend = 8;
-        }
-
-        bool uploadgpscoords = false;
-
         private void uploadmarkers_btn_Click(object sender, EventArgs e)
         {
             uploadgpscoords = true;
+            gpssendTimerStopwatch.Reset();
+            gpssendTimerStopwatch.Stop();
+            gpssendTimerStopwatch.Start();
         }
 
         bool is_placing_markers = false;
@@ -1743,69 +1778,10 @@ namespace GroundControlv1
 
         Pen test_pen = new Pen(Color.Red, 5);
 
-        private void setmarkers_btn_Click(object sender, EventArgs e)
-        {
-            is_placing_markers = !is_placing_markers;
-
-            if (is_placing_markers)
-            {
-                setmarkers_btn.Text = "Done";
-                setholdpos_btn.Enabled = false;
-                resetmarkers_btn.Enabled = false;
-
-                current_marker_movement_index = current_marker_count;
-
-                for (int i = 4; i < current_marker_count + 4; i++)
-                {
-                    set_alt_btn_array[i - 4].Enabled = false;
-                    //set_alt_array[i - 4].Visible = false;
-                    //set_alt_array[i - 4].Enabled = false;
-                    waypoint_del_array[i - 4].Enabled = false;
-                    waypoint_move_array[i - 4].Enabled = false;
-                }
-            }
-            else
-            {
-                setmarkers_btn.Text = "Set Waypoints";
-                setholdpos_btn.Enabled = true;
-                resetmarkers_btn.Enabled = true;
-
-                current_marker_movement_index = current_marker_count;
-
-                for (int i = 4; i < current_marker_count + 4; i++)
-                {
-                    set_alt_btn_array[i - 4].Enabled = true;
-                    //set_alt_array[i - 4].Visible = false;
-                    //set_alt_array[i - 4].Enabled = false;
-                    waypoint_del_array[i - 4].Enabled = true;
-                    waypoint_move_array[i - 4].Enabled = true;
-                }
-            }
-        }
-
         private void resetmarkers_btn_Click(object sender, EventArgs e)
         {
-            current_marker_count = 0;
-            current_marker_movement_index = 0;
-
-            for(int i = 4; i < (4 + 15); i++)
-            {
-                markerSetArray[i] = 0;
-                markerVisibleArray[i] = 0;
-
-                waypoint_label_array[i - 4].Visible = false;
-                waypoint_label_array[i - 4].Enabled = false;
-                set_alt_btn_array[i - 4].Visible = false;
-                set_alt_btn_array[i - 4].Enabled = false;
-                set_alt_array[i - 4].Visible = false;
-                set_alt_array[i - 4].Enabled = false;
-                waypoint_del_array[i - 4].Visible = false;
-                waypoint_del_array[i - 4].Enabled = false;
-                waypoint_move_array[i - 4].Visible = false;
-                waypoint_move_array[i - 4].Enabled = false;
-            }
-
-            //RefreshMarkerPositions();
+            string script = "DeleteAllWaypoints();";
+            chromiumBrowser.ExecuteScriptAsync(script);
         }
 
         List<Point> points = new List<Point>();

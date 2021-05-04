@@ -104,6 +104,8 @@ namespace GroundControlv1
             ALTITUDE_SET_PACKET = 0x07,
             GPS_PACKET = 0x08,
             PRINT_PACKET = 0x09,
+            STATUS_FIRST_PACKET = 0x0A,
+            READ_VARIABLE_PACKET = 0x0B,
 
             //From leo to STM, from Ground Control to leo
             GYRO_REQUEST = 0xF1,
@@ -118,9 +120,13 @@ namespace GroundControlv1
             CALIBRATE_COMPASS_REQUEST = 0xFA,
             CALIBRATE_ESC_REQUEST = 0xFB,
             FLIGHT_MODE_UPDATE_REQUEST = 0xFC,
-            GPS_PACKET_UPDATE_REQUEST = 0xFD,
+            GPS_PACKET_UPDATE = 0xFD,
             GPS_PACKET_REQUEST = 0xFE,
-            GPS_HOLD_COPY_BUFFER_REQUEST = 0xE0
+            GPS_MEM_PACKET_UPDATE = 0xE0,
+            UPLOAD_CMD_PACKET = 0xE1,
+            DO_CMD_PACKET = 0xE2,
+            MODIFY_VARIABLE_REQUEST = 0xE3,
+            READ_VARIABLE_REQUEST = 0xE4
         }
     }
 }

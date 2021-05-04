@@ -35,5 +35,17 @@ namespace GroundControlv1
 
             return getAlt;
         }
+
+        public void deleteAllMarkers()
+        {
+            for(int i = 0; i < form1.total_marker_count; i++)
+            {
+                form1.markerAltitudes[i + 4] = 0;
+                form1.markerPoints[i + 4].Y = 0;
+                form1.markerPoints[i + 4].X = 0;
+            }
+
+            form1.total_marker_count = 0;
+        }
     }
 }
